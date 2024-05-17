@@ -1,0 +1,1067 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use SebastianBergmann\Environment\Console;
+
+date_default_timezone_set('Asia/Jakarta');
+
+class Dashboard extends CI_Controller
+{
+
+    public function __construct()
+    {
+        parent::__construct();
+        if (!$this->session->userdata('email')) {
+            redirect('auth');
+        }
+        $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $data = [
+            'id' => $user['id'],
+            'email' => $user['email'],
+            'nama' => $user['nama']
+        ];
+        $this->session->set_userdata($data);
+        $this->load->model('database');
+    }
+
+    public function jenis_alat()
+    {
+        $data['tittle'] = 'Jenis Alat | Delta Indonesia';
+        $data['jenis_alat'] = $this->db->get('jenis_alat')->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/jenis_alat', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function jenis_alat_edit($id)
+    {
+        $data['tittle'] = 'Edit Jenis Alat | Delta Indonesia';
+        $data['jenis_alat'] = $this->database->getDataJenisAlat($id);
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/edit_JenisAlat', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function delete_jenis_alat($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('jenis_alat');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Alat Berhasil di Hapus</div>');
+        redirect('dashboard/jenis_alat');
+    }
+
+    public function kelas_pembina()
+    {
+        $data['tittle'] = 'Daftar Kelas Pembina | Delta Indonesia';
+        $data['kelas'] = $this->db->get('kelas_pembina')->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/kelas_pembina', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function kelas_simpan_pembina()
+    {
+        // Belum di auto increment pada database tabel kelas
+        $data = [
+            'kelas' => $this->input->post('nama_kelas')
+        ];
+        $this->db->insert('kelas_pembina', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kelas Berhasil di Tambah</div>');
+        redirect('dashboard/kelas_pembina');
+    }
+
+    public function edit_kelas_pembina($id)
+    {
+        $data['tittle'] = 'Edit Kelas Pembina | Delta Indonesia';
+        $data['kelas'] = $this->database->getDataKelas($id);
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/edit_kelas', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function updateKelasPembina($id)
+    {
+        $data = [
+            'kelas' => $this->input->post('nama_kelas')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('kelas_pembina', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kelas Berhasil di Update</div>');
+        redirect('dashboard/kelas_pembina');
+    }
+
+    public function delete_kelas_pembina($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('kelas_pembina');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kelas Pembina Berhasil di Hapus</div>');
+        redirect('dashboard/kelas_pembina');
+    }
+
+    public function update_jenis_alat($id)
+    {
+        $data = [
+            'jenis_alat' => $this->input->post('jenis_alat')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('jenis_alat', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Alat Berhasil di Update</div>');
+        redirect('dashboard/jenis_alat');
+    }
+
+    public function index()
+    {
+        $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $data['tittle'] = 'Halaman PIC | Delta Indonesia';
+        $data['form'] = $this->db->order_by('tanggal_pembuatan', 'desc')->get_where('form', ['id_user' => $this->session->userdata('id')])->result_array();
+        $data['bidang'] = $this->db->get('bidang')->result_array();
+        $data['kelas'] = $this->db->get('kelas_pembina')->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/pendaftaran', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function editPendaftaran()
+    {
+        if ($this->input->post()) {
+            $ids = $this->input->post('id');
+            $forms = $this->input->post('form');
+            $dates = $this->input->post('tanggal');
+            $groups = $this->input->post('grup');
+
+            for ($i = 0; $i < count($ids); $i++) {
+                $data = array(
+                    'form' => $forms[$i],
+                    'tanggal_pelaksanaan' => $dates[$i],
+                    'link_grup' => $groups[$i],
+                    // Add other fields if needed
+                );
+
+                // Update data using set method
+                $this->db->set($data);
+                $this->db->where('id', $ids[$i]);
+                $this->db->update('form');
+            }
+
+            redirect('dashboard');
+        } else {
+            // Handle the case where the form is not submitted
+        }
+    }
+
+    public function admin()
+    {
+        $user = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        if ($user['level'] != 1) {
+            show_404();
+        }
+        $data['tittle'] = 'Halaman Admin | Delta Indonesia';
+        $data['form'] = $this->database->getForm();
+        $data['training'] = $this->db->get('training')->result_array();
+        $data['kelas'] = $this->db->get('kelas')->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/admin', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function profil()
+    {
+        $data['tittle'] = 'judul';
+        $data['profil'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/profil', $data);
+        $this->load->view('template/footer');
+    }
+    public function hapus()
+    {
+        $id = $this->input->post('id');
+
+        foreach ($id as $i) {
+            $data = [
+                'id' => $i
+            ];
+
+            $this->db->delete('form', $data);
+        }
+        echo 'sukses';
+    }
+
+    public function hapus_pembina()
+    {
+        $id = $this->input->post('id');
+
+        foreach ($id as $i) {
+            $data = [
+                'id' => $i
+            ];
+
+            $this->db->delete('tb_kelompok_pembinaan', $data);
+        }
+        echo 'sukses';
+    }
+
+    public function hapusData()
+    {
+        $ids = $this->input->post('id');
+
+        foreach ($ids as $id) {
+            // Mengambil nama file dari tabel dokumen_pendaftaran
+            $query = $this->db->get_where('dokumen_pendaftaran', array('id_user' => $id));
+
+            // Memastikan ada hasil dari query
+            if ($query->num_rows() > 0) {
+                $results = $query->result();
+
+                foreach ($results as $result) {
+
+                    // Jenis file yang terkait dengan pendaftaran
+                    $jenis_file = array('surat', 'ijazah', 'ktp', 'sk', 'foto', 'bukti', 'surat_sehat');
+
+                    // Menghapus file dari folder
+                    foreach ($jenis_file as $jenis) {
+                        $file_path = FCPATH . 'pendaftaran/images/dokumen/' . $result->$jenis;
+
+                        if (file_exists($file_path)) {
+                            unlink($file_path);
+                        }
+                    }
+                    // Menghapus data dari tabel pendaftaran
+                    $this->db->delete('pendaftaran', array('id' => $id));
+
+                    // Menyelesaikan transaksi
+                    $this->db->trans_complete();
+                }
+            } else {
+                // Handle jika tidak ada data yang ditemukan
+                echo "Data tidak ditemukan!";
+            }
+        }
+
+        echo 'sukses';
+    }
+
+    public function editForm()
+    {
+
+        $this->form_validation->set_rules('form[]', 'Form', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $selected_ids = $this->input->post('id');
+
+            if (!empty($selected_ids)) {
+                // Membuat kueri IN untuk mengambil elemen berdasarkan id yang dipilih
+                $this->db->where_in('id', $selected_ids);
+                $data['produk'] = $this->db->get('form')->result_array();
+            } else {
+                // Jika tidak ada yang dipilih, alihkan ke halaman dashboard
+                redirect('dashboard');
+            }
+
+            $data['tittle'] = 'Edit Form';
+            $this->load->view('template/header', $data);
+            $this->load->view('template/sidebar');
+            $this->load->view('dashboard/edit', $data);
+            $this->load->view('template/footer');
+        } else {
+            $this->update();
+        }
+    }
+
+    public function editPeserta()
+    {
+        $selected_ids = $this->input->post('id');
+
+        if (!empty($selected_ids)) {
+            $this->db->where_in('id_user', $selected_ids);
+            $data['produk'] = $this->db->get('dokumen_pendaftaran')->row_array();
+        } else {
+            redirect('dashboard');
+        }
+
+        $data['tittle'] = 'Edit Data Peserta';
+        $data['field'] = $this->database->getFieldkosong(reset($selected_ids));
+
+        // Tidak ada validasi formulir, lanjutkan dengan menampilkan halaman edit
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/editPeserta', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function updatePeserta()
+    {
+        $upload_path = './pendaftaran/images/dokumen/';
+        $config['upload_path'] = $upload_path;
+        $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+        $config['max_size'] = 2048; // Ukuran maksimum berkas (2MB)
+        $config['encrypt_name'] = TRUE;
+
+        $this->load->library('upload', $config);
+
+        $data_to_update = array(); // Inisialisasi array untuk data yang akan diupdate
+        $id_user = $this->input->post('id_user'); // ID user yang akan diupdate
+
+        // Mendefinisikan jenis-jenis dokumen yang akan diupdate
+        $document_types = array('surat', 'ijazah', 'ktp', 'sk', 'foto', 'bukti', 'cv', 'surat_sehat');
+
+        // Mendapatkan data dokumen lama (dokumen_old)
+        $dokumen_old = $this->db->get_where('dokumen_pendaftaran', array('id_user' => $id_user))->row_array();
+
+        foreach ($document_types as $type) {
+            if (!empty($_FILES[$type]['name'])) {
+                // File selected, proceed with upload
+                if ($this->upload->do_upload($type)) {
+                    $data = $this->upload->data();
+                    $data_to_update[$type] = $data['file_name'];
+                } else {
+                    // Handle upload error
+                    $error = $this->upload->display_errors();
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">' . $error . '</div>');
+                    redirect('dashboard');
+                }
+            } else {
+                // No file selected, use the old document if available
+                if (!isset($data_to_update[$type]) && isset($dokumen_old[$type])) {
+                    $data_to_update[$type] = $dokumen_old[$type];
+                }
+            }
+        }
+
+        // Memastikan bahwa ID user tidak kosong dan setidaknya satu dokumen telah diunggah
+        if (!empty($id_user) && !empty(array_filter($data_to_update))) {
+            // Memperbarui data dokumen dalam database
+            $this->db->where('id_user', $id_user);
+            $this->db->update('dokumen_pendaftaran', $data_to_update);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Dokumen Berhasil di Upload</div>');
+            redirect('dashboard');
+        } else {
+            // Menampilkan pesan kesalahan jika ID user atau dokumen kosong
+            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Gagal Mengupdate Dokumen</div>');
+            redirect('dashboard');
+        }
+    }
+
+
+
+    public function buatLink()
+    {
+        $generatedToken = substr(bin2hex(random_bytes(4)), 0, 6);
+
+        $data = [
+            'id_user' => $this->session->userdata('id'),
+            'form' => $this->input->post('form'),
+            'personil' => $this->input->post('personil'),
+            'pembina' => $this->input->post('pembinaan'),
+            'jenis_alat' => $this->input->post('alat'),
+            'kelas_pembina' => $this->input->post('kelas_pembina'),
+            'program' => $this->input->post('program'),
+            'tanggal_pembuatan' => date("Y-m-d H:i:s"),
+            'tanggal_pelaksanaan' => $this->input->post('tanggal'),
+            'link_grup' => $this->input->post('link'),
+            'token' => $generatedToken,
+            'status' => 'Aktif',
+            'link' => base_url() . 'pendaftaran/cekForm/' . $this->session->userdata('id') . '/' . $generatedToken
+        ];
+
+        $this->db->insert('form', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Link Berhasil Di Tambahkan</div>');
+        redirect('dashboard');
+    }
+
+    public function simpanJenisAlat()
+    {
+        // Di DB pada tabel jenis_alat belum AUTO_INCREMENT
+        $data = [
+            'jenis_alat' => $this->input->post('jenis_alat')
+        ];
+
+        $this->db->insert('jenis_alat', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Alat Berhasil Di Tambahkan</div>');
+        redirect('dashboard/jenis_alat');
+    }
+
+    public function pendaftaran($id)
+    {
+        $data['tittle'] = 'judul';
+        $data['form'] = $this->database->getDataPeserta($id);
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/detail', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function nonaktif($status, $id)
+    {
+        $this->db->set('status', $status);
+        $this->db->where('id', $id);
+        $this->db->update('form');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Link Berhasil di Update</div>');
+        redirect('dashboard');
+    }
+
+    public function success()
+    {
+        $this->load->view('form/success');
+    }
+
+    public function download_excel($id)
+    {
+
+
+        $spreadsheet = new Spreadsheet();
+
+        // Add worksheet
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Daftar Peserta');
+
+
+
+        // Set headers
+        $sheet->setCellValue('A1', 'KTP');
+        $sheet->setCellValue('B1', 'Nama');
+        $sheet->setCellValue('C1', 'Tempat');
+        $sheet->setCellValue('D1', 'Tanggal Lahir');
+        $sheet->setCellValue('E1', 'Instansi');
+        $sheet->setCellValue('F1', 'Alamat Perusahaan');
+
+
+        $data = $this->database->getData($id);
+
+        // Loop through data and add to spreadsheet
+        $row = 2;
+        foreach ($data as $item) {
+            // url
+            $sheet->setCellValue('A' . $row, $item['nik']);
+            $sheet->setCellValue('B' . $row, $item['nama']);
+            $sheet->setCellValue('C' . $row, $item['ttl']);
+            $sheet->setCellValue('D' . $row, $item['tgl_lahir']);
+            $sheet->setCellValue('E' . $row, $item['instansi']);
+            $sheet->setCellValue('F' . $row, $item['alamat_perusahaan']);
+
+
+            $row++;
+        }
+
+        // Create file name
+        $filename = 'Daftar_Peserta.xlsx';
+
+        // Set headers for download
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        // Create writer object and save spreadsheet as file
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
+
+        exit();
+    }
+
+    public function update()
+    {
+        $id = $this->input->post('id');
+        foreach ($id as $i => $val) {
+            $this->db->set('form', $this->input->post('form')[$val]);
+            $this->db->set('link_grup', $this->input->post('grup')[$val]);
+            $this->db->where('id', $val);
+            $this->db->update('form');
+        }
+        $this->session->set_flashdata('messege', '<div class="alert alert-success" role="alert">Data berhasil diperbarui.</div>');
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+
+
+
+    public function importPeserta()
+    {
+        if (!empty($_FILES['excel_file']['name'])) {
+            // Konfigurasi upload file
+            $upload_path = './pendaftaran/images/dokumen/';
+            $config['upload_path'] = $upload_path;
+            $config['allowed_types'] = 'xlsx'; // Hanya izinkan file Excel
+            $config['max_size'] = 2048; // Ukuran maksimum berkas (2MB)
+            $config['encrypt_name'] = TRUE;
+
+            $this->load->library('upload', $config);
+
+            // Memeriksa apakah unggahan file berhasil
+            if ($this->upload->do_upload('excel_file')) {
+                $data = $this->upload->data();
+                $file_path = $config['upload_path'] . $data['file_name'];
+
+                // Memuat file Excel menggunakan PHPSpreadsheet
+                $spreadsheet = IOFactory::load($file_path);
+                $worksheet = $spreadsheet->getActiveSheet();
+                $data = $worksheet->toArray(null, true, true, true);
+
+                // Loop melalui baris-baris spreadsheet mulai dari baris kedua
+                foreach (array_slice($data, 1) as $row) { // Menggunakan array_slice untuk melewati baris judul
+                    // Data untuk tabel 'peserta'
+                    $data_peserta = array(
+                        'id_form' => $this->uri->segment('3'),
+                        'id_program' => $this->uri->segment('4'),
+                        'nama' => $row['B'],
+                        'nik' => $row['A'],
+                        'ttl' => $row['C'],
+                        'tgl_lahir' => $row['D'],
+                        'golongan_darah' => $row['E'],
+                        'pendidikan' => $row['F'],
+                        'sekolah' => $row['G'],
+                        'no_ijazah' => $row['H'],
+                        'tgl_ijazah' => $row['I'],
+                        'alamat' => $row['J'],
+                        'email' => $row['L'],
+                        'no_wa' => $row['K'],
+                        'instansi' => $row['M'],
+                        'sektor' => $row['N'],
+                        'jabatan' => $row['O'],
+                        'alamat_perusahaan' => $row['P'],
+                        'tlp_kantor' => $row['Q'],
+                    );
+
+                    // Simpan data ke dalam tabel 'peserta' dan ambil ID yang baru saja di-insert
+                    $this->db->insert('pendaftaran', $data_peserta);
+                    $peserta_id = $this->db->insert_id();
+
+                    // Data untuk tabel 'dokumen'
+                    $data_dokumen = array(
+                        'id_user' => $peserta_id
+                    );
+
+                    // Simpan data ke dalam tabel 'dokumen'
+                    $this->db->insert('dokumen_pendaftaran', $data_dokumen);
+                }
+
+                // Hapus file Excel yang diunggah setelah selesai mengimpor
+                unlink($file_path);
+
+                // Redirect atau tampilkan pesan sukses
+                redirect($_SERVER['HTTP_REFERER']);
+            } else {
+                // File gagal diunggah, tampilkan pesan kesalahan
+                $upload_error = $this->upload->display_errors();
+                echo "Error: " . $upload_error;
+            }
+        } else {
+            // File Excel tidak diunggah, tampilkan pesan kesalahan
+            echo "Error: File Excel tidak diunggah.";
+        }
+    }
+
+    public function updateProfil()
+    {
+        $id = $this->input->post('id');
+        $nama = $this->input->post('nama');
+        $email = $this->input->post('email');
+        $tlp = $this->input->post('tlp');
+        $password = $this->input->post('password');
+
+        // Ambil password sebelumnya dari database
+        $passwordSebelumnya = $this->db->get_where('user', array('id' => $id))->row()->password;
+
+        // Jika password kosong, gunakan password sebelumnya
+        if (empty($password)) {
+            $password = $passwordSebelumnya;
+        } else {
+            // Jika password tidak kosong, hash password baru
+            $password = md5($password);
+        }
+
+        // Update data dalam database
+        $data = array(
+            'nama' => $nama,
+            'email' => $email,
+            'phone_number' => $tlp,
+            'password' => $password
+        );
+
+        $this->db->where('id', $id); // Ubah sesuai dengan field ID user Anda
+        $this->db->update('user', $data);
+        redirect('dashboard');
+    }
+
+    public function hapusDokumen($dokumen, $id, $file)
+    {
+        $file_path = FCPATH . 'pendaftaran/images/dokumen/' . $dokumen;
+        if (file_exists($file_path)) {
+            unlink($file_path);
+        }
+        $this->db->where('id_user', $id);
+        $this->db->update('dokumen_pendaftaran', [$file => null]);
+        redirect($_SERVER['HTTP_REFERER']);
+    }
+
+    public function pesan()
+    {
+        $ids = $this->input->post('ids');
+        $pesan = $this->input->post('pesan');
+
+        // Inisialisasi nomor WhatsApp yang akan digunakan sebagai penerima
+        $receiverNumber = '';
+
+        // Melakukan loop melalui setiap ID dan mengambil data dari database
+        foreach ($ids as $id) {
+            $user = $this->db->get_where('pendaftaran', ['id' => $id])->row_array();
+
+            // Jika data ditemukan, ambil nomor WhatsApp pertama dan keluar dari loop
+            if ($user) {
+                $receiverNumber = $user['no_wa'];
+                break;
+            }
+        }
+
+        // Mengirim pesan WhatsApp ke nomor WhatsApp yang telah ditemukan
+        $this->sendWhatsapp($receiverNumber, $pesan);
+
+
+        echo json_encode('Pesan Berhasil Dikirim');
+    }
+
+    public function sendWhatsapp($nomor, $pesan)
+    {
+        $curl = curl_init();
+        $token = "1SvDVBjud0FI7MiQ4rarSlCdxHGMFmY2UsAZwsBiNYiXBCw3TxhoiHV2f252YEdo";
+
+        $data = [
+            'phone' => $nomor,
+            'message' => $pesan
+        ];
+
+        curl_setopt($curl, CURLOPT_HTTPHEADER, ["Authorization: $token"]);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($curl, CURLOPT_URL,  "https://jogja.wablas.com/api/send-message");
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_exec($curl);
+        curl_close($curl);
+    }
+
+    public function getKelas($id)
+    {
+        $this->database->getKelas($id);
+    }
+
+    public function jenisKelompok($id, $kelas)
+    {
+        $this->database->getKelompok($id, $kelas);
+    }
+
+    public function jenisAlat($id)
+    {
+        $this->database->getAlat($id);
+    }
+
+    public function kirimSertifikat()
+    {
+        $ids = $this->input->post('id'); // Mengubah $ids menjadi array dengan data ID user
+        $nomor = $this->input->post('no_sertifikat');
+
+
+        // $numbers = [];
+        // $increment = 0; // Inisialisasi inkrement dengan 1
+
+        // foreach ($ids as $id) {
+        //     $numbers[] = (intval($nomor) + $increment) . substr($nomor, strlen(intval($nomor)));
+        //     $increment++; // Tambahkan 1 ke inkrement untuk nomor berikutnya
+        // }
+
+        // foreach ($numbers as $n) {
+        //     $this->sertifikat($_POST, $n);
+        // }
+        $user = $this->db->get_where('pendaftaran', ['id' => $ids[0]])->row_array();
+
+        echo json_encode($user);
+    }
+
+
+    public function centerText($font, $text, $fontSize, $image, $y)
+    {
+        $box = imagettfbbox($fontSize, 0, $font, $text);
+        $textWidth = $box[2] - $box[0];
+        $imageWidth = imagesx($image);
+        $x = ($imageWidth - $textWidth) / 2;
+        return $x;
+    }
+
+    public function wrapText($text, $maxWidth)
+    {
+        if (strlen($text) > $maxWidth) {
+            $text = wordwrap($text, $maxWidth, "\n", true);
+        }
+        return $text;
+    }
+
+    public function sertifikat($id)
+    {
+
+        $user = $this->db->get_where('sertifikat', ['id_pendaftaran' => $id])->row_array();
+        if (!$user) {
+            echo "Tidak di Temukan";
+        }
+
+        $font = FCPATH . 'assets/sertifikat/Copperplate Gothic Bold Regular.ttf';
+        $reguler =  FCPATH . 'assets/sertifikat/italic.ttf';
+        $judul = FCPATH . 'assets/sertifikat/CopperplateGothicBold.ttf';
+
+        $image = imagecreatefromjpeg(FCPATH . 'assets/sertifikat/sertifikat.jpg');
+        $color = imagecolorallocate($image, 100, 100, 100);
+        $redColor = imagecolorallocate($image, 103, 10, 3);
+        $blue =  imagecolorallocate($image, 0, 32, 96);
+
+        $nomor = $user['no_sertifikat'];
+        $name = $user['nama'];
+        $perusahaan = 'PT DELTA INDONESIA PRANENGAR';
+        $pelatihan = $user['training'];
+        $pelatihan_ing = $user['training_inggris'];
+        $tanggal_pelaksanaan = $user['pelaksanaan'];
+        $tanggal_pelaksanaan_ing = $user['pelaksanaan_inggris'];
+        $tanggal_sertifikat = $user['terbit'];
+        $tanggal_ing_ser = $user['terbit_inggris'];
+
+
+        $name_font_size = 50;
+        $pelatihan_font_size = 40;
+        $pelatihan_ing_font_size = 20;
+        $tanggal_pelaksanaan_size = 35;
+
+        $nameX = $this->centerText($font, $name, $name_font_size, $image, 940);
+        $pelatihan = $this->wrapText($pelatihan, 200);
+        $pelatihanX = $this->centerText($font, $pelatihan, $pelatihan_font_size, $image, 1250);
+        $pelatihan_ing = $this->wrapText($pelatihan_ing, 200);
+        $pelatihanIngX = $this->centerText($font, $pelatihan_ing, $pelatihan_ing_font_size, $image, 1250);
+        $perusahaanX = $this->centerText($font, $perusahaan, $name_font_size, $image, 1030);
+        $pelaksanaanX = $this->centerText($font, $tanggal_pelaksanaan, $tanggal_pelaksanaan_size, $image, 1500);
+        $pelaksanaan_inX = $this->centerText($font, $tanggal_pelaksanaan_ing, $pelatihan_ing_font_size, $image, 1550);
+        $tangglx = $this->centerText($font, $tanggal_sertifikat, $tanggal_pelaksanaan_size, $image, 1650);
+        $tglx = $this->centerText($font, $tanggal_sertifikat, $pelatihan_ing_font_size, $image, 1700);
+
+        imagettftext($image, 30, 0, 2700, 250, $blue, $font, $nomor);
+        imagettftext($image, $name_font_size, 0, $nameX, 940, $redColor, $judul, $name);
+        imagettftext($image, $name_font_size, 0, $perusahaanX, 1030, $redColor, $font, $perusahaan);
+        imagettftext($image, $pelatihan_font_size, 0, $pelatihanX, 1250, $blue, $font, $pelatihan);
+        imagettftext($image, $pelatihan_ing_font_size, 0, $pelatihanIngX, 1300, $blue, $reguler, $pelatihan_ing);
+        imagettftext($image, $tanggal_pelaksanaan_size, 0, $pelaksanaanX, 1500, $blue, $font, $tanggal_pelaksanaan);
+        imagettftext($image, $pelatihan_ing_font_size, 0, $pelaksanaan_inX, 1550, $blue, $reguler, $tanggal_pelaksanaan_ing);
+        imagettftext($image, $tanggal_pelaksanaan_size, 0, $tangglx, 1650, $blue, $font, $tanggal_sertifikat);
+        imagettftext($image, $pelatihan_ing_font_size, 0, $tglx, 1700, $blue, $reguler, $tanggal_ing_ser);
+
+        header('Content-Type: image/jpeg');
+        imagejpeg($image);
+        imagedestroy($image);
+    }
+
+    // edit peserta
+    public function edit_peserta($id)
+    {
+        $this->form_validation->set_rules('nik', 'nik', 'required');
+        if ($this->form_validation->run() == FALSE) {
+
+            $data['tittle'] = 'Edit Data Peserta';
+            $data['p'] = $this->db->get_where('pendaftaran', ['id' => $id])->row_array();
+
+            $this->load->view('template/header', $data);
+            $this->load->view('template/sidebar');
+            $this->load->view('dashboard/edit_peserta', $data);
+            $this->load->view('template/footer');
+        } else {
+            $data = array();
+            $fields = array('nik', 'nama', 'ttl', 'tgl_lahir', 'golongan_darah', 'pendidikan', 'sekolah', 'no_ijazah', 'alamat', 'email', 'no_wa');
+            foreach ($fields as $field) {
+                $data[$field] = $this->input->post($field);
+            }
+
+            $this->db->where('id', $id);
+            $this->db->update('pendaftaran', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Link Berhasil Di Update</div>');
+            redirect('dashboard');
+        }
+    }
+
+    public function zip($id)
+    {
+        $p = $this->db->get_where('dokumen_pendaftaran', ['id_user' => $id])->row_array();
+
+        // Muat library Zip
+        $this->load->library('zip');
+
+        // Tambahkan setiap file ke dalam ZIP
+        if (!empty($p['surat'])) {
+            $this->zip->add_data('surat_' . $p['surat'], file_get_contents('pendaftaran/images/dokumen/' . $p['surat']));
+        }
+        if (!empty($p['ijazah'])) {
+            $this->zip->add_data('ijazah_' . $p['ijazah'], file_get_contents('pendaftaran/images/dokumen/' . $p['ijazah']));
+        }
+        if (!empty($p['ktp'])) {
+            $this->zip->add_data('ktp_' . $p['ktp'], file_get_contents('pendaftaran/images/dokumen/' . $p['ktp']));
+        }
+        if (!empty($p['sk'])) {
+            $this->zip->add_data('sk_' . $p['sk'], file_get_contents('pendaftaran/images/dokumen/' . $p['sk']));
+        }
+        if (!empty($p['foto'])) {
+            $this->zip->add_data('foto_' . $p['foto'], file_get_contents('pendaftaran/images/dokumen/' . $p['foto']));
+        }
+        if (!empty($p['cv'])) {
+            $this->zip->add_data('cv_' . $p['cv'], file_get_contents('pendaftaran/images/dokumen/' . $p['cv']));
+        }
+        if (!empty($p['surat_sehat'])) {
+            $this->zip->add_data('surat_sehat_' . $p['surat_sehat'], file_get_contents('pendaftaran/images/dokumen/' . $p['surat_sehat']));
+        }
+
+        // Tambahkan file lainnya
+
+        // Set header untuk mengarahkan pengguna untuk mengunduh file ZIP
+        $this->zip->download('files.zip');
+    }
+
+    public function hapusI()
+    {
+        $ids = [154];
+
+        foreach ($ids as $id) {
+            // Mengambil nama file dari tabel dokumen_pendaftaran
+            $query = $this->db->get_where('dokumen_pendaftaran', array('id_user' => $id));
+
+            // Memastikan ada hasil dari query
+            if ($query->num_rows() > 0) {
+                $results = $query->result();
+
+                foreach ($results as $result) {
+
+                    // Jenis file yang terkait dengan pendaftaran
+                    $jenis_file = array('surat', 'ijazah', 'ktp', 'sk', 'foto', 'bukti', 'surat_sehat');
+
+                    // Menghapus file dari folder
+                    foreach ($jenis_file as $jenis) {
+                        $file_path = FCPATH . 'pendaftaran/images/dokumen/' . $result->$jenis;
+
+                        if (file_exists($file_path)) {
+                            unlink($file_path);
+                        }
+                    }
+                }
+            } else {
+                // Handle jika tidak ada data yang ditemukan
+                echo "Data tidak ditemukan!";
+            }
+        }
+
+        echo 'sukses';
+    }
+
+    public function cetak()
+    {
+        $selected_ids = $this->input->post('id');
+        $data = [
+            'id_peserta' => $selected_ids
+        ];
+
+        $this->session->set_userdata($data);
+    }
+
+    public function callBack()
+    {
+        $selected_ids = $this->session->userdata('id_peserta');
+
+        $data['tittle'] = 'Kirim Sertifikat';
+        $this->db->where_in('id', $selected_ids);
+        $data['sertifikat'] = $this->db->get('pendaftaran')->result_array();
+        $data['idn'] = $this->db->get('sertifikat_indonesia')->result_array();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/sertifikat', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function get_ing()
+    {
+        $idnValue = $this->input->post('idn');
+        // Ambil data untuk dropdown kedua berdasarkan nilai yang dipilih di dropdown pertama
+        $ingOptions = $this->db->get_where('sertifikat_ing', ['id_ser' => $idnValue])->result_array();
+        $optionsHtml = '<option selected>Pilih Training</option>';
+        foreach ($ingOptions as $ingOption) {
+            $optionsHtml .= '<option value="' . $ingOption['sertifikat_ing'] . '">' . $ingOption['sertifikat_ing'] . '</option>';
+        }
+        echo $optionsHtml;
+    }
+
+    public function insertSertifikat()
+    {
+        $this->database->insertData($_POST);
+
+        redirect('dashboard');
+    }
+
+    public function ulasan()
+    {
+        $selected_ids = $this->input->post('id');
+
+
+        foreach ($selected_ids as $id => $val) {
+            $user = $this->db->get_where('pendaftaran', ['id' => $val])->row_array();
+
+            $this->send_sertifikat($id, $user['no_wa'], $user['nama']);
+        }
+        echo 'Sukses';
+    }
+
+    private function send_sertifikat($id, $nomor, $nama)
+    {
+        $curl = curl_init();
+        $token = "1SvDVBjud0FI7MiQ4rarSlCdxHGMFmY2UsAZwsBiNYiXBCw3TxhoiHV2f252YEdo";
+
+        $message = "*Dear $nama*,\n";
+        $message .= "Berikut Link Sertifikat yang anda bisa unduh\n\n";
+        $message .= base_url('sertifikat/cetak/' . $id) . "\n\n";
+
+
+
+
+
+        $data = [
+            'phone' => $nomor,
+            'message' => $message
+        ];
+
+        curl_setopt($curl, CURLOPT_HTTPHEADER, ["Authorization: $token"]);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($curl, CURLOPT_URL,  "https://jogja.wablas.com/api/send-message");
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_exec($curl);
+        curl_close($curl);
+    }
+
+    public function daftar_sertifikat()
+    {
+        $this->load->model('database');
+        $data['tittle'] = 'Detail Peserta';
+        $this->db->select('sertifikat_indonesia.sertifikat_indonesia, sertifikat_indonesia.id, sertifikat_ing.sertifikat_ing');
+        $this->db->from('sertifikat_indonesia');
+        $this->db->join('sertifikat_ing', 'sertifikat_ing.id_ser = sertifikat_indonesia.id');
+        $data['sertifikat'] = $this->db->get()->result_array();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/sertifikatt', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function tambah_ser()
+    {
+
+        $data = [
+            'sertifikat_indonesia' => $this->input->post('ser_id')
+        ];
+
+        $this->db->insert('sertifikat_indonesia', $data);
+
+        $id = $this->db->insert_id();
+
+        $data_serti = [
+            'sertifikat_ing' => $this->input->post('ser_ing'),
+            'id_ser' => $id
+        ];
+
+        $this->db->insert('sertifikat_ing', $data_serti);
+
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Link Berhasil di Tambakan</div>');
+        redirect('dashboard/daftar_sertifikat');
+    }
+
+    public function pembinaan()
+    {
+        $data['tittle'] = "Halaman Pembinaan";
+        $query = "SELECT
+    kkp.id AS id_tb_kelompok_pembinaan,
+    b.bidang,
+    jp.jenis_personil,
+    kp.kelompok_pembinaan
+    FROM
+    tb_kelompok_pembinaan kkp
+    INNER JOIN bidang b ON kkp.id_bidang = b.id
+    INNER JOIN jenis_personil jp ON kkp.id_jenis_personil = jp.id
+    INNER JOIN kelompok_pembinaan kp ON kkp.id_kelompok_pembinaan = kp.id";
+
+        $data['bidang'] = $this->db->query($query)->result_array();
+        $data['bidangg'] = $this->db->get('bidang')->result_array();
+        $data['personil'] = $this->db->get('jenis_personil')->result_array();
+        $data['pembinaan'] = $this->db->get('kelompok_pembinaan')->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/pembinaan', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function tambah_kelompok()
+    {
+        $data =
+            [
+                'id_bidang' => $this->input->post('bidang'),
+                'id_jenis_personil' => $this->input->post('personil'),
+                'id_kelompok_pembinaan' => $this->input->post('pembinaan')
+            ];
+
+        $this->db->insert('tb_kelompok_pembinaan', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil di Tambakan</div>');
+        redirect('dashboard/pembinaan');
+    }
+}   
+
+
+// public function hapusData()
+// {
+//     $ids = $this->input->post('id');
+
+//     foreach ($ids as $id) {
+//         // Mengambil nama file dari tabel dokumen_pendaftaran
+//         $query = $this->db->get_where('dokumen_pendaftaran', array('id_pendaftaran' => $id));
+
+//         // Memastikan ada hasil dari query
+//         if ($query->num_rows() > 0) {
+//             $results = $query->result();
+
+//             foreach ($results as $result) {
+//                 // Menghapus data dari tabel pendaftaran
+//                 $this->db->delete('pendaftaran', array('id' => $id));
+
+//                 // Menyelesaikan transaksi
+//                 $this->db->trans_complete();
+
+//                 // Jenis file yang terkait dengan pendaftaran
+//                 $jenis_file = array('ktp', 'rekening', 'pasfoto', 'ijazah');
+
+//                 // Menghapus file dari folder
+//                 foreach ($jenis_file as $jenis) {
+//                     $file_path = FCPATH . 'path/to/your/folder/' . $result->$jenis;
+
+//                     if (file_exists($file_path)) {
+//                         unlink($file_path);
+//                     }
+//                 }
+//             }
+//         } else {
+//             // Handle jika tidak ada data yang ditemukan
+//             echo "Data tidak ditemukan!";
+//         }
+//     }
+
+//     echo 'sukses';
+// }
