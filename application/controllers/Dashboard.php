@@ -29,6 +29,55 @@ class Dashboard extends CI_Controller
         $this->load->model('database');
     }
 
+    public function sertifikat_indonesia()
+    {
+        $data['tittle'] = 'Sertifikat Indonesia | Delta Indonesia';
+        $data['sertifikat_indonesia'] = $this->db->get('sertifikat_indonesia')->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/sertifikat_indonesia', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function sertifikat_indonesia_simpan()
+    {
+        $data = [
+            'sertifikat_indonesia' => $this->input->post('nama_sertifikat_indonesia')
+        ];
+        $this->db->insert('sertifikat_indonesia', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Sertifikat Indonesia Berhasil di Tambah</div>');
+        redirect('dashboard/sertifikat_indonesia');
+    }
+
+    public function edit_sertifikat_indonesia($id)
+    {
+        $data['tittle'] = 'Edit Sertifikat Indonesia | Delta Indonesia';
+        $data['sertifikat_indonesia'] = $this->database->getDataSertifikatIndonesia($id);
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/edit_sertifikat_indonesia', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function update_sertifikat_indonesia($id)
+    {
+        $data = [
+            'sertifikat_indonesia' => $this->input->post('nama_sertifikat_indonesia')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('sertifikat_indonesia', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Sertifikat Indonesia Berhasil di Update</div>');
+        redirect('dashboard/sertifikat_indonesia');
+    }
+
+    public function delete_sertifikat_indonesia($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('sertifikat_indonesia');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Sertifikat Bahasa Indonesia Berhasil di Hapus</div>');
+        redirect('dashboard/sertifikat_indonesia');
+    }
+
     public function jenis_alat()
     {
         $data['tittle'] = 'Jenis Alat | Delta Indonesia';
@@ -105,6 +154,154 @@ class Dashboard extends CI_Controller
         $this->db->delete('kelas_pembina');
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kelas Pembina Berhasil di Hapus</div>');
         redirect('dashboard/kelas_pembina');
+    }
+
+    public function kelas()
+    {
+        $data['tittle'] = 'Daftar Kelas | Delta Indonesia';
+        $data['kelas'] = $this->db->get('kelas')->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/kelas', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function kelas_simpan()
+    {
+        // Belum di auto increment pada database tabel kelas
+        $data = [
+            'kelas' => $this->input->post('nama_kelas')
+        ];
+        $this->db->insert('kelas', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kelas Berhasil di Tambah</div>');
+        redirect('dashboard/kelas');
+    }
+
+    public function edit_kelas($id)
+    {
+        $data['tittle'] = 'Edit Kelas | Delta Indonesia';
+        $data['kelas'] = $this->database->dataKelas($id);
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/kelas_edit', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function updateKelas($id)
+    {
+        $data = [
+            'kelas' => $this->input->post('nama_kelas')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('kelas', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kelas Berhasil di Update</div>');
+        redirect('dashboard/kelas');
+    }
+
+    public function delete_kelas($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('kelas');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kelas Berhasil di Hapus</div>');
+        redirect('dashboard/kelas');
+    }
+
+    public function training()
+    {
+        $data['tittle'] = 'Daftar training | Delta Indonesia';
+        $data['training'] = $this->db->get('training')->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/training', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function training_simpan()
+    {
+        $data = [
+            'training' => $this->input->post('nama_training')
+        ];
+        $this->db->insert('training', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Training Berhasil di Tambah</div>');
+        redirect('dashboard/training');
+    }
+
+    public function edit_training($id)
+    {
+        $data['tittle'] = 'Edit Training | Delta Indonesia';
+        $data['training'] = $this->database->dataTraining($id);
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/training_edit', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function update_training($id)
+    {
+        $data = [
+            'training' => $this->input->post('nama_training')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('training', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Training Berhasil di Update</div>');
+        redirect('dashboard/training');
+    }
+
+    public function delete_training($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('training');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Training Berhasil di Hapus</div>');
+        redirect('dashboard/training');
+    }
+
+    public function daftar_bidang()
+    {
+        $data['tittle'] = 'Daftar Bidang | Delta Indonesia';
+        $data['bidang'] = $this->db->get('bidang')->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/bidang', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function simpan_bidang()
+    {
+        $data = [
+            'bidang' => $this->input->post('nama_bidang')
+        ];
+        $this->db->insert('bidang', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Bidang Berhasil di Tambah</div>');
+        redirect('dashboard/daftar_bidang');
+    }
+
+    public function edit_bidang($id)
+    {
+        $data['tittle'] = 'Edit Bidang | Delta Indonesia';
+        $data['bidang'] = $this->database->dataBidang($id);
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/bidang_edit', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function update_bidang($id)
+    {
+        $data = [
+            'bidang' => $this->input->post('nama_bidang')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('bidang', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Bidang Berhasil di Update</div>');
+        redirect('dashboard/daftar_bidang');
+    }
+
+    public function delete_bidang($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('bidang');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Bidang Berhasil di Hapus</div>');
+        redirect('dashboard/daftar_bidang');
     }
 
     public function update_jenis_alat($id)

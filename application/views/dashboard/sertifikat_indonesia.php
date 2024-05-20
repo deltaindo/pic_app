@@ -21,13 +21,13 @@
                         <!-- Tabel Kategori -->
                         <?= $this->session->flashdata('message'); ?>
                         <div class="row tabel-produk mt-2">
-                            <div class="col-lg-8 grid-margin stretch-card">
+                            <div class="col-lg-12 grid-margin stretch-card">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Daftar Kelas Pembina</h4>
+                                        <h4 class="card-title">Daftar Sertifikat Indonesia</h4>
 
                                         <form action="" method="post">
-                                            <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#jenisAlat">
+                                            <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#sertIndo">
                                                 Buat Baru
                                             </a>
 
@@ -42,7 +42,7 @@
                                                             </th>
 
                                                             <th>
-                                                                Nama Kelas
+                                                                Nama Sertifikat Indonesia
                                                             </th>
                                                             <th>
                                                                 Action
@@ -51,19 +51,19 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php $i = 1; ?>
-                                                        <?php foreach ($kelas as $kls) : ?>
+                                                        <?php foreach ($sertifikat_indonesia as $sertindo) : ?>
                                                             <tr>
                                                                 <td>
-                                                                    <input type="checkbox" id="check" name="id[]" value="<?= $kls['id']; ?>" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
+                                                                    <input type="checkbox" id="check" name="id[]" value="<?= $sertindo['id']; ?>" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
                                                                 </td>
                                                                 <td>
-                                                                    <?= $kls['kelas'] ?>
+                                                                    <?= $sertindo['sertifikat_indonesia'] ?>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="<?= base_url('/dashboard/edit_kelas_pembina/' . $kls["id"]); ?>" class="btn btn-lg btn-outline-primary">
+                                                                    <a href="<?= base_url('/dashboard/edit_sertifikat_indonesia/' . $sertindo["id"]); ?>" class="btn btn-lg btn-outline-primary">
                                                                         Edit
                                                                     </a>
-                                                                    <button class="btn btn-lg btn-danger" type="button" onclick="deleteKelasPembina(<?= $kls['id']; ?>)">
+                                                                    <button class="btn btn-lg btn-danger" type="button" onclick="deleteSertIndo(<?= $sertindo['id']; ?>)">
                                                                         Hapus
                                                                     </button>
                                                                 </td>
@@ -85,22 +85,22 @@
     </div>
     <!-- content-wrapper ends -->
     <!-- Modal -->
-    <div class="modal fade" id="jenisAlat" tabindex="-1" aria-labelledby="jenisAlatLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="sertIndo" tabindex="-1" aria-labelledby="sertIndoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="jenisAlatLabel">
-                        Tambah Kelas Pembina
+                    <h5 class="modal-title" id="sertIndoLabel">
+                        Tambah Sertifikat Indonesia
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="<?= base_url('dashboard/kelas_simpan_pembina'); ?>">
-                        <label for="class_name" class="text-primary fs-6 mb-1">
-                            Nama Kelas
+                    <form method="post" action="<?= base_url('dashboard/sertifikat_indonesia_simpan'); ?>">
+                        <label for="nama_sertifikat_indonesia" class="text-primary fs-6 mb-1">
+                            Nama Sertifikat Indonesia
                         </label>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="class_name" aria-describedby="class_name" name="nama_kelas" autofocus>
+                            <input type="text" class="form-control" id="nama_sertifikat_indonesia" aria-describedby="nama_sertifikat_indonesia" name="nama_sertifikat_indonesia" autofocus>
                         </div>
                 </div>
                 <div class="modal-footer">

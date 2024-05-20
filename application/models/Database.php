@@ -39,6 +39,38 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  public function dataKelas($id)
+  {
+    $this->db->select('kelas.*');
+    $this->db->from('kelas');
+    $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
+  public function dataTraining($id)
+  {
+    $this->db->select('training.*');
+    $this->db->from('training');
+    $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
+  public function getDataSertifikatIndonesia($id)
+  {
+    $this->db->select('sertifikat_indonesia.*');
+    $this->db->from('sertifikat_indonesia');
+    $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
+  public function dataBidang($id)
+  {
+    $this->db->select('bidang.*');
+    $this->db->from('bidang');
+    $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
   public function getData($id)
   {
     $this->db->select('*');

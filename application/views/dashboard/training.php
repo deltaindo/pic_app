@@ -24,10 +24,10 @@
                             <div class="col-lg-8 grid-margin stretch-card">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h4 class="card-title">Daftar Kelas Pembina</h4>
+                                        <h4 class="card-title">Daftar Training</h4>
 
                                         <form action="" method="post">
-                                            <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#jenisAlat">
+                                            <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#training">
                                                 Buat Baru
                                             </a>
 
@@ -42,7 +42,7 @@
                                                             </th>
 
                                                             <th>
-                                                                Nama Kelas
+                                                                Nama Training
                                                             </th>
                                                             <th>
                                                                 Action
@@ -51,19 +51,19 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php $i = 1; ?>
-                                                        <?php foreach ($kelas as $kls) : ?>
+                                                        <?php foreach ($training as $train) : ?>
                                                             <tr>
                                                                 <td>
-                                                                    <input type="checkbox" id="check" name="id[]" value="<?= $kls['id']; ?>" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
+                                                                    <input type="checkbox" id="check" name="id[]" value="<?= $train['id']; ?>" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
                                                                 </td>
                                                                 <td>
-                                                                    <?= $kls['kelas'] ?>
+                                                                    <?= $train['Training'] ?>
                                                                 </td>
                                                                 <td>
-                                                                    <a href="<?= base_url('/dashboard/edit_kelas_pembina/' . $kls["id"]); ?>" class="btn btn-lg btn-outline-primary">
+                                                                    <a href="<?= base_url('/dashboard/edit_training/' . $train["id"]); ?>" class="btn btn-lg btn-outline-primary">
                                                                         Edit
                                                                     </a>
-                                                                    <button class="btn btn-lg btn-danger" type="button" onclick="deleteKelasPembina(<?= $kls['id']; ?>)">
+                                                                    <button class="btn btn-lg btn-danger" type="button" onclick="deleteTraining(<?= $train['id']; ?>)">
                                                                         Hapus
                                                                     </button>
                                                                 </td>
@@ -85,22 +85,22 @@
     </div>
     <!-- content-wrapper ends -->
     <!-- Modal -->
-    <div class="modal fade" id="jenisAlat" tabindex="-1" aria-labelledby="jenisAlatLabel" aria-hidden="true">
+    <div class="modal fade" id="training" tabindex="-1" aria-labelledby="trainingLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="jenisAlatLabel">
-                        Tambah Kelas Pembina
+                    <h5 class="modal-title" id="trainingLabel">
+                        Tambah training
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="<?= base_url('dashboard/kelas_simpan_pembina'); ?>">
-                        <label for="class_name" class="text-primary fs-6 mb-1">
-                            Nama Kelas
+                    <form method="post" action="<?= base_url('dashboard/training_simpan'); ?>">
+                        <label for="nama_training" class="text-primary fs-6 mb-1">
+                            Nama training
                         </label>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="class_name" aria-describedby="class_name" name="nama_kelas" autofocus>
+                            <input type="text" class="form-control" id="nama_training" aria-describedby="nama_training" name="nama_training" autofocus>
                         </div>
                 </div>
                 <div class="modal-footer">
