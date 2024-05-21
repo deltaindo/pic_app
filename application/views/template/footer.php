@@ -347,6 +347,56 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js
   }
 </script>
 
+<script>
+  function deleteJenisPersonil(id) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          showConfirmButton: false,
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+          timer: 2000
+        });
+        window.location.href = `<?= base_url('/dashboard/delete_jenis_personil/') ?>${id}`;
+      }
+    });
+  }
+</script>
+
+<script>
+  function deleteJenisPendidikan(id) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          showConfirmButton: false,
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+          timer: 2000
+        });
+        window.location.href = `<?= base_url('/dashboard/delete_jenis_pendidikan/') ?>${id}`;
+      }
+    });
+  }
+</script>
+
 </body>
 
 </html>

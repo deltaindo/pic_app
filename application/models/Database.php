@@ -71,6 +71,22 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  public function dataJenisPersonil($id)
+  {
+    $this->db->select('jenis_personil.*');
+    $this->db->from('jenis_personil');
+    $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
+  public function dataJenisPendidikan($id)
+  {
+    $this->db->select('pendidikan.*');
+    $this->db->from('pendidikan');
+    $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
   public function getData($id)
   {
     $this->db->select('*');

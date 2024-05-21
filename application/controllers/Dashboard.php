@@ -304,6 +304,104 @@ class Dashboard extends CI_Controller
         redirect('dashboard/daftar_bidang');
     }
 
+    public function jenis_personil()
+    {
+        $data['tittle'] = 'Daftar Jenis Personil | Delta Indonesia';
+        $data['personil'] = $this->db->get('jenis_personil')->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/jenis_personil', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function jenis_personil_simpan()
+    {
+        $data = [
+            'jenis_personil' => $this->input->post('nama_jenis_personil')
+        ];
+        $this->db->insert('jenis_personil', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Personil Berhasil di Tambah</div>');
+        redirect('dashboard/jenis_personil');
+    }
+
+    public function edit_personil($id)
+    {
+        $data['tittle'] = 'Edit Jenis Personil | Delta Indonesia';
+        $data['personil'] = $this->database->dataJenisPersonil($id);
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/jenis_personil_edit', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function updateJenisPersonil($id)
+    {
+        $data = [
+            'jenis_personil' => $this->input->post('nama_jenis_personil')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('jenis_personil', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Personil Berhasil di Update</div>');
+        redirect('dashboard/jenis_personil');
+    }
+
+    public function delete_jenis_personil($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('jenis_personil');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Personil Berhasil di Hapus</div>');
+        redirect('dashboard/jenis_personil');
+    }
+
+    public function pendidikan()
+    {
+        $data['tittle'] = 'Daftar Jenis Pendidikan | Delta Indonesia';
+        $data['pendidikan'] = $this->db->get('pendidikan')->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/jenis_pendidikan', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function pendidikan_simpan()
+    {
+        $data = [
+            'pendidikan' => $this->input->post('nama_jenis_pendidikan')
+        ];
+        $this->db->insert('pendidikan', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Pendidikan Berhasil di Tambah</div>');
+        redirect('dashboard/pendidikan');
+    }
+
+    public function edit_jenis_pendidikan($id)
+    {
+        $data['tittle'] = 'Edit Jenis Pendidikan | Delta Indonesia';
+        $data['pendidikan'] = $this->database->dataJenisPendidikan($id);
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/jenis_pendidikan_edit', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function update_pendidikan($id)
+    {
+        $data = [
+            'pendidikan' => $this->input->post('nama_pendidikan')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('pendidikan', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Pendidikan Berhasil di Update</div>');
+        redirect('dashboard/pendidikan');
+    }
+
+    public function delete_jenis_pendidikan($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('pendidikan');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Pendidikan Berhasil di Hapus</div>');
+        redirect('dashboard/pendidikan');
+    }
+
     public function update_jenis_alat($id)
     {
         $data = [
