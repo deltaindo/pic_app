@@ -26,13 +26,13 @@
                                     <div class="card-body">
                                         <h4 class="card-title">Daftar Training</h4>
 
-                                        <form action="" method="post">
+                                        <form id="bulk-delete-form" action="<?= base_url('dashboard/hapus_bulk_daftar_training'); ?>" method="post">
                                             <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#training">
                                                 Buat Baru
                                             </a>
-
-                                            <a href="#" class="btn btn-danger text-white" id="hapus-form" data-url="">Hapus</a>
-
+                                            <button class="btn btn-danger text-white" type="button" onclick="deleteBulkDaftarTraining()">
+                                                Hapus
+                                            </button>
                                             <div class="table-responsive">
                                                 <table class="table table-striped" id="example">
                                                     <thead>

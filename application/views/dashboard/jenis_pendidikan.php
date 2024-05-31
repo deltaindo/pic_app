@@ -25,12 +25,12 @@
                                     <div class="card-body">
                                         <h4 class="card-title">Daftar Jenis Pendidikan</h4>
 
-                                        <form action="" method="post">
+                                        <form id="bulk-delete-form" action="<?= base_url('dashboard/hapus_bulk_jenis_pendidikan'); ?>" method="post">
                                             <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#jenisPendidikan">
                                                 Buat Baru
                                             </a>
 
-                                            <a href="#" class="btn btn-danger text-white" id="hapus-form" data-url="">Hapus</a>
+                                            <button class="btn btn-danger text-white" type="button" onclick="deleteBulkJenisPendidikan()">Hapus</button>
 
                                             <div class="table-responsive">
                                                 <table class="table table-striped" id="example">

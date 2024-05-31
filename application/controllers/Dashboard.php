@@ -255,6 +255,76 @@ class Dashboard extends CI_Controller
         redirect('dashboard/training');
     }
 
+    public function hapus_bulk_daftar_training()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('training', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Daftar Training Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Daftar Training yang dipilih untuk dihapus</div>');
+        }
+        redirect('dashboard/training');
+    }
+
+    public function hapus_bulk_kelas_pembina()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('kelas_pembina', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Daftar Kelas Pembina Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Daftar Kelas Pembina yang dipilih untuk dihapus</div>');
+        }
+        redirect('dashboard/kelas_pembina');
+    }
+
+    public function hapus_bulk_data_kelas()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('kelas', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Daftar Kelas Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Daftar Kelas yang dipilih untuk dihapus</div>');
+        }
+        redirect('dashboard/kelas');
+    }
+
+    public function hapus_bulk_jenis_bidang()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('bidang', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Daftar Bidang Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Daftar Bidang yang dipilih untuk dihapus</div>');
+        }
+        redirect('dashboard/daftar_bidang');
+    }
+
+    public function hapus_bulk_sertifikat_indonesia()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('sertifikat_indonesia', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Daftar Sertifikat Indonesia Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Daftar Sertifikat Indonesia yang dipilih untuk dihapus</div>');
+        }
+        redirect('dashboard/sertifikat_indonesia');
+    }
+
     public function daftar_bidang()
     {
         $data['tittle'] = 'Daftar Bidang | Delta Indonesia';
@@ -353,6 +423,20 @@ class Dashboard extends CI_Controller
         redirect('dashboard/jenis_personil');
     }
 
+    public function hapus_bulk_jenis_personil()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('jenis_personil', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Personil Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Jenis Personil yang dipilih untuk dihapus</div>');
+        }
+        redirect('dashboard/jenis_personil');
+    }
+
     public function pendidikan()
     {
         $data['tittle'] = 'Daftar Jenis Pendidikan | Delta Indonesia';
@@ -402,6 +486,20 @@ class Dashboard extends CI_Controller
         redirect('dashboard/pendidikan');
     }
 
+    public function hapus_bulk_jenis_pendidikan()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('pendidikan', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Pendidikan Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Jenis Pendidikan yang dipilih untuk dihapus</div>');
+        }
+        redirect('dashboard/pendidikan');
+    }
+
     public function update_jenis_alat($id)
     {
         $data = [
@@ -410,6 +508,20 @@ class Dashboard extends CI_Controller
         $this->db->where('id', $id);
         $this->db->update('jenis_alat', $data);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Alat Berhasil di Update</div>');
+        redirect('dashboard/jenis_alat');
+    }
+
+    public function hapus_bulk_jenis_alat()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('jenis_alat', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Jenis Alat Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Jenis Alat yang dipilih untuk dihapus</div>');
+        }
         redirect('dashboard/jenis_alat');
     }
 

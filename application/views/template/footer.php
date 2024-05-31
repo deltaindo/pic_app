@@ -373,6 +373,56 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js
 </script>
 
 <script>
+  function deleteBulkJenisPersonil() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          showConfirmButton: false,
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+          timer: 2000
+        });
+        window.location.href = `<?= base_url('dashboard/hapus_bulk_jenis_personil') ?>`;
+      }
+    });
+  }
+</script>
+
+<script>
+  function deleteBulkJenisPersonil() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('bulk-delete-form').submit();
+      }
+    });
+  }
+
+  document.getElementById('check-all').addEventListener('click', function() {
+    let checkboxes = document.querySelectorAll('.form-check-input.check');
+    for (let checkbox of checkboxes) {
+      checkbox.checked = this.checked;
+    }
+  });
+</script>
+
+<script>
   function deleteJenisPendidikan(id) {
     Swal.fire({
       title: "Are you sure?",
@@ -397,6 +447,180 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js
   }
 </script>
 
+<script>
+  function deleteBulkJenisPendidikan() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('bulk-delete-form').submit();
+      }
+    });
+  }
+
+  document.getElementById('check-all').addEventListener('click', function() {
+    let checkboxes = document.querySelectorAll('.form-check-input.check');
+    for (let checkbox of checkboxes) {
+      checkbox.checked = this.checked;
+    }
+  });
+</script>
+
+<script>
+  function deleteBulkJenisAlat() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('bulk-delete-form').submit();
+      }
+    });
+  }
+
+  document.getElementById('check-all').addEventListener('click', function() {
+    let checkboxes = document.querySelectorAll('.form-check-input.check');
+    for (let checkbox of checkboxes) {
+      checkbox.checked = this.checked;
+    }
+  });
+</script>
+
+<script>
+  function deleteBulkDaftarTraining() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('bulk-delete-form').submit();
+      }
+    });
+  }
+
+  document.getElementById('check-all').addEventListener('click', function() {
+    let checkboxes = document.querySelectorAll('.form-check-input.check');
+    for (let checkbox of checkboxes) {
+      checkbox.checked = this.checked;
+    }
+  });
+</script>
+
+<script>
+  function deleteBulkKelasPembina() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('bulk-delete-form').submit();
+      }
+    });
+  }
+
+  document.getElementById('check-all').addEventListener('click', function() {
+    let checkboxes = document.querySelectorAll('.form-check-input.check');
+    for (let checkbox of checkboxes) {
+      checkbox.checked = this.checked;
+    }
+  });
+</script>
+
+<script>
+  function deleteBulkDataKelas() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('bulk-delete-form').submit();
+      }
+    });
+  }
+
+  document.getElementById('check-all').addEventListener('click', function() {
+    let checkboxes = document.querySelectorAll('.form-check-input.check');
+    for (let checkbox of checkboxes) {
+      checkbox.checked = this.checked;
+    }
+  });
+</script>
+
+<script>
+  function deleteBulkJenisBidang() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('bulk-delete-form').submit();
+      }
+    });
+  }
+
+  document.getElementById('check-all').addEventListener('click', function() {
+    let checkboxes = document.querySelectorAll('.form-check-input.check');
+    for (let checkbox of checkboxes) {
+      checkbox.checked = this.checked;
+    }
+  });
+</script>
+
+<script>
+  function deleteBulkSertifikatIndonesia() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('bulk-delete-form').submit();
+      }
+    });
+  }
+
+  document.getElementById('check-all').addEventListener('click', function() {
+    let checkboxes = document.querySelectorAll('.form-check-input.check');
+    for (let checkbox of checkboxes) {
+      checkbox.checked = this.checked;
+    }
+  });
+</script>
 </body>
 
 </html>
