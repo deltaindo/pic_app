@@ -1430,6 +1430,36 @@ class Dashboard extends CI_Controller
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil di Tambakan</div>');
         redirect('dashboard/pembinaan');
     }
+
+    public function pendidikan_terakhir()
+    {
+        $data['tittle'] = "Halaman Pendidikan Terakhir";
+        $this->db->select('kelas.kelas, pendidikan.pendidikan');
+        $this->db->from('pendidikan_terakhir');
+        $this->db->join('kelas', 'pendidikan_terakhir.id_kelas = kelas.id');
+        $this->db->join('pendidikan', 'pendidikan_terakhir.id_pendidikan = pendidikan.id');
+        $data['pendidikan_terakhir'] = $this->db->get()->result_array();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/pendidikan_terakhir', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function kelas_training()
+    {
+        $data['tittle'] = "Halaman Kelas Training";
+        $this->db->select('kelas.id as kelas_id, kelas.kelas, training.id as training_id, training.training');
+        $this->db->from('kelas');
+        $this->db->join('kelas_training', 'kelas.id = kelas_training.kelas_id');
+        $this->db->join('training', 'kelas_training.training_id = training.id');
+        $data['kelas_training'] = $this->db->get()->result_array();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/kelas_training', $data);
+        $this->load->view('template/footer');
+    }
 }   
 
 

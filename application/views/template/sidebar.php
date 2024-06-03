@@ -58,6 +58,40 @@
         </ul>
       </div>
     </li>
+
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#DataRelasi" aria-expanded="false" aria-controls="DataRelasi">
+        <i class="menu-icon mdi mdi-folder-multiple"></i>
+        <span class="menu-title">Data Relasi</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="DataRelasi">
+        <ul class="nav flex-column sub-menu">
+
+          <li class="nav-item">
+            <a class="nav-link" href="<?= base_url('dashboard/kelas_training'); ?>">
+              Kelas Training
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="<?= base_url('dashboard/pendidikan_terakhir'); ?>">
+              Pendidikan Terakhir
+            </a>
+          </li>
+          <li class="nav-item d-none">
+            <a class="nav-link" href="tambah_produk.html">Tambah Produk</a>
+          </li>
+          <li class="nav-item d-none">
+            <a class="nav-link" href="rincian.html">rincian</a>
+          </li>
+          <li class="nav-item d-none">
+            <a class="nav-link" href="edit_produk.html">edit</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#master" aria-expanded="false" aria-controls="master">
         <i class="menu-icon mdi mdi-database-check"></i>
