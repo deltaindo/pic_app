@@ -1460,6 +1460,23 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/kelas_training', $data);
         $this->load->view('template/footer');
     }
+
+    public function kelompok_pembinaan()
+    {
+        $data['tittle'] = "Halaman Kelompok Pembinaan";
+
+        $this->db->select('tb_kelompok_pembinaan.id, tb_kelompok_pembinaan.id_bidang, tb_kelompok_pembinaan.id_kelompok_pembinaan, tb_kelompok_pembinaan.id_jenis_personil, kelompok_pembinaan.kelompok_pembinaan, jenis_personil.jenis_personil, bidang.bidang');
+        $this->db->from('tb_kelompok_pembinaan');
+        $this->db->join('jenis_personil', 'tb_kelompok_pembinaan.id_jenis_personil = jenis_personil.id', 'left');
+        $this->db->join('bidang', 'tb_kelompok_pembinaan.id_bidang = bidang.id', 'left');
+        $this->db->join('kelompok_pembinaan', 'tb_kelompok_pembinaan.id_kelompok_pembinaan = kelompok_pembinaan.id', 'left');
+
+        $data['kelompok_pembinaan'] = $this->db->get()->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/kelompok_pembinaan', $data);
+        $this->load->view('template/footer');
+    }
 }   
 
 
