@@ -621,6 +621,56 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js
     }
   });
 </script>
+
+<script>
+  function deleteAdmin(id) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          showConfirmButton: false,
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+          timer: 2000
+        });
+        window.location.href = `<?= base_url('/dashboard/delete_admin/') ?>${id}`;
+      }
+    });
+  }
+</script>
+
+<script>
+  function deleteBulkDataAdmin() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById('bulk-delete-form').submit();
+      }
+    });
+  }
+
+  document.getElementById('check-all').addEventListener('click', function() {
+    let checkboxes = document.querySelectorAll('.form-check-input.check');
+    for (let checkbox of checkboxes) {
+      checkbox.checked = this.checked;
+    }
+  });
+</script>
 </body>
 
 </html>

@@ -87,6 +87,14 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  public function dataAdmin($id)
+  {
+    $this->db->select('user.*');
+    $this->db->from('user');
+    $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
   public function getData($id)
   {
     $this->db->select('*');

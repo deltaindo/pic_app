@@ -1477,6 +1477,84 @@ class Dashboard extends CI_Controller
         $this->load->view('dashboard/kelompok_pembinaan', $data);
         $this->load->view('template/footer');
     }
+
+    public function list_admin()
+    {
+        $data['tittle'] = "Halaman List Data Admin";
+        $data['admins'] = $this->db->get('user')->result_array();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/list_admin', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function admin_simpan()
+    {
+        $data = [
+            'nama'          => $this->input->post('name_admin'),
+            'email'         => $this->input->post('email_admin'),
+            'phone_number'  => $this->input->post('mobilephone_admin'),
+            'password'      => md5($this->input->post('password_admin')),
+            'level'         => 2
+        ];
+        $this->db->insert('user', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Berhasil di Tambahkan</div>');
+        redirect('dashboard/list_admin');
+    }
+
+    public function edit_admin($id)
+    {
+        $data['tittle'] = "Halaman Edit Data Admin";
+        $data['admin'] = $this->database->dataAdmin($id);
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/edit_admin', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function update_admin($id)
+    {
+        if ($this->input->post('password_admin') == null) {
+            $data = [
+                'nama'          => $this->input->post('admin_name'),
+                'email'         => $this->input->post('email_admin'),
+                'phone_number'  => $this->input->post('mobilephone_admin'),
+            ];
+        } else {
+            $data = [
+                'nama'          => $this->input->post('admin_name'),
+                'email'         => $this->input->post('email_admin'),
+                'phone_number'  => $this->input->post('mobilephone_admin'),
+                'password'      => md5($this->input->post('password_admin')),
+            ];
+        }
+        $this->db->where('id', $id);
+        $this->db->update('user', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Admin Berhasil di Update</div>');
+        redirect('dashboard/list_admin');
+    }
+
+    public function delete_admin($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('user');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Admin Berhasil di Hapus</div>');
+        redirect('dashboard/list_admin');
+    }
+
+    public function delete_bulk_data_admin()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('user', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Admin Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Data Admin yang dipilih untuk dihapus</div>');
+        }
+        redirect('dashboard/list_admin');
+    }
 }   
 
 
