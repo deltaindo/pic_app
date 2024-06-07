@@ -3,22 +3,9 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="home-tab">
-                    <div class="d-sm-flex align-items-center justify-content-between border-bottom">
-
-                        <div>
-                            <div class="btn-wrapper">
-                                <a href="#" class="btn btn-primary text-white me-0" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="icon-download"></i>Import</a>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="d-sm-flex align-items-center justify-content-between border-bottom"></div>
                     <div class="tab-content tab-content-basic">
-                        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview">
-
-
-                        </div>
-
-
-                        <!-- Tabel Kategori -->
+                        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview"></div>
                         <?= $this->session->flashdata('message'); ?>
                         <div class="row tabel-produk mt-2">
                             <div class="col-lg-12 grid-margin stretch-card">
@@ -27,14 +14,13 @@
                                         <h4 class="card-title">
                                             Daftar Kelompok Pembinaan
                                         </h4>
-
                                         <form id="bulk-delete-form" action="" method="post">
                                             <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#jenisAlat">
                                                 Buat Baru
                                             </a>
-
-                                            <button class="btn btn-danger text-white" type="button" onclick="">Hapus</button>
-
+                                            <button class="btn btn-danger text-white" type="button" onclick="">
+                                                Hapus
+                                            </button>
                                             <div class="table-responsive">
                                                 <table class="table table-striped" id="example">
                                                     <thead>
@@ -79,7 +65,6 @@
                             </div>
                             </form>
                         </div>
-
                     </div>
                 </div>
             </div>

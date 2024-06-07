@@ -12,7 +12,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            Daftar Kelas Training
+                                            Daftar Alat Kelompok Pembinaan
                                         </h4>
                                         <form id="bulk-delete-form" action="" method="post">
                                             <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#jenisAlat">
@@ -29,25 +29,25 @@
                                                                 <input type="checkbox" id="check-all" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
                                                             </th>
                                                             <th>
-                                                                Nama Kelas
+                                                                Nama Kelompok Pembinaan
                                                             </th>
                                                             <th>
-                                                                Nama Training
+                                                                Jenis Alat
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php $i = 1; ?>
-                                                        <?php foreach ($kelas_training as $training) : ?>
+                                                        <?php foreach ($alat_kelompok as $alat) : ?>
                                                             <tr>
                                                                 <td>
                                                                     <input type="checkbox" id="check" name="id[]" value="" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
                                                                 </td>
                                                                 <td>
-                                                                    <?= $training['kelas'] ?>
+                                                                    <?= $alat['jenis_alat'] ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?= $training['training'] ?>
+                                                                    <?= $alat['kelompok_pembinaan'] ?>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>

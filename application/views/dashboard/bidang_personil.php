@@ -12,7 +12,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            Daftar Kelas Training
+                                            Daftar Kelompok Pembinaan
                                         </h4>
                                         <form id="bulk-delete-form" action="" method="post">
                                             <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#jenisAlat">
@@ -29,25 +29,25 @@
                                                                 <input type="checkbox" id="check-all" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
                                                             </th>
                                                             <th>
-                                                                Nama Kelas
+                                                                Nama Bidang
                                                             </th>
                                                             <th>
-                                                                Nama Training
+                                                                Jenis Personil
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php $i = 1; ?>
-                                                        <?php foreach ($kelas_training as $training) : ?>
+                                                        <?php foreach ($bidang_personil as $personil) : ?>
                                                             <tr>
                                                                 <td>
                                                                     <input type="checkbox" id="check" name="id[]" value="" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
                                                                 </td>
                                                                 <td>
-                                                                    <?= $training['kelas'] ?>
+                                                                    <?= $personil['bidang'] ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?= $training['training'] ?>
+                                                                    <?= $personil['jenis_personil'] ?>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
@@ -60,35 +60,6 @@
                             </form>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- content-wrapper ends -->
-    <!-- Modal -->
-    <div class="modal fade" id="jenisAlat" tabindex="-1" aria-labelledby="jenisAlatLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="jenisAlatLabel">
-                        Tambah Kelas Pembina
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="post" action="">
-                        <label for="class_name" class="text-primary fs-6 mb-1">
-                            Nama Kelas
-                        </label>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="class_name" aria-describedby="class_name" name="nama_kelas" autofocus>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">
-                        Buat
-                    </button>
-                    </form>
                 </div>
             </div>
         </div>

@@ -7,7 +7,6 @@
                     </div>
                     <div class="tab-content tab-content-basic">
                         <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview"></div>
-                        <!-- Tabel Kategori -->
                         <?= $this->session->flashdata('message'); ?>
                         <div class="row tabel-produk mt-2">
                             <div class="col-lg-10 grid-margin stretch-card">
@@ -16,7 +15,6 @@
                                         <h4 class="card-title">
                                             Daftar List Admin
                                         </h4>
-
                                         <form id="bulk-delete-form" action="<?= base_url('dashboard/delete_bulk_data_admin'); ?>" method="post">
                                             <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#addAdmin">
                                                 Buat Baru
@@ -32,7 +30,6 @@
                                                             <th>
                                                                 <input type="checkbox" id="check-all" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
                                                             </th>
-
                                                             <th>
                                                                 Name
                                                             </th>
@@ -63,7 +60,6 @@
                                                                 <td>
                                                                     <?= $admin['phone_number'] ?>
                                                                 </td>
-
                                                                 <td>
                                                                     <a href="<?= base_url('/dashboard/edit_admin/' . $admin["id"]); ?>" class="btn btn-lg btn-outline-primary">
                                                                         Edit
@@ -82,7 +78,6 @@
                             </div>
                             </form>
                         </div>
-
                     </div>
                 </div>
             </div>

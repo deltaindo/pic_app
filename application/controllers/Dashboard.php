@@ -1555,6 +1555,36 @@ class Dashboard extends CI_Controller
         }
         redirect('dashboard/list_admin');
     }
+
+    public function alat_kelompok_pembinaan()
+    {
+        $data['tittle'] = "Halaman List Alat Kelompok Pembina";
+        $this->db->select('jenis_alat.jenis_alat, kelompok_pembinaan.kelompok_pembinaan');
+        $this->db->from('tb_jenis_alat');
+        $this->db->join('jenis_alat', 'jenis_alat.id = tb_jenis_alat.Jenis_alat');
+        $this->db->join('kelompok_pembinaan', 'kelompok_pembinaan.id = tb_jenis_alat.id_kelompol_pembinaan');
+        $data['alat_kelompok'] = $this->db->get()->result_array();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/alat_kelompok_pembinaan', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function bidang_personil()
+    {
+        $data['tittle'] = "Halaman List Bidang Personil";
+        $this->db->select('tb_personil.id, jenis_personil.jenis_personil, bidang.bidang');
+        $this->db->from('tb_personil');
+        $this->db->join('jenis_personil', 'tb_personil.id_jenis_personil = jenis_personil.id');
+        $this->db->join('bidang', 'tb_personil.id_bidang = bidang.id');
+        $data['bidang_personil'] = $this->db->get()->result_array();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/bidang_personil', $data);
+        $this->load->view('template/footer');
+    }
 }   
 
 
