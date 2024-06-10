@@ -15,7 +15,7 @@
                                             Daftar Kelas Training
                                         </h4>
                                         <form id="bulk-delete-form" action="" method="post">
-                                            <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#jenisAlat">
+                                            <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#kelasTraining">
                                                 Buat Baru
                                             </a>
                                             <button class="btn btn-danger text-white" type="button" onclick="">

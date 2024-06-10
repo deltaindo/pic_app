@@ -1360,7 +1360,7 @@ class Dashboard extends CI_Controller
     {
         $this->load->model('database');
         $data['tittle'] = 'Detail Peserta';
-        $this->db->select('sertifikat_indonesia.sertifikat_indonesia, sertifikat_indonesia.id, sertifikat_ing.sertifikat_ing');
+        $this->db->select('sertifikat_ing.id as id_ing,sertifikat_indonesia.sertifikat_indonesia, sertifikat_indonesia.id, sertifikat_ing.sertifikat_ing');
         $this->db->from('sertifikat_indonesia');
         $this->db->join('sertifikat_ing', 'sertifikat_ing.id_ser = sertifikat_indonesia.id');
         $data['sertifikat'] = $this->db->get()->result_array();
@@ -1584,6 +1584,36 @@ class Dashboard extends CI_Controller
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/bidang_personil', $data);
         $this->load->view('template/footer');
+    }
+
+    public function edit_daftar_sertifikat($id)
+    {
+        $data['tittle'] = 'Edit Daftar Sertifikat | Delta Indonesia';
+        $data['sertifikat_ing'] = $this->database->dataSertifikat($id);
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/edit_daftar_sertifikat', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function update_sertifikat_ing($id)
+    {
+        $data = [
+            'sertifikat_ing' => $this->input->post('nama_sertifikat')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('sertifikat_ing', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Update</div>');
+        redirect('dashboard/daftar_sertifikat');
+    }
+
+    public function delete_sertifikat_ing($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('sertifikat_ing');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Hapus</div>');
+        redirect('dashboard/daftar_sertifikat');
     }
 }   
 

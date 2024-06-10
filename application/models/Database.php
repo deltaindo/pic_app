@@ -95,6 +95,14 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  public function dataSertifikat($id)
+  {
+    $this->db->select('sertifikat_ing.*');
+    $this->db->from('sertifikat_ing');
+    $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
   public function getData($id)
   {
     $this->db->select('*');
