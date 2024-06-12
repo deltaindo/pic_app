@@ -15,7 +15,7 @@
                                             Daftar Kelompok Pembinaan
                                         </h4>
                                         <form id="bulk-delete-form" action="" method="post">
-                                            <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#jenisAlat">
+                                            <a href="<?= base_url('dashboard/kelompok_pembinaan_tambah'); ?>" class="btn btn-primary text-white">
                                                 Buat Baru
                                             </a>
                                             <button class="btn btn-danger text-white" type="button" onclick="">
@@ -37,6 +37,9 @@
                                                             <th>
                                                                 Jenis Personil
                                                             </th>
+                                                            <th>
+                                                                Action
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -54,6 +57,14 @@
                                                                 </td>
                                                                 <td>
                                                                     <?= $pembinaan['jenis_personil'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="<?= base_url('dashboard/edit_kelompok_pembinaan/' . $pembinaan['id']); ?>" class="btn btn-lg btn-outline-primary">
+                                                                        Edit
+                                                                    </a>
+                                                                    <button class="btn btn-lg btn-danger" type="button" onclick="deleteKelompokPembinaan(<?= $pembinaan['id']; ?>)">
+                                                                        Hapus
+                                                                    </button>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>

@@ -14,11 +14,11 @@
                                         <h4 class="card-title">
                                             Daftar Kelas Training
                                         </h4>
-                                        <form id="bulk-delete-form" action="" method="post">
-                                            <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#kelasTraining">
+                                        <form id="bulk-delete-form" action="<?= base_url('dashboard/hapus_bulk_kelas_training'); ?>" method="post">
+                                            <a href="<?= base_url('dashboard/tambah_kelas_training'); ?>" class="btn btn-primary text-white">
                                                 Buat Baru
                                             </a>
-                                            <button class="btn btn-danger text-white" type="button" onclick="">
+                                            <button class="btn btn-danger text-white" type="button" onclick="deleteBulkDataKelasTraining()">
                                                 Hapus
                                             </button>
                                             <div class="table-responsive">
@@ -34,6 +34,18 @@
                                                             <th>
                                                                 Nama Training
                                                             </th>
+                                                            <th>
+                                                                Tanggal Awal
+                                                            </th>
+                                                            <th>
+                                                                Tanggal Akhir
+                                                            </th>
+                                                            <th>
+                                                                Jenis Training
+                                                            </th>
+                                                            <th>
+                                                                Action
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -41,13 +53,30 @@
                                                         <?php foreach ($kelas_training as $training) : ?>
                                                             <tr>
                                                                 <td>
-                                                                    <input type="checkbox" id="check" name="id[]" value="" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
+                                                                    <input type="checkbox" id="check" name="id[]" value="<?= $training['id']; ?>" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
                                                                 </td>
                                                                 <td>
                                                                     <?= $training['kelas'] ?>
                                                                 </td>
                                                                 <td>
                                                                     <?= $training['training'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?= $training['tanggal_awal'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?= $training['tanggal_akhir'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?= $training['jenis'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="<?= base_url('/dashboard/edit_kelas_training/' . $training["id"]); ?>" class="btn btn-lg btn-outline-primary">
+                                                                        Edit
+                                                                    </a>
+                                                                    <button class="btn btn-lg btn-danger" type="button" onclick="deleteKelasTraining(<?= $training['id']; ?>)">
+                                                                        Hapus
+                                                                    </button>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
@@ -60,35 +89,6 @@
                             </form>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- content-wrapper ends -->
-    <!-- Modal -->
-    <div class="modal fade" id="jenisAlat" tabindex="-1" aria-labelledby="jenisAlatLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="jenisAlatLabel">
-                        Tambah Kelas Pembina
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form method="post" action="">
-                        <label for="class_name" class="text-primary fs-6 mb-1">
-                            Nama Kelas
-                        </label>
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="class_name" aria-describedby="class_name" name="nama_kelas" autofocus>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">
-                        Buat
-                    </button>
-                    </form>
                 </div>
             </div>
         </div>

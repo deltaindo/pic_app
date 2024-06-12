@@ -55,6 +55,62 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  public function semuaDataTraining()
+  {
+    $this->db->select('training.*');
+    $this->db->from('training');
+    $this->db->order_by('id', 'DESC');
+    return $this->db->get()->result_array();
+  }
+
+  public function semuaDataKelas()
+  {
+    $this->db->select('kelas.*');
+    $this->db->from('kelas');
+    $this->db->order_by('id', 'DESC');
+    return $this->db->get()->result_array();
+  }
+
+  public function semuaKelompokPembinaan()
+  {
+    $this->db->select('kelompok_pembinaan.*');
+    $this->db->from('kelompok_pembinaan');
+    $this->db->order_by('id', 'DESC');
+    return $this->db->get()->result_array();
+  }
+
+  public function semuaBidang()
+  {
+    $this->db->select('bidang.*');
+    $this->db->from('bidang');
+    $this->db->order_by('id', 'DESC');
+    return $this->db->get()->result_array();
+  }
+
+  public function semuaJenisPersonil()
+  {
+    $this->db->select('jenis_personil.*');
+    $this->db->from('jenis_personil');
+    $this->db->order_by('id', 'DESC');
+    return $this->db->get()->result_array();
+  }
+
+  public function dataKelasTraining($id)
+  {
+    $this->db->select('kelas_training.*');
+    $this->db->from('kelas_training');
+    $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
+  public function dataKelompokPembinaan($id)
+  {
+    $this->db->select('tb_kelompok_pembinaan.*');
+    $this->db->from('tb_kelompok_pembinaan');
+    $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
   public function getDataSertifikatIndonesia($id)
   {
     $this->db->select('sertifikat_indonesia.*');

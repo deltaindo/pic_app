@@ -32,7 +32,10 @@ class Dashboard extends CI_Controller
     public function sertifikat_indonesia()
     {
         $data['tittle'] = 'Sertifikat Indonesia | Delta Indonesia';
+
+        $this->db->order_by('id', 'DESC');
         $data['sertifikat_indonesia'] = $this->db->get('sertifikat_indonesia')->result_array();
+
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/sertifikat_indonesia', $data);
@@ -81,7 +84,10 @@ class Dashboard extends CI_Controller
     public function jenis_alat()
     {
         $data['tittle'] = 'Jenis Alat | Delta Indonesia';
+
+        $this->db->order_by('id', 'DESC');
         $data['jenis_alat'] = $this->db->get('jenis_alat')->result_array();
+
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/jenis_alat', $data);
@@ -109,7 +115,10 @@ class Dashboard extends CI_Controller
     public function kelas_pembina()
     {
         $data['tittle'] = 'Daftar Kelas Pembina | Delta Indonesia';
+
+        $this->db->order_by('id', 'DESC');
         $data['kelas'] = $this->db->get('kelas_pembina')->result_array();
+
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/kelas_pembina', $data);
@@ -159,7 +168,10 @@ class Dashboard extends CI_Controller
     public function kelas()
     {
         $data['tittle'] = 'Daftar Kelas | Delta Indonesia';
+
+        $this->db->order_by('id', 'DESC');
         $data['kelas'] = $this->db->get('kelas')->result_array();
+
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/kelas', $data);
@@ -209,7 +221,10 @@ class Dashboard extends CI_Controller
     public function training()
     {
         $data['tittle'] = 'Daftar training | Delta Indonesia';
+
+        $this->db->order_by('id', 'DESC');
         $data['training'] = $this->db->get('training')->result_array();
+
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/training', $data);
@@ -328,7 +343,10 @@ class Dashboard extends CI_Controller
     public function daftar_bidang()
     {
         $data['tittle'] = 'Daftar Bidang | Delta Indonesia';
+
+        $this->db->order_by('id', 'DESC');
         $data['bidang'] = $this->db->get('bidang')->result_array();
+
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/bidang', $data);
@@ -377,7 +395,10 @@ class Dashboard extends CI_Controller
     public function jenis_personil()
     {
         $data['tittle'] = 'Daftar Jenis Personil | Delta Indonesia';
+
+        $this->db->order_by('id', 'DESC');
         $data['personil'] = $this->db->get('jenis_personil')->result_array();
+
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/jenis_personil', $data);
@@ -440,7 +461,10 @@ class Dashboard extends CI_Controller
     public function pendidikan()
     {
         $data['tittle'] = 'Daftar Jenis Pendidikan | Delta Indonesia';
+
+        $this->db->order_by('id', 'DESC');
         $data['pendidikan'] = $this->db->get('pendidikan')->result_array();
+
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/jenis_pendidikan', $data);
@@ -1449,16 +1473,91 @@ class Dashboard extends CI_Controller
     public function kelas_training()
     {
         $data['tittle'] = "Halaman Kelas Training";
-        $this->db->select('kelas.id as kelas_id, kelas.kelas, training.id as training_id, training.training');
+        $this->db->select('kelas_training.id,kelas.id as kelas_id, kelas.kelas, training.id as training_id, training.training, kelas_training.tanggal_awal, kelas_training.tanggal_akhir, kelas_training.jenis');
         $this->db->from('kelas');
         $this->db->join('kelas_training', 'kelas.id = kelas_training.kelas_id');
         $this->db->join('training', 'kelas_training.training_id = training.id');
+        $this->db->order_by('kelas_training.id', 'DESC');
         $data['kelas_training'] = $this->db->get()->result_array();
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/kelas_training', $data);
         $this->load->view('template/footer');
+    }
+
+    public function tambah_kelas_training()
+    {
+        $data['tittle']     = "Tambah Kelas Training";
+        $data['trainings']  = $this->database->semuaDataTraining();
+        $data['semuakelas'] = $this->database->semuaDataKelas();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/kelas_training_tambah', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function simpan_kelas_training()
+    {
+        $data = [
+            'training_id'   => $this->input->post('nama_training'),
+            'kelas_id'      => $this->input->post('nama_kelas'),
+            'tanggal_awal'  => $this->input->post('tanggal_awal'),
+            'tanggal_akhir' => $this->input->post('tanggal_akhir'),
+            'jenis'         => $this->input->post('jenis_training')
+        ];
+        $this->db->insert('kelas_training', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Tambahkan</div>');
+        redirect('dashboard/kelas_training');
+    }
+
+    public function delete_kelas_training($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('kelas_training');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Hapus</div>');
+        redirect('dashboard/kelas_training');
+    }
+
+    public function edit_kelas_training($id)
+    {
+        $data['tittle']         = "Edit Kelas Training";
+        $data['semuatraining']  = $this->database->semuaDataTraining();
+        $data['semuakelas']     = $this->database->semuaDataKelas();
+        $data['editTraining']   = $this->database->dataKelasTraining($id);
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/kelas_training_edit', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function update_kelas_training($id)
+    {
+        $data = [
+            'training_id'   => $this->input->post('nama_training'),
+            'kelas_id'      => $this->input->post('nama_kelas'),
+            'tanggal_awal'  => $this->input->post('tanggal_awal'),
+            'tanggal_akhir' => $this->input->post('tanggal_akhir'),
+            'jenis'         => $this->input->post('jenis_training')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('kelas_training', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Update</div>');
+        redirect('dashboard/kelas_training');
+    }
+
+    public function hapus_bulk_kelas_training()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('kelas_training', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kelas Training Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Kelas Training yang dipilih untuk dihapus</div>');
+        }
+        redirect('dashboard/kelas_training');
     }
 
     public function kelompok_pembinaan()
@@ -1470,12 +1569,75 @@ class Dashboard extends CI_Controller
         $this->db->join('jenis_personil', 'tb_kelompok_pembinaan.id_jenis_personil = jenis_personil.id', 'left');
         $this->db->join('bidang', 'tb_kelompok_pembinaan.id_bidang = bidang.id', 'left');
         $this->db->join('kelompok_pembinaan', 'tb_kelompok_pembinaan.id_kelompok_pembinaan = kelompok_pembinaan.id', 'left');
-
+        $this->db->order_by('tb_kelompok_pembinaan.id', 'DESC');
         $data['kelompok_pembinaan'] = $this->db->get()->result_array();
+
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/kelompok_pembinaan', $data);
         $this->load->view('template/footer');
+    }
+
+    public function kelompok_pembinaan_tambah()
+    {
+        $data['tittle']                 = "Halaman Tambah Data Kelompok Pembinaan";
+        $data['kelompok_pembinaan']     = $this->database->semuaKelompokPembinaan();
+        $data['bidangs']                = $this->database->semuaBidang();
+        $data['jenis_personil']         = $this->database->semuaJenisPersonil();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/kelompok_pembinaan_tambah', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function edit_kelompok_pembinaan($id)
+    {
+        $data['tittle']                 = "Halaman Edit Data Kelompok Pembinaan";
+        $data['kelompok_pembinaan']     = $this->database->semuaKelompokPembinaan();
+        $data['bidangs']                = $this->database->semuaBidang();
+        $data['jenis_personil']         = $this->database->semuaJenisPersonil();
+        $data['editKelompokPembinaan']  = $this->database->dataKelompokPembinaan($id);
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/kelompok_pembinaan_edit', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function update_kelompok_pembinaan($id)
+    {
+        $data = [
+            'id_kelompok_pembinaan' => $this->input->post('kelompok_pembinaan'),
+            'id_bidang'             => $this->input->post('nama_bidang'),
+            'id_jenis_personil'     => $this->input->post('jenis_personil')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('tb_kelompok_pembinaan', $data);
+
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Edit</div>');
+        redirect('dashboard/kelompok_pembinaan');
+    }
+
+    public function delete_kelompok_pembinan($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('tb_kelompok_pembinaan');
+
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Hapus</div>');
+        redirect('dashboard/kelompok_pembinaan');
+    }
+
+    public function simpan_kelompok_pembinaan()
+    {
+        $data = [
+            'id_bidang'             => $this->input->post('nama_bidang'),
+            'id_jenis_personil'     => $this->input->post('jenis_personil'),
+            'id_kelompok_pembinaan' => $this->input->post('kelompok_pembinaan')
+        ];
+        $this->db->insert('tb_kelompok_pembinaan', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Tambahkan</div>');
+        redirect('dashboard/kelompok_pembinaan');
     }
 
     public function list_admin()

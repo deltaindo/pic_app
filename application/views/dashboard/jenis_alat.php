@@ -87,7 +87,7 @@
               Jenis Alat
             </label>
             <div class="mb-3">
-              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="jenis_alat">
+              <input type="text" class="form-control" id="jenis_alat" aria-describedby="jenis_alat" name="jenis_alat">
             </div>
         </div>
         <div class="modal-footer">
