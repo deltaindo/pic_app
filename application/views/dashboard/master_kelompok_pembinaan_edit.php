@@ -8,20 +8,20 @@
                         <div class="row tabel-produk mt-2">
                             <div class="col-lg-8 grid-margin stretch-card">
                                 <div class="card">
-                                    <form method="post" action="<?= base_url('dashboard/updateKelasPembina/' . $kelas[0]['id']) ?>">
+                                    <form method="post" action="<?= base_url('dashboard/update_master_kelompok_pembinaan/' . $kelompok[0]['id']); ?>">
                                         <div class="card-body">
                                             <h4 class="card-title">
-                                                Edit Kelas Pembina
+                                                Edit Master Kelompok Pembinaan
                                             </h4>
                                             <label for="nama_kelas" class="text-primary fs-6 mb-1">
-                                                Nama Kelas
+                                                Nama Kelompok Pembinaan
                                             </label>
                                             <div class="mb-3">
-                                                <input type="text" class="form-control" name="nama_kelas" value="<?= $kelas[0]['kelas'] ?>" placeholder="Inputkan Nama Kelas Pembina" autofocus>
+                                                <input type="text" class="form-control" name="nama_kelompok_pembinaan" value="<?= $kelompok[0]['kelompok_pembinaan'] ?>" placeholder="Inputkan Kelompok Pembinaan" autofocus>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <a href="<?= base_url('dashboard/kelas_pembina'); ?>" class="btn btn-outline-secondary text-black">
+                                            <a href="<?= base_url('dashboard/master_kelompok_pembinaan'); ?>" class="btn btn-outline-secondary text-black">
                                                 Kembali
                                             </a>
                                             <button type="submit" class="btn btn-primary text-white">

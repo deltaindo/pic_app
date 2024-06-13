@@ -1721,16 +1721,91 @@ class Dashboard extends CI_Controller
     public function alat_kelompok_pembinaan()
     {
         $data['tittle'] = "Halaman List Alat Kelompok Pembina";
-        $this->db->select('jenis_alat.jenis_alat, kelompok_pembinaan.kelompok_pembinaan');
+        $this->db->select('tb_jenis_alat.id,jenis_alat.jenis_alat, kelompok_pembinaan.kelompok_pembinaan');
         $this->db->from('tb_jenis_alat');
         $this->db->join('jenis_alat', 'jenis_alat.id = tb_jenis_alat.Jenis_alat');
         $this->db->join('kelompok_pembinaan', 'kelompok_pembinaan.id = tb_jenis_alat.id_kelompol_pembinaan');
+        $this->db->order_by('tb_jenis_alat.id', 'DESC');
         $data['alat_kelompok'] = $this->db->get()->result_array();
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/alat_kelompok_pembinaan', $data);
         $this->load->view('template/footer');
+    }
+
+    public function tambah_alat_kelompok_pembinaan()
+    {
+        $data['tittle'] = "Halaman Tambah Alat Kelompok Pembina";
+
+        $data['kelompok_pembinaan']     = $this->database->semuaKelompokPembinaan();
+        $data['jenis_alat']             = $this->database->semuaJenisAlat();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/alat_kelompok_pembinaan_tambah', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function simpan_alat_kelompok_pembinaan()
+    {
+        $data = [
+            'Jenis_alat'            => $this->input->post('jenis_alat'),
+            'id_kelompol_pembinaan' => $this->input->post('kelompok_pembinaan'),
+        ];
+
+        $this->db->insert('tb_jenis_alat', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Alat Kelompok Pembinaan Berhasil di Tambahkan</div>');
+        redirect('dashboard/alat_kelompok_pembinaan');
+    }
+
+    public function alat_kelompok_pembinaan_edit($id)
+    {
+        $data['tittle'] = "Halaman Edit Alat Kelompok Pembina";
+
+        $data['alat_kelompok']      = $this->database->editAlatKelompokPembinaan($id);
+        $data['kelompok_pembinaan'] = $this->database->semuaKelompokPembinaan();
+        $data['jenis_alat']         = $this->database->semuaJenisAlat();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/alat_kelompok_pembinaan_edit', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function update_alat_kelompok_pembinaan($id)
+    {
+        $data = [
+            'Jenis_alat'            => $this->input->post('jenis_alat'),
+            'id_kelompol_pembinaan' => $this->input->post('kelompok_pembinaan'),
+        ];
+
+        $this->db->where('id', $id);
+        $this->db->update('tb_jenis_alat', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Alat Kelompok Pembinaan Berhasil di Edit</div>');
+        redirect('dashboard/alat_kelompok_pembinaan');
+    }
+
+    public function delete_kelompok_alat_pembinan($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('tb_jenis_alat');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Alat Kelompok Pembinaan Berhasil di Hapus</div>');
+        redirect('dashboard/alat_kelompok_pembinaan');
+    }
+
+    public function hapus_bulk_alat_kelompok_pembinaan()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('tb_jenis_alat', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Alat Kelompok Pembinaan Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Data Alat Kelompok Pembinaan yang dipilih untuk dihapus</div>');
+        }
+        redirect('dashboard/alat_kelompok_pembinaan');
     }
 
     public function bidang_personil()
@@ -1776,6 +1851,75 @@ class Dashboard extends CI_Controller
         $this->db->delete('sertifikat_ing');
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Hapus</div>');
         redirect('dashboard/daftar_sertifikat');
+    }
+
+    public function master_kelompok_pembinaan()
+    {
+        $data['tittle'] = "Halaman Master Kelompok Pembinaan";
+
+        $this->db->order_by('id', 'DESC');
+        $data['kelompok_pembinaan'] = $this->db->get('kelompok_pembinaan')->result_array();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/master_kelompok_pembinaan', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function kelompok_pembinaan_simpan()
+    {
+        $data = [
+            'kelompok_pembinaan' => $this->input->post('kelompok_pembinaan')
+        ];
+        $this->db->insert('kelompok_pembinaan', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Tambah</div>');
+        redirect('dashboard/master_kelompok_pembinaan');
+    }
+
+    public function edit_master_kelompok_pembinaan($id)
+    {
+        $data['tittle'] = 'Edit Master Kelompok Pembinaan | Delta Indonesia';
+        $data['kelompok'] = $this->database->semuaMasterKelompokPembinaan($id);
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/master_kelompok_pembinaan_edit', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function update_master_kelompok_pembinaan($id)
+    {
+        $data = [
+            'kelompok_pembinaan' => $this->input->post('nama_kelompok_pembinaan')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('kelompok_pembinaan', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Update</div>');
+        redirect('dashboard/master_kelompok_pembinaan');
+    }
+
+    public function delete_master_kelompok_pembinaan($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('kelompok_pembinaan');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Hapus</div>');
+        redirect('dashboard/master_kelompok_pembinaan');
+    }
+
+    public function hapus_bulk_kelompok_pembinaan()
+    {
+        $ids = $this->input->post('id');
+
+        if (!$ids) {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Data yang dipilih untuk dihapus</div>');
+            redirect('dashboard/master_kelompok_pembinaan');
+        } else {
+            $this->db->where_in('id', $ids);
+            $this->db->delete('kelompok_pembinaan');
+
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Berhasil di Hapus</div>');
+            redirect('dashboard/master_kelompok_pembinaan');
+        }
     }
 }   
 

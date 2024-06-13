@@ -15,7 +15,7 @@
                                                 Nama Kelas
                                             </label>
                                             <div class="mb-3">
-                                                <input type="text" class="form-control" name="nama_kelas" value="<?= $kelas[0]['kelas'] ?>" placeholder="Inputkan Jenis Alat" value="" autofocus>
+                                                <input type="text" class="form-control" name="nama_kelas" value="<?= $kelas[0]['kelas'] ?>" placeholder="Inputkan Nama Kelas" autofocus>
                                             </div>
                                         </div>
                                         <div class="modal-footer">

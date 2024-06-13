@@ -92,6 +92,11 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="<?= base_url('dashboard/master_kelompok_pembinaan'); ?>">
+              Data Kelompok Pembinaan
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="<?= base_url('dashboard/training'); ?>">
               Data Training
             </a>

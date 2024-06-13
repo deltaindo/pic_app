@@ -7,8 +7,6 @@
                     </div>
                     <div class="tab-content tab-content-basic">
                         <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview"></div>
-
-                        <!-- Tabel Kategori -->
                         <?= $this->session->flashdata('message'); ?>
                         <div class="row tabel-produk mt-2">
                             <div class="col-lg-12 grid-margin stretch-card">
@@ -93,7 +91,7 @@
                             Nama Sertifikat Indonesia
                         </label>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="nama_sertifikat_indonesia" aria-describedby="nama_sertifikat_indonesia" name="nama_sertifikat_indonesia" autofocus>
+                            <input type="text" class="form-control" id="nama_sertifikat_indonesia" aria-describedby="nama_sertifikat_indonesia" name="nama_sertifikat_indonesia" placeholder="Masukkan Nama Sertifikat Indonesia" autofocus>
                         </div>
                 </div>
                 <div class="modal-footer">

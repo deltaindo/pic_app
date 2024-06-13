@@ -95,6 +95,22 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  public function semuaJenisAlat()
+  {
+    $this->db->select('jenis_alat.*');
+    $this->db->from('jenis_alat');
+    $this->db->order_by('id', 'DESC');
+    return $this->db->get()->result_array();
+  }
+
+  public function editAlatKelompokPembinaan($id)
+  {
+    $this->db->select('tb_jenis_alat.*');
+    $this->db->from('tb_jenis_alat');
+    $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
   public function dataKelasTraining($id)
   {
     $this->db->select('kelas_training.*');
@@ -156,6 +172,14 @@ class Database extends CI_Model
     $this->db->select('sertifikat_ing.*');
     $this->db->from('sertifikat_ing');
     $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
+  public function semuaMasterKelompokPembinaan()
+  {
+    $this->db->select('kelompok_pembinaan.*');
+    $this->db->from('kelompok_pembinaan');
+    $this->db->order_by('id', 'DESC');
     return $this->db->get()->result_array();
   }
 

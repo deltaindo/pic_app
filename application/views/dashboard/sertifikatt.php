@@ -89,13 +89,13 @@
               <label for="judul_indonesia" class="form-label">
                 Judul Indonesia
               </label>
-              <input type="text" class="form-control" id="judul_indonesia" aria-describedby="judul_indonesia" name="ser_id">
+              <input type="text" class="form-control" id="judul_indonesia" aria-describedby="judul_indonesia" name="ser_id" placeholder="Masukan Judul Sertifikat Indonesia">
             </div>
             <div class="mb-3">
               <label for="judul_inggirs" class="form-label">
                 Judul Inggirs
               </label>
-              <input type="text" class="form-control" id="judul_inggirs" aria-describedby="judul_inggirs" name="ser_ing">
+              <input type="text" class="form-control" id="judul_inggirs" aria-describedby="judul_inggirs" name="ser_ing" placeholder="Masukan Judul Sertifikat Inggris">
             </div>
             <button type="submit" class="btn btn-primary">
               Save

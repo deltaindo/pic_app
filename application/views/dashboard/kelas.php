@@ -6,7 +6,6 @@
                     <div class="d-sm-flex align-items-center justify-content-between border-bottom"></div>
                     <div class="tab-content tab-content-basic">
                         <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview"></div>
-                        <!-- Tabel Kategori -->
                         <?= $this->session->flashdata('message'); ?>
                         <div class="row tabel-produk mt-2">
                             <div class="col-lg-8 grid-margin stretch-card">
@@ -88,7 +87,7 @@
                             Nama Kelas
                         </label>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="nama_kelas" aria-describedby="nama_kelas" name="nama_kelas" autofocus>
+                            <input type="text" class="form-control" id="nama_kelas" aria-describedby="nama_kelas" name="nama_kelas" placeholder="Masukkan Nama Kelas" autofocus>
                         </div>
                 </div>
                 <div class="modal-footer">

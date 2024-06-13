@@ -6,7 +6,6 @@
                     <div class="d-sm-flex align-items-center justify-content-between border-bottom"></div>
                     <div class="tab-content tab-content-basic">
                         <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview"></div>
-                        <!-- Tabel Kategori -->
                         <?= $this->session->flashdata('message'); ?>
                         <div class="row tabel-produk mt-2">
                             <div class="col-lg-8 grid-margin stretch-card">
@@ -43,7 +42,8 @@
                                                         <?php foreach ($bidang as $bid) : ?>
                                                             <tr>
                                                                 <td>
-                                                                    <input type="checkbox" id="check" name="id[]" value="<?= $bid['id']; ?>" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
+                                                                    <input type="checkbox" id="check" name="id[]" value="<?= $bid['id']; ?>" class="form-check-input check" aria-checked="false" />
+                                                                    <i class="input-helper"></i>
                                                                 </td>
                                                                 <td>
                                                                     <?= $bid['bidang'] ?>
@@ -89,7 +89,7 @@
                             Nama Bidang
                         </label>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="nama_bidang" aria-describedby="nama_bidang" name="nama_bidang" autofocus>
+                            <input type="text" class="form-control" id="nama_bidang" aria-describedby="nama_bidang" name="nama_bidang" placeholder="Inputkan Nama Bidang" autofocus>
                         </div>
                 </div>
                 <div class="modal-footer">

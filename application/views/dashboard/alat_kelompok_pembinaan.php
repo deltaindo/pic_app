@@ -14,11 +14,11 @@
                                         <h4 class="card-title">
                                             Daftar Alat Kelompok Pembinaan
                                         </h4>
-                                        <form id="bulk-delete-form" action="" method="post">
-                                            <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#alatKelompokPembinaan">
+                                        <form id="bulk-delete-form" action="<?= base_url('dashboard/hapus_bulk_alat_kelompok_pembinaan'); ?>" method="post">
+                                            <a href="<?= base_url('dashboard/tambah_alat_kelompok_pembinaan'); ?>" class="btn btn-primary text-white">
                                                 Buat Baru
                                             </a>
-                                            <button class="btn btn-danger text-white" type="button" onclick="">
+                                            <button class="btn btn-danger text-white" type="button" onclick="deleteBulkAlatKelompokPembinaan()">
                                                 Hapus
                                             </button>
                                             <div class="table-responsive">
@@ -34,6 +34,9 @@
                                                             <th>
                                                                 Jenis Alat
                                                             </th>
+                                                            <th>
+                                                                Action
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -41,13 +44,21 @@
                                                         <?php foreach ($alat_kelompok as $alat) : ?>
                                                             <tr>
                                                                 <td>
-                                                                    <input type="checkbox" id="check" name="id[]" value="" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
+                                                                    <input type="checkbox" id="check" name="id[]" value="<?= $alat['id']; ?>" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
                                                                 </td>
                                                                 <td>
                                                                     <?= $alat['jenis_alat'] ?>
                                                                 </td>
                                                                 <td>
                                                                     <?= $alat['kelompok_pembinaan'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="<?= base_url('/dashboard/alat_kelompok_pembinaan_edit/' . $alat["id"]); ?>" class="btn btn-lg btn-outline-primary">
+                                                                        Edit
+                                                                    </a>
+                                                                    <button class="btn btn-lg btn-danger" type="button" onclick="deleteKelompokAlatPembinaan(<?= $alat['id']; ?>)">
+                                                                        Hapus
+                                                                    </button>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>
