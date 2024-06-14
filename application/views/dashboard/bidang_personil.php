@@ -12,13 +12,13 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            Daftar Kelompok Pembinaan
+                                            Daftar Bidang Jenis Personil
                                         </h4>
-                                        <form id="bulk-delete-form" action="" method="post">
-                                            <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#kelompokPembinaan">
+                                        <form id="bulk-delete-form" action="<?= base_url('dashboard/hapus_bulk_bidang_personil'); ?>" method="post">
+                                            <a href="<?= base_url('dashboard/tambah_bidang_personil'); ?>" class="btn btn-primary text-white">
                                                 Buat Baru
                                             </a>
-                                            <button class="btn btn-danger text-white" type="button" onclick="">
+                                            <button class="btn btn-danger text-white" type="button" onclick="deleteBulkBidangPersonil()">
                                                 Hapus
                                             </button>
                                             <div class="table-responsive">
@@ -34,6 +34,9 @@
                                                             <th>
                                                                 Jenis Personil
                                                             </th>
+                                                            <th>
+                                                                Action
+                                                            </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -41,13 +44,21 @@
                                                         <?php foreach ($bidang_personil as $personil) : ?>
                                                             <tr>
                                                                 <td>
-                                                                    <input type="checkbox" id="check" name="id[]" value="" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
+                                                                    <input type="checkbox" id="check" name="id[]" value="<?= $personil['id']; ?>" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
                                                                 </td>
                                                                 <td>
                                                                     <?= $personil['bidang'] ?>
                                                                 </td>
                                                                 <td>
                                                                     <?= $personil['jenis_personil'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="<?= base_url('dashboard/edit_bidang_personil/') . $personil['id']; ?>" class="btn btn-lg btn-outline-primary">
+                                                                        Edit
+                                                                    </a>
+                                                                    <button class="btn btn-lg btn-danger" type="button" onclick="deleteBidangPersonil(<?= $personil['id']; ?>)">
+                                                                        Hapus
+                                                                    </button>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>

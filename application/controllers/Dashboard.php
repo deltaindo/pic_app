@@ -1815,12 +1815,84 @@ class Dashboard extends CI_Controller
         $this->db->from('tb_personil');
         $this->db->join('jenis_personil', 'tb_personil.id_jenis_personil = jenis_personil.id');
         $this->db->join('bidang', 'tb_personil.id_bidang = bidang.id');
+        $this->db->order_by('tb_personil.id', 'DESC');
         $data['bidang_personil'] = $this->db->get()->result_array();
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/bidang_personil', $data);
         $this->load->view('template/footer');
+    }
+
+    public function tambah_bidang_personil()
+    {
+        $data['tittle'] = "Halaman Tambah Bidang Personil";
+
+        $data['bidangs']                = $this->database->semuaBidang();
+        $data['jenis_personil']         = $this->database->semuaJenisPersonil();
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/bidang_personil_tambah', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function simpan_bidang_personil()
+    {
+        $data = [
+            'id_jenis_personil' => $this->input->post('jenis_personil'),
+            'id_bidang'         => $this->input->post('bidang_personil'),
+        ];
+        $this->db->insert('tb_personil', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Bidang Personil Berhasil di Tambah</div>');
+        redirect('dashboard/bidang_personil');
+    }
+
+    public function edit_bidang_personil($id)
+    {
+        $data['tittle']             = 'Edit Bidang Personil | Delta Indonesia';
+        $data['bidangs']             = $this->database->semuaBidang();
+        $data['jenis_personil']     = $this->database->semuaJenisPersonil();
+        $data['bidang_personil']    = $this->database->editBidangPersonil($id);
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/bidang_personil_edit', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function update_bidang_jenis_personil($id)
+    {
+        $data = [
+            'id_jenis_personil' => $this->input->post('jenis_personil'),
+            'id_bidang'         => $this->input->post('nama_bidang'),
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('tb_personil', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Bidang Personil Berhasil di Edit</div>');
+        redirect('dashboard/bidang_personil');
+    }
+
+    public function delete_bidang_personil($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('tb_personil');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Bidang Personil Berhasil di Hapus</div>');
+        redirect('dashboard/bidang_personil');
+    }
+
+    public function hapus_bulk_bidang_personil()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('tb_personil', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data Bidang Personil Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Data Bidang Personil yang dipilih untuk dihapus</div>');
+        }
+        redirect('dashboard/bidang_personil');
     }
 
     public function edit_daftar_sertifikat($id)
