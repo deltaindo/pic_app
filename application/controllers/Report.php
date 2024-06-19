@@ -3,6 +3,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require 'vendor/autoload.php';
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 date_default_timezone_set('Asia/Jakarta');
 
@@ -27,110 +29,146 @@ class Report extends CI_Controller
 
     public function kelas_training_excel()
     {
-        include APPPATH . 'third_party/PHPExcel/PHPExcel.php';
-
-        $excel = new PHPExcel();
-
-        $excel->getProperties()->setCreator('Bee Technology')
-            ->setLastModifiedBy('Bee Technology')
-            ->setTitle("Data Siswa")
-            ->setSubject("Siswa")
-            ->setDescription("Laporan Semua Data Siswa")
-            ->setKeywords("Data Siswa");
-
-        $style_col = array(
-            'font' => array('bold' => true),
-            'alignment' => array(
-                'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
-            ),
-            'borders' => array(
-                'top' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),
-                'right' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),
-                'bottom' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),
-                'left' => array('style'  => PHPExcel_Style_Border::BORDER_THIN)
-            )
-        );
-
-        $style_row = array(
-            'alignment' => array(
-                'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER
-            ),
-            'borders' => array(
-                'top' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),
-                'right' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),
-                'bottom' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),
-                'left' => array('style'  => PHPExcel_Style_Border::BORDER_THIN)
-            )
-        );
-        $excel->setActiveSheetIndex(0)->setCellValue('A1', "DATA SISWA");
-        $excel->getActiveSheet()->mergeCells('A1:E1');
-        $excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE);
-        $excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(15);
-        $excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-
-        $excel->setActiveSheetIndex(0)->setCellValue('A3', "No");
-        $excel->setActiveSheetIndex(0)->setCellValue('B3', "Kelas Training");
-        $excel->setActiveSheetIndex(0)->setCellValue('C3', "Nama Training");
-        $excel->setActiveSheetIndex(0)->setCellValue('D3', "Tanggal Awal");
-        $excel->setActiveSheetIndex(0)->setCellValue('E3', "Tanggal Akhir");
-        $excel->setActiveSheetIndex(0)->setCellValue('F3', "Jenis Training");
-
-        $excel->getActiveSheet()->getStyle('A3')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('B3')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('C3')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('D3')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('E3')->applyFromArray($style_col);
-        $excel->getActiveSheet()->getStyle('F3')->applyFromArray($style_col);
-
         $this->db->select('kelas_training.id,kelas.id as kelas_id, kelas.kelas, training.id as training_id, training.training, kelas_training.tanggal_awal, kelas_training.tanggal_akhir, kelas_training.jenis');
         $this->db->from('kelas');
         $this->db->join('kelas_training', 'kelas.id = kelas_training.kelas_id');
         $this->db->join('training', 'kelas_training.training_id = training.id');
         $this->db->order_by('kelas_training.id', 'DESC');
-        $siswa = $this->db->get()->result_array();
+        $data['training'] = $this->db->get()->result_array();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Report Kelas Training');
+
+        // Set title header
+        $sheet->mergeCells('A1:F1');
+        $sheet->setCellValue('A1', 'Report Kelas Training');
+        $sheet->getStyle('A1:F1')->getFont()->setBold(true)->setSize(15);
+        $sheet->getStyle('A1:F1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+        // Set header
+        $sheet->setCellValue('A2', 'No');
+        $sheet->setCellValue('B2', 'Nama Kelas');
+        $sheet->setCellValue('C2', 'Nama Training');
+        $sheet->setCellValue('D2', 'Tanggal Awal');
+        $sheet->setCellValue('E2', 'Tanggal Akhir');
+        $sheet->setCellValue('F2', 'Jenis Training');
+
+        // Apply bold style and background color to header
+        $sheet->getStyle('A2:F2')->getFont()->setBold(true)->setSize(12);;
+        $sheet->getStyle('A2:F2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle('A2:F2')->getFill()->getStartColor()->setARGB('FFB0B0B0'); // Warna abu-abu
+
+        // Populate data
+        $baris = 3;
         $no = 1;
-        $numrow = 4;
-        foreach ($siswa as $data) {
-            $excel->setActiveSheetIndex(0)->setCellValue('A' . $numrow, $no);
-            $excel->setActiveSheetIndex(0)->setCellValue('B' . $numrow, $result['kelas']);
-            $excel->setActiveSheetIndex(0)->setCellValue('C' . $numrow, $result['training']);
-            $excel->setActiveSheetIndex(0)->setCellValue('D' . $numrow, $result['tanggal_awal']);
-            $excel->setActiveSheetIndex(0)->setCellValue('E' . $numrow, $result['tanggal_akhir']);
-            $excel->setActiveSheetIndex(0)->setCellValue('F' . $numrow, $result['jenis']);
-
-
-            $excel->getActiveSheet()->getStyle('A' . $numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('B' . $numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('C' . $numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('D' . $numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('E' . $numrow)->applyFromArray($style_row);
-            $excel->getActiveSheet()->getStyle('F' . $numrow)->applyFromArray($style_row);
-
-            $no++;
-            $numrow++;
+        foreach ($data['training'] as $item) {
+            $sheet->setCellValue('A' . $baris, $no++);
+            $sheet->setCellValue('B' . $baris, $item['kelas']);
+            $sheet->setCellValue('C' . $baris, $item['training']);
+            $sheet->setCellValue('D' . $baris, $item['tanggal_awal']);
+            $sheet->setCellValue('E' . $baris, $item['tanggal_akhir']);
+            $sheet->setCellValue('F' . $baris, $item['jenis']);
+            $baris++;
         }
 
-        $excel->getActiveSheet()->getColumnDimension('A')->setWidth(5);
-        $excel->getActiveSheet()->getColumnDimension('B')->setWidth(15);
-        $excel->getActiveSheet()->getColumnDimension('C')->setWidth(25);
-        $excel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
-        $excel->getActiveSheet()->getColumnDimension('E')->setWidth(30);
-        $excel->getActiveSheet()->getColumnDimension('F')->setWidth(30);
+        // Apply border style to all cells
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
+        $sheet->getStyle('A2:F' . ($baris - 1))->applyFromArray($styleArray);
 
+        // Set auto size for all columns
+        foreach (range('A', 'F') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
 
-        $excel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(-1);
+        // Generate filename with current date and time
+        $currentDateTime = date('Ymd_His'); // Format: YYYYMMDD_HHMMSS
+        $filename = "Report_Kelas_Training_{$currentDateTime}.xlsx";
 
-        $excel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+        // Set headers for download
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
 
-        $excel->getActiveSheet(0)->setTitle("Report Kelas Training");
-        $excel->setActiveSheetIndex(0);
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
+        exit;
+    }
 
-        $filename = "Report_Kelas_Training.xls";
-        $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel5');
-        ob_end_clean();
-        header('Content-type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment; filename=' . $filename);
-        $objWriter->save('php://output');
+    public function kelompok_pembinaan_excel()
+    {
+        $this->db->select('tb_kelompok_pembinaan.id, tb_kelompok_pembinaan.id_bidang, tb_kelompok_pembinaan.id_kelompok_pembinaan, tb_kelompok_pembinaan.id_jenis_personil, kelompok_pembinaan.kelompok_pembinaan, jenis_personil.jenis_personil, bidang.bidang');
+        $this->db->from('tb_kelompok_pembinaan');
+        $this->db->join('jenis_personil', 'tb_kelompok_pembinaan.id_jenis_personil = jenis_personil.id', 'left');
+        $this->db->join('bidang', 'tb_kelompok_pembinaan.id_bidang = bidang.id', 'left');
+        $this->db->join('kelompok_pembinaan', 'tb_kelompok_pembinaan.id_kelompok_pembinaan = kelompok_pembinaan.id', 'left');
+        $this->db->order_by('tb_kelompok_pembinaan.id', 'DESC');
+        $data['kelompok_pembinaan'] = $this->db->get()->result_array();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Report Kelompok Pembinaan');
+
+        // Set title header
+        $sheet->mergeCells('A1:D1');
+        $sheet->setCellValue('A1', 'Report Kelompok Pembinaan');
+        $sheet->getStyle('A1:D1')->getFont()->setBold(true)->setSize(15);;
+        $sheet->getStyle('A1:D1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+        // Set header
+        $sheet->setCellValue('A2', 'No');
+        $sheet->setCellValue('B2', 'Nama Kelompok Pembinaan');
+        $sheet->setCellValue('C2', 'Nama Bidang');
+        $sheet->setCellValue('D2', 'Jenis Personil');
+
+        // Apply bold style and background color to header
+        $sheet->getStyle('A2:D2')->getFont()->setBold(true)->setSize(12);;
+        $sheet->getStyle('A2:D2')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID);
+        $sheet->getStyle('A2:D2')->getFill()->getStartColor()->setARGB('FFB0B0B0'); // Warna abu-abu
+
+        // Populate data
+        $baris = 3;
+        $no = 1;
+        foreach ($data['kelompok_pembinaan'] as $item) {
+            $sheet->setCellValue('A' . $baris, $no++);
+            $sheet->setCellValue('B' . $baris, $item['kelompok_pembinaan']);
+            $sheet->setCellValue('C' . $baris, $item['bidang']);
+            $sheet->setCellValue('D' . $baris, $item['jenis_personil']);
+            $baris++;
+        }
+
+        // Apply border style to all cells
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
+        $sheet->getStyle('A2:D' . ($baris - 1))->applyFromArray($styleArray);
+
+        // Set auto size for all columns
+        foreach (range('A', 'D') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        // Generate filename with current date and time
+        $currentDateTime = date('Ymd_His'); // Format: YYYYMMDD_HHMMSS
+        $filename = "Report_Kelompok_Pembinaan_{$currentDateTime}.xlsx";
+
+        // Set headers for download
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save('php://output');
+        exit;
     }
 }

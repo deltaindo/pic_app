@@ -21,7 +21,7 @@
                                             <button class="btn btn-danger text-white" type="button" onclick="deleteBulkDataKelasTraining()">
                                                 Hapus
                                             </button>
-                                            <a href="#" class="btn btn-success text-white" type="button">
+                                            <a href="<?= base_url('report/kelas_training_excel'); ?>" class="btn btn-success text-white" type="button">
                                                 Export Excel
                                             </a>
                                             <div class="table-responsive">
