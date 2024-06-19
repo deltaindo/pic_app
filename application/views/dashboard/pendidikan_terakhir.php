@@ -14,11 +14,11 @@
                                         <h4 class="card-title">
                                             Daftar Pendidikan Terakhir
                                         </h4>
-                                        <form id="bulk-delete-form" action="" method="post">
-                                            <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#jenisAlat">
+                                        <form id="bulk-delete-form" action="<?= base_url('dashboard/delete_bulk_kelas_pendidikan_terakhir'); ?>" method="post">
+                                            <a href="<?= base_url('dashboard/tambah_pendidikan_terakhir') ?>" class="btn btn-primary text-white">
                                                 Buat Baru
                                             </a>
-                                            <button class="btn btn-danger text-white" type="button" onclick="">
+                                            <button class="btn btn-danger text-white" type="button" onclick="deleteBulkKelasPendidikanTerakhir()">
                                                 Hapus
                                             </button>
                                             <div class="table-responsive">
@@ -26,13 +26,17 @@
                                                     <thead>
                                                         <tr>
                                                             <th>
-                                                                <input type="checkbox" id="check-all" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
+                                                                <input type="checkbox" id="check-all" class="form-check-input check" aria-checked="false" />
+                                                                <i class="input-helper"></i>
                                                             </th>
                                                             <th>
                                                                 Nama Kelas
                                                             </th>
                                                             <th>
                                                                 Pendidikan Terakhir
+                                                            </th>
+                                                            <th>
+                                                                Action
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -41,13 +45,21 @@
                                                         <?php foreach ($pendidikan_terakhir as $pendidikan) : ?>
                                                             <tr>
                                                                 <td>
-                                                                    <input type="checkbox" id="check" name="id[]" value="" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
+                                                                    <input type="checkbox" id="check" name="id[]" value="<?= $pendidikan['id']; ?>" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
                                                                 </td>
                                                                 <td>
                                                                     <?= $pendidikan['kelas'] ?>
                                                                 </td>
                                                                 <td>
                                                                     <?= $pendidikan['pendidikan'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="<?= base_url('dashboard/edit_pendidikan_terakhir/') . $pendidikan['id'] ?>" class="btn btn-lg btn-outline-primary">
+                                                                        Edit
+                                                                    </a>
+                                                                    <button class="btn btn-lg btn-danger" type="button" onclick="deleteKelasPendidikanTerakhir(<?= $pendidikan['id']; ?>)">
+                                                                        Hapus
+                                                                    </button>
                                                                 </td>
                                                             </tr>
                                                         <?php endforeach; ?>

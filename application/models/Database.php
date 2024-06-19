@@ -103,6 +103,14 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  public function semuaDataPendidikan()
+  {
+    $this->db->select('pendidikan.*');
+    $this->db->from('pendidikan');
+    $this->db->order_by('id', 'DESC');
+    return $this->db->get()->result_array();
+  }
+
   public function editAlatKelompokPembinaan($id)
   {
     $this->db->select('tb_jenis_alat.*');
@@ -187,6 +195,14 @@ class Database extends CI_Model
   {
     $this->db->select('tb_personil.*');
     $this->db->from('tb_personil');
+    $this->db->where('id', $id);
+    return $this->db->get()->result_array();
+  }
+
+  public function editKelasPendidikanTerakhir($id)
+  {
+    $this->db->select('pendidikan_terakhir.*');
+    $this->db->from('pendidikan_terakhir');
     $this->db->where('id', $id);
     return $this->db->get()->result_array();
   }

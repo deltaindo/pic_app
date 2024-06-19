@@ -1455,19 +1455,90 @@ class Dashboard extends CI_Controller
         redirect('dashboard/pembinaan');
     }
 
-    public function pendidikan_terakhir()
+    public function kelas_pendidikan_terakhir()
     {
         $data['tittle'] = "Halaman Pendidikan Terakhir";
-        $this->db->select('kelas.kelas, pendidikan.pendidikan');
+        $this->db->select('pendidikan_terakhir.id, kelas.kelas, pendidikan.pendidikan');
         $this->db->from('pendidikan_terakhir');
         $this->db->join('kelas', 'pendidikan_terakhir.id_kelas = kelas.id');
         $this->db->join('pendidikan', 'pendidikan_terakhir.id_pendidikan = pendidikan.id');
+        $this->db->order_by('pendidikan_terakhir.id', 'DESC');
         $data['pendidikan_terakhir'] = $this->db->get()->result_array();
 
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/pendidikan_terakhir', $data);
         $this->load->view('template/footer');
+    }
+
+    public function tambah_pendidikan_terakhir()
+    {
+        $data['tittle']          = "Tambah Pendidikan Terakhir";
+        $data['semuakelas']      = $this->database->semuaDataKelas();
+        $data['semuapendidikan'] = $this->database->semuaDataPendidikan();
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/pendidikan_terakhir_tambah', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function simpan_pendidikan_terakhir()
+    {
+        $data = [
+            'id_pendidikan' => $this->input->post('nama_pendidikan'),
+            'id_kelas' => $this->input->post('nama_kelas')
+        ];
+        $this->db->insert('pendidikan_terakhir', $data);
+
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kelas Pendidikan Terakhir Berhasil di Tambahkan</div>');
+        redirect('dashboard/kelas_pendidikan_terakhir');
+    }
+
+    public function edit_pendidikan_terakhir($id)
+    {
+        $data['tittle']             = "Edit Pendidikan Terakhir";
+        $data['semuakelas']         = $this->database->semuaDataKelas();
+        $data['semuapendidikan']    = $this->database->semuaDataPendidikan();
+        $data['kelas_pendidikan']   = $this->database->editKelasPendidikanTerakhir($id);
+
+        $this->load->view('template/header', $data);
+        $this->load->view('template/sidebar');
+        $this->load->view('dashboard/pendidikan_terakhir_edit', $data);
+        $this->load->view('template/footer');
+    }
+
+    public function update_pendidikan_terakhir($id)
+    {
+        $data = [
+            'id_pendidikan' => $this->input->post('nama_pendidikan'),
+            'id_kelas' => $this->input->post('nama_kelas')
+        ];
+        $this->db->where('id', $id);
+        $this->db->update('pendidikan_terakhir', $data);
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kelas Pendidikan Terakhir Berhasil di Update</div>');
+        redirect('dashboard/kelas_pendidikan_terakhir');
+    }
+
+    public function delete_kelas_pendidikan_terakhir($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('pendidikan_terakhir');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Kelas Pendidikan Terakhir Berhasil di Hapus</div>');
+        redirect('dashboard/kelas_pendidikan_terakhir');
+    }
+
+    public function delete_bulk_kelas_pendidikan_terakhir()
+    {
+        $ids = $this->input->post('id');
+        if ($ids) {
+            foreach ($ids as $id) {
+                $this->db->delete('pendidikan_terakhir', ['id' => $id]);
+            }
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Daftar Kelas Pendidikan Terakhir Berhasil di Hapus</div>');
+        } else {
+            $this->session->set_flashdata('message', '<div class="alert alert-warning" role="alert">Tidak ada Daftar Kelas Pendidikan Terakhir yang dipilih untuk dihapus</div>');
+        }
+        redirect('dashboard/kelas_pendidikan_terakhir');
     }
 
     public function kelas_training()
@@ -1851,7 +1922,7 @@ class Dashboard extends CI_Controller
     public function edit_bidang_personil($id)
     {
         $data['tittle']             = 'Edit Bidang Personil | Delta Indonesia';
-        $data['bidangs']             = $this->database->semuaBidang();
+        $data['bidangs']            = $this->database->semuaBidang();
         $data['jenis_personil']     = $this->database->semuaJenisPersonil();
         $data['bidang_personil']    = $this->database->editBidangPersonil($id);
 

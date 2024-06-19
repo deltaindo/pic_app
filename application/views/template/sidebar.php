@@ -151,8 +151,8 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('dashboard/pendidikan_terakhir'); ?>">
-              Pendidikan Terakhir
+            <a class="nav-link" href="<?= base_url('dashboard/kelas_pendidikan_terakhir'); ?>">
+              Kelas Pendidikan Terakhir
             </a>
           </li>
         </ul>
