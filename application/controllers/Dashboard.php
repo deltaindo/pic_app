@@ -1383,7 +1383,7 @@ class Dashboard extends CI_Controller
     public function daftar_sertifikat()
     {
         $this->load->model('database');
-        $data['tittle'] = 'Detail Peserta';
+        $data['tittle'] = 'Daftar Sertifikat | Delta Indonesia';
         $this->db->select('sertifikat_ing.id as id_ing,sertifikat_indonesia.sertifikat_indonesia, sertifikat_indonesia.id, sertifikat_ing.sertifikat_ing');
         $this->db->from('sertifikat_indonesia');
         $this->db->join('sertifikat_ing', 'sertifikat_ing.id_ser = sertifikat_indonesia.id');

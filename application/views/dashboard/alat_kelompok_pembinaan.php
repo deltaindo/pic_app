@@ -21,6 +21,9 @@
                                             <button class="btn btn-danger text-white" type="button" onclick="deleteBulkAlatKelompokPembinaan()">
                                                 Hapus
                                             </button>
+                                            <a href="<?= base_url('report/alat_kelompok_pembinaan_excel'); ?>" class="btn btn-success text-white" type="button">
+                                                Export Excel
+                                            </a>
                                             <div class="table-responsive">
                                                 <table class="table table-striped" id="example">
                                                     <thead>

@@ -12,7 +12,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title">
-                                            Daftar Kelas Pembina
+                                            Daftar Kelas Pembinaan
                                         </h4>
                                         <form id="bulk-delete-form" action="<?= base_url('dashboard/hapus_bulk_kelas_pembina'); ?>" method="post">
                                             <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#kelasPembina">
@@ -21,6 +21,9 @@
                                             <button class="btn btn-danger text-white" type="button" onclick="deleteBulkKelasPembina()">
                                                 Hapus
                                             </button>
+                                            <a href="<?= base_url('report/kelas_pembina_excel'); ?>" class="btn btn-success text-white" type="button">
+                                                Export Excel
+                                            </a>
                                             <div class="table-responsive">
                                                 <table class="table table-striped" id="example">
                                                     <thead>

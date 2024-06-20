@@ -25,6 +25,10 @@
                                                 Hapus
                                             </button>
 
+                                            <a href="<?= base_url('report/sertifikat_indonesia_excel'); ?>" class="btn btn-success text-white" type="button">
+                                                Export Excel
+                                            </a>
+
                                             <div class="table-responsive">
                                                 <table class="table table-striped" id="example">
                                                     <thead>

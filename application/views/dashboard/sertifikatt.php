@@ -13,19 +13,19 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title">
-                      Jadwal Training Delta Indonesia
+                      Daftar Sertifikat
                     </h4>
                     <button type="button" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">
                       Tambah +
                     </button>
+                    <a href="<?= base_url('report/sertifikat_excel'); ?>" class="btn btn-success text-white" type="button">
+                      Export Excel
+                    </a>
                     <form action="<?= base_url('dashboard/editForm'); ?>" method="post">
                       <div class="table-responsive">
                         <table class="table table-striped" id="example">
                           <thead>
                             <tr>
-                              <th>
-                                <input type="checkbox" id="check-all" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
-                              </th>
                               <th>
                                 No
                               </th>
@@ -44,9 +44,6 @@
                             <?php $i = 1; ?>
                             <?php foreach ($sertifikat as $p) : ?>
                               <tr>
-                                <td>
-                                  <input type="checkbox" id="check" name="id[]" value="<?= $p['id']; ?>" class="form-check-input check" aria-checked="false" /><i class="input-helper"></i>
-                                </td>
                                 <td><?= $i++ ?></td>
                                 <td><?= $p['sertifikat_indonesia'] ?></td>
                                 <td><?= $p['sertifikat_ing'] ?></td>
