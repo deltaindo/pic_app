@@ -255,6 +255,11 @@ class Report extends CI_Controller
         exit;
     }
 
+    /**
+     * Generates an Excel report of the data in the 'kelas' table and prompts the user to download it.
+     *
+     * @return void
+     */
     public function report_kelas_excel()
     {
         $this->db->order_by('id', 'DESC');
@@ -317,6 +322,25 @@ class Report extends CI_Controller
         exit;
     }
 
+    /**
+     * Generates an Excel report of the 'kelas_pembina' table and prompts the user to download it.
+     *
+     * This function retrieves data from the 'kelas_pembina' table in descending order by the 'id' column.
+     * It then creates a new Spreadsheet object and sets the title of the active sheet to 'Report Kelas Pembina'.
+     * The function sets the title header by merging cells A1:B1 and setting the value to 'Kelas Pembina'.
+     * The header is styled with bold font of size 15 and centered horizontally.
+     * The function sets the header cells A2 and B2 with values 'No' and 'Nama Kelas Pembina' respectively.
+     * The header cells are styled with bold font of size 12 and a solid fill color of gray (#B0B0B0).
+     * The function populates the data from the 'kelas' array into the sheet starting from cell A3.
+     * The data is populated row by row, with the 'no' column incremented by 1 for each row.
+     * The function applies a thin border style to all cells in the sheet.
+     * The function sets the auto size for all columns A to B.
+     * The function generates a filename for the report using the current date and time in the format 'YYYYMMDD_HHMMSS'.
+     * The function sets the headers for the download, specifying the content type and filename.
+     * The function saves the Spreadsheet object to the output and exits the script.
+     *
+     * @return void
+     */
     public function kelas_pembina_excel()
     {
         $this->db->order_by('id', 'DESC');
@@ -379,6 +403,29 @@ class Report extends CI_Controller
         exit;
     }
 
+    /**
+     * Generates an Excel report of the master kelompok pembinaan data.
+     *
+     * This function retrieves the kelompok pembinaan data from the database,
+     * orders it by the 'id' column in descending order, and stores it in the
+     * 'kelompok_pembinaan' key of the $data array. It then creates a new
+     * Spreadsheet object and sets the active sheet title to 'Report Kelompok
+     * Pembinaan'. The function sets the title header by merging cells A1:B1
+     * and setting the cell values to 'Report Kelompok Pembinaan'. The title
+     * header is styled with bold font size 15 and horizontal center alignment.
+     * The function sets the header cells A2 and B2 with the values 'No' and
+     * 'Nama Kelompok Pembinaan' respectively. The header cells are styled with
+     * bold font size 12 and a solid background color. The data is populated by
+     * iterating over the 'kelompok_pembinaan' array and setting the cell
+     * values in the A column and B column respectively. The cells are styled
+     * with thin borders. The function sets the auto size for all columns A to
+     * B. The function generates a filename with the current date and time in
+     * the format YYYYMMDD_HHMMSS and sets the headers for download with the
+     * appropriate content type and filename. Finally, the function saves the
+     * Spreadsheet object to the output stream and exits.
+     *
+     * @return void
+     */
     public function master_kelompok_pembinaan_excel()
     {
         $this->db->order_by('id', 'DESC');
@@ -441,6 +488,14 @@ class Report extends CI_Controller
         exit;
     }
 
+    /**
+     * Generate an Excel report of training data.
+     *
+     * This function retrieves training data from the database, formats it into an Excel spreadsheet,
+     * and provides it for download. The report includes a title, headers, and data.
+     *
+     * @return void
+     */
     public function data_training_excel()
     {
         $this->db->order_by('id', 'DESC');
@@ -502,6 +557,11 @@ class Report extends CI_Controller
         exit;
     }
 
+    /**
+     * Generates an Excel file containing a report of the "jenis_alat" table.
+     *
+     * @return void
+     */
     public function jenis_alat_excel()
     {
         $this->db->order_by('id', 'DESC');
@@ -563,6 +623,18 @@ class Report extends CI_Controller
         exit;
     }
 
+    /**
+     * Generates an Excel file containing a report of the types of personnel.
+     *
+     * This function retrieves the personnel types from the database, creates a
+     * Spreadsheet object, and populates it with the personnel types. It then
+     * applies formatting to the header and data cells, sets the column widths,
+     * generates a filename based on the current date and time, and sets the
+     * headers for downloading the file. Finally, it saves the Spreadsheet to
+     * the output buffer and exits the script.
+     *
+     * @return void
+     */
     public function jenis_personil_excel()
     {
         $this->db->order_by('id', 'DESC');
@@ -624,6 +696,9 @@ class Report extends CI_Controller
         exit;
     }
 
+    /**
+     * Generates an Excel file containing a report of the "pendidikan" table.
+     */
     public function jenis_pendidikan_excel()
     {
         $this->db->order_by('id', 'DESC');
@@ -685,6 +760,10 @@ class Report extends CI_Controller
         exit;
     }
 
+    /**
+     * Generates an Excel file containing the report for Alat Kelompok Pembinaan.
+     *
+     */
     public function alat_kelompok_pembinaan_excel()
     {
         $this->db->select('tb_jenis_alat.id,jenis_alat.jenis_alat, kelompok_pembinaan.kelompok_pembinaan');
@@ -752,6 +831,10 @@ class Report extends CI_Controller
         exit;
     }
 
+    /**
+     * Generates an Excel file containing a report of Bidang Personil data.
+     *
+     */
     public function bidang_personil_excel()
     {
         $this->db->select('tb_personil.id, jenis_personil.jenis_personil, bidang.bidang');
@@ -819,6 +902,10 @@ class Report extends CI_Controller
         exit;
     }
 
+    /**
+     * Generates an Excel file for the report of the latest education.
+     *
+     */
     public function pendidikan_terakhir_excel()
     {
         $this->db->select('pendidikan_terakhir.id, kelas.kelas, pendidikan.pendidikan');
@@ -886,6 +973,11 @@ class Report extends CI_Controller
         exit;
     }
 
+    /**
+     * Generates an Excel report of the sertifikat_indonesia data in descending order of id.
+     *
+     * @return void
+     */
     public function sertifikat_indonesia_excel()
     {
         $this->db->order_by('id', 'DESC');
@@ -947,6 +1039,19 @@ class Report extends CI_Controller
         exit;
     }
 
+    /**
+     * Generates an Excel report of the list of certificates in Indonesian and English.
+     *
+     * This function retrieves data from the database using a SELECT query with a JOIN operation.
+     * It then creates a new Spreadsheet object and sets the title of the active sheet to "Report Daftar Sertifikat".
+     * The function sets the header title and applies bold and background color styles to the header cells.
+     * It populates the data from the database into the sheet, starting from row 3.
+     * The function applies border styles and auto-sizes the columns.
+     * Finally, it generates a filename with the current date and time, sets the headers for download,
+     * and saves the Spreadsheet object as an Excel file.
+     *
+     * @return void
+     */
     public function sertifikat_excel()
     {
         $this->db->select('sertifikat_ing.id as id_ing,sertifikat_indonesia.sertifikat_indonesia, sertifikat_indonesia.id, sertifikat_ing.sertifikat_ing');
