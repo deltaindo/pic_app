@@ -3,6 +3,12 @@
 class Database extends CI_Model
 {
 
+  /**
+   * Retrieves data from the 'pendaftaran' and 'dokumen_pendaftaran' tables based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data.
+   */
   public function getDataPeserta($id)
   {
     $this->db->select('*');
@@ -13,6 +19,11 @@ class Database extends CI_Model
     return $query->result_array();
   }
 
+  /**
+   * Retrieves data from the 'form' and 'user' tables, joining them on the 'id_user' column.
+   *
+   * @return array An array of the retrieved data.
+   */
   public function getForm()
   {
     $this->db->select('form.*, user.nama AS nama');
@@ -23,6 +34,12 @@ class Database extends CI_Model
     return $data;
   }
 
+  /**
+   * Retrieves data from the 'jenis_alat' table based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data.
+   */
   public function getDataJenisAlat($id)
   {
     $this->db->select('jenis_alat.*');
@@ -31,6 +48,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data from the 'kelas_pembina' table based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data from the 'kelas_pembina' table.
+   */
   public function getDataKelas($id)
   {
     $this->db->select('kelas_pembina.*');
@@ -39,6 +62,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data from the 'kelas' table based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data from the 'kelas' table.
+   */
   public function dataKelas($id)
   {
     $this->db->select('kelas.*');
@@ -47,6 +76,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data from the 'training' table based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data from the 'training' table.
+   */
   public function dataTraining($id)
   {
     $this->db->select('training.*');
@@ -55,6 +90,15 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves all data from the 'training' table.
+   *
+   * This function selects all columns from the 'training' table and retrieves
+   * the data in descending order based on the 'id' column. The retrieved data
+   * is returned as an array.
+   *
+   * @return array An array containing all the data from the 'training' table.
+   */
   public function semuaDataTraining()
   {
     $this->db->select('training.*');
@@ -63,6 +107,15 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves all data from the 'kelas' table.
+   *
+   * This function selects all columns from the 'kelas' table and retrieves
+   * the data in descending order based on the 'id' column. The retrieved data
+   * is returned as an array.
+   *
+   * @return array An array containing all the data from the 'kelas' table.
+   */
   public function semuaDataKelas()
   {
     $this->db->select('kelas.*');
@@ -71,6 +124,15 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves all data from the 'kelompok_pembinaan' table.
+   *
+   * This function selects all columns from the 'kelompok_pembinaan' table and retrieves
+   * the data in descending order based on the 'id' column. The retrieved data
+   * is returned as an array.
+   *
+   * @return array An array containing all the data from the 'kelompok_pembinaan' table.
+   */
   public function semuaKelompokPembinaan()
   {
     $this->db->select('kelompok_pembinaan.*');
@@ -79,6 +141,15 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves all data from the 'bidang' table.
+   *
+   * This function selects all columns from the 'bidang' table and retrieves
+   * the data in descending order based on the 'id' column. The retrieved data
+   * is returned as an array.
+   *
+   * @return array An array containing all the data from the 'bidang' table.
+   */
   public function semuaBidang()
   {
     $this->db->select('bidang.*');
@@ -87,6 +158,15 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves all data from the 'jenis_personil' table.
+   *
+   * This function selects all columns from the 'jenis_personil' table and retrieves
+   * the data in descending order based on the 'id' column. The retrieved data
+   * is returned as an array.
+   *
+   * @return array An array containing all the data from the 'jenis_personil' table.
+   */
   public function semuaJenisPersonil()
   {
     $this->db->select('jenis_personil.*');
@@ -95,6 +175,15 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves all data from the 'jenis_alat' table.
+   *
+   * This function selects all columns from the 'jenis_alat' table and retrieves
+   * the data in descending order based on the 'id' column. The retrieved data
+   * is returned as an array.
+   *
+   * @return array An array containing all the data from the 'jenis_alat' table.
+   */
   public function semuaJenisAlat()
   {
     $this->db->select('jenis_alat.*');
@@ -103,6 +192,15 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves all data from the 'pendidikan' table.
+   *
+   * This function selects all columns from the 'pendidikan' table and retrieves
+   * the data in descending order based on the 'id' column. The retrieved data
+   * is returned as an array.
+   *
+   * @return array An array containing all the data from the 'pendidikan' table.
+   */
   public function semuaDataPendidikan()
   {
     $this->db->select('pendidikan.*');
@@ -111,6 +209,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves the details of a specific item from the 'tb_jenis_alat' table.
+   *
+   * @param int $id The ID of the item to retrieve.
+   * @return array An array containing the details of the item.
+   */
   public function editAlatKelompokPembinaan($id)
   {
     $this->db->select('tb_jenis_alat.*');
@@ -119,6 +223,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data from the 'kelas_training' table based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data from the 'kelas_training' table.
+   */
   public function dataKelasTraining($id)
   {
     $this->db->select('kelas_training.*');
@@ -127,6 +237,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data of a specific item from the 'tb_kelompok_pembinaan' table based on the given ID.
+   *
+   * @param datatype $id The ID of the item to retrieve.
+   * @return array An array containing the details of the item.
+   */
   public function dataKelompokPembinaan($id)
   {
     $this->db->select('tb_kelompok_pembinaan.*');
@@ -135,6 +251,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data from the 'sertifikat_indonesia' table based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data from the 'sertifikat_indonesia' table.
+   */
   public function getDataSertifikatIndonesia($id)
   {
     $this->db->select('sertifikat_indonesia.*');
@@ -143,6 +265,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data from the 'bidang' table based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data from the 'bidang' table.
+   */
   public function dataBidang($id)
   {
     $this->db->select('bidang.*');
@@ -151,6 +279,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data from the 'jenis_personil' table based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data.
+   */
   public function dataJenisPersonil($id)
   {
     $this->db->select('jenis_personil.*');
@@ -159,6 +293,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data from the 'jenis_pendidikan' table based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data.
+   */
   public function dataJenisPendidikan($id)
   {
     $this->db->select('pendidikan.*');
@@ -167,6 +307,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data of a specific admin from the 'user' table based on the given ID.
+   *
+   * @param int $id The ID of the admin to retrieve.
+   * @return array An array containing the details of the admin.
+   */
   public function dataAdmin($id)
   {
     $this->db->select('user.*');
@@ -175,6 +321,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data of a specific sertifikat from the 'sertifikat_ing' table based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data.
+   */
   public function dataSertifikat($id)
   {
     $this->db->select('sertifikat_ing.*');
@@ -183,6 +335,15 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves all data from the 'kelompok_pembinaan' table.
+   *
+   * This function selects all columns from the 'kelompok_pembinaan' table and retrieves
+   * the data in descending order based on the 'id' column. The retrieved data
+   * is returned as an array.
+   *
+   * @return array An array containing all the data from the 'kelompok_pembinaan' table.
+   */
   public function semuaMasterKelompokPembinaan()
   {
     $this->db->select('kelompok_pembinaan.*');
@@ -191,6 +352,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data of a specific bidang personil from the 'tb_personil' table based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data.
+   */
   public function editBidangPersonil($id)
   {
     $this->db->select('tb_personil.*');
@@ -199,6 +366,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data of the last education class from the 'pendidikan_terakhir' table based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data.
+   */
   public function editKelasPendidikanTerakhir($id)
   {
     $this->db->select('pendidikan_terakhir.*');
@@ -207,6 +380,12 @@ class Database extends CI_Model
     return $this->db->get()->result_array();
   }
 
+  /**
+   * Retrieves data from the 'pendaftaran' and 'dokumen_pendaftaran' tables based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data.
+   */
   public function getData($id)
   {
     $this->db->select('*');
@@ -217,6 +396,12 @@ class Database extends CI_Model
     return $query->result_array();
   }
 
+  /**
+   * Retrieves data from the 'pendaftaran', 'berkas_pendaftaran', and 'form' tables based on the given ID.
+   *
+   * @param int $id The ID used to filter the data.
+   * @return array An array containing the retrieved data.
+   */
   public function getPeserta($id)
   {
     $query = "SELECT
@@ -243,6 +428,12 @@ class Database extends CI_Model
     return $this->db->query($query)->result_array();
   }
 
+  /**
+   * Retrieves the education details based on the provided ID.
+   *
+   * @param int $id The ID used to filter the education details.
+   * @return array An array containing the education details.
+   */
   public function getPendidikan($id)
   {
     $query = "SELECT pendidikan.pendidikan FROM `kelas` 
@@ -252,6 +443,13 @@ class Database extends CI_Model
     return $this->db->query($query)->result_array();
   }
 
+  /**
+   * Retrieves the classes based on the provided ID.
+   *
+   * @param int $id The ID used to filter the classes.
+   * @throws None
+   * @return array An array containing the retrieved classes.
+   */
   public function getKelas($id)
   {
     $query = "SELECT jenis_personil.id, jenis_personil.jenis_personil FROM `jenis_personil` JOIN tb_personil ON jenis_personil.id = tb_personil.id_jenis_personil WHERE tb_personil.id_bidang = $id";
@@ -263,6 +461,14 @@ class Database extends CI_Model
     echo json_encode($result);
   }
 
+  /**
+   * Retrieves the specified kelompok based on the provided ID and class.
+   *
+   * @param int $id The ID used to filter the kelompok.
+   * @param int $kelas The class used to filter the kelompok.
+   * @throws None
+   * @return array An array containing the retrieved kelompok.
+   */
   public function getKelompok($id, $kelas)
   {
     $query = "
@@ -281,6 +487,13 @@ class Database extends CI_Model
   }
 
 
+  /**
+   * Retrieves the specified alat based on the provided ID.
+   *
+   * @param int $id The ID used to filter the alat.
+   * @throws None
+   * @return array An array containing the retrieved alat.
+   */
   public function getAlat($id)
   {
     $query = "SELECT Jenis_alat.jenis_alat, Jenis_alat.id FROM Jenis_alat INNER JOIN tb_jenis_alat ON Jenis_alat.id = tb_jenis_alat.Jenis_alat WHERE 
@@ -292,6 +505,13 @@ class Database extends CI_Model
 
     echo json_encode($result);
   }
+
+  /**
+   * Retrieves the fields that are empty for a specific user from the 'dokumen_pendaftaran' table.
+   *
+   * @param int $id The ID of the user.
+   * @return array|false An array of empty fields if found, false if user is not found.
+   */
   public function getFieldkosong($id)
   {
     $this->db->select('id_user, surat, ijazah, ktp, sk, foto, bukti');
@@ -335,6 +555,11 @@ class Database extends CI_Model
     }
   }
 
+  /**
+   * Retrieves training data from the database.
+   *
+   * @return array An array containing the training data.
+   */
   public function get_training()
   {
     $query = "SELECT 
@@ -354,6 +579,23 @@ class Database extends CI_Model
     return $res;
   }
 
+  /**
+   * Inserts data into the 'sertifikat' table in the database.
+   *
+   * @param array $data An associative array containing the data to be inserted.
+   *                    The array should have the following keys:
+   *                    - 'id': An array of IDs corresponding to the 'id_pendaftaran' field.
+   *                    - 'idn': The value for the 'training' field.
+   *                    - 'ing': The value for the 'training_inggris' field.
+   *                    - 'pelaksanaan': The value for the 'pelaksanaan' field.
+   *                    - 'pelaksanaan_inggris': The value for the 'pelaksanaan_inggris' field.
+   *                    - 'terbit': The value for the 'terbit' field.
+   *                    - 'terbit_inggirs': The value for the 'terbit_inggris' field.
+   *                    - 'nama': An array of names corresponding to the 'nama' field.
+   *                    - 'no_sertifikat': An array of certificate numbers corresponding to the 'no_sertifikat' field.
+   *                    - 'sertifikat': An array of certificate types corresponding to the 'no_sertifikat' field.
+   * @return int The number of rows affected by the insertion.
+   */
   public function insertData($data)
   {
     // Loop through the arrays and insert data into the database
