@@ -573,7 +573,7 @@ class Database extends CI_Model
             JOIN 
                 user u ON f.id_user = u.id
             GROUP BY 
-                f.form, u.nama";
+                f.id, u.id, f.form, f.tanggal_pelaksanaan, u.nama";
 
     $res = $this->db->query($query)->result_array();
     return $res;
