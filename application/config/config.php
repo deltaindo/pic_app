@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$config['base_url'] = 'http://localhost/pic/';
+$config['base_url'] = 'https://pic.deltaindo.co.id';
 // $config['base_url'] = 'https://online.deltaindo.co.id/';
 
 /*
