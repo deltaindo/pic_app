@@ -193,7 +193,7 @@
               <div class="input-text">
                 <div class="input-div">
                   <input type="text" name="sektor" required />
-                  <span>Sektor Usaha Perusahaan</span>
+                  <span>Bidang Usaha Perusahaan</span>
                 </div>
               </div>
               <div class="input-text">
@@ -331,7 +331,7 @@
                     id="surat_sehat"
                     aria-describedby="emailHelp"
                     name="surat_sehat"
-                    
+                    required require
                   />
                   <div id="cv-error" class="text-danger" style="display: none">
                    

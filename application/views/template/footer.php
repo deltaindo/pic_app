@@ -1,8 +1,5 @@
 <footer class="footer">
   <div class="d-sm-flex justify-content-center justify-content-sm-between">
-    <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Premium
-      <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap admin template</a>
-      from BootstrapDash.</span>
     <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Copyright © 2021. All rights reserved.</span>
   </div>
 </footer>
@@ -91,44 +88,84 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.all.min.js
 </script>
 <script>
   $(document).ready(function() {
-    var selectedDates = [];
+// Initialize an array to track selected dates
+let selectedDates = [];
 
-    $("#tanggal").datepicker({
-      dateFormat: 'dd-mm-yy',
-      showButtonPanel: true,
-      beforeShow: function(input, inst) {
-        var buttonPane = $(this).datepicker('widget').find('.ui-datepicker-buttonpane');
+// Function to add a new date to the selectedDates array
+document.getElementById("addDateButton")?.addEventListener("click", function () {
+  const dateInput = document.getElementById("tanggal").value.trim();
 
-        // Mengganti teks tombol "Today" dengan "Clear"
-        buttonPane.find('.ui-datepicker-current').text('Clear');
+  // Check if the date is not empty and not already in the list
+  if (dateInput && !selectedDates.includes(dateInput)) {
+    selectedDates.push(dateInput); // Add to the array
+    updateTextarea(); // Update the textarea with the new list
+    document.getElementById("tanggal").value = ""; // Clear the input field
+  }
+});
 
-        // Menambahkan fungsi untuk membersihkan tanggal saat tombol "Clear" diklik
-        $('<button class="ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all">Clear</button>').appendTo(buttonPane).on('click', function() {
-          // Clear datepicker menggunakan fungsi bawaan
-          $.datepicker._clearDate(input);
-          // Hapus nilai textarea
-          $("#tanggalDipilih").val('');
+// Function to update the textarea based on the selectedDates array
+function updateTextarea() {
+  const textarea = document.getElementById("tanggalDipilih");
+
+  if (textarea) {
+    textarea.value = selectedDates.join(", "); // Update the textarea content
+  }
+}
+
+// Allow manual editing of the textarea
+document.getElementById("tanggalDipilih")?.addEventListener("input", function () {
+  const textareaContent = document.getElementById("tanggalDipilih").value;
+
+  // Update the selectedDates array to reflect the new content
+  selectedDates = textareaContent
+    .split(",")
+    .map((date) => date.trim())
+    .filter((date) => date !== ""); // Remove empty entries
+});
+
+// Initialize jQuery Datepicker
+$(document).ready(function () {
+  $("#tanggal").datepicker({
+    dateFormat: "dd-mm-yy",
+    showButtonPanel: true,
+    beforeShow: function (input) {
+      const buttonPane = $(this).datepicker("widget").find(".ui-datepicker-buttonpane");
+
+      // Change button texts (Today -> Done, Clear -> Clear)
+      buttonPane.find(".ui-datepicker-current").text("Clear");
+
+      // Add custom Clear functionality
+      $("<button class='ui-datepicker-clear ui-state-default ui-priority-primary ui-corner-all'>Clear</button>")
+        .appendTo(buttonPane)
+        .on("click", function () {
+          $("#tanggal").datepicker("clearDate"); // Use built-in clear function
+          selectedDates = []; // Clear the array
+          $("#tanggalDipilih").val(""); // Clear the textarea
         });
-
-        // Set focus pada elemen input setelah menekan "Done"
-        inst.dpDiv.one('mouseup', '.ui-datepicker-close', function() {
-          $(this).closest('.ui-datepicker').find('input').focus();
-        });
-      },
-      onClose: function(dateText, inst) {
-        // Tambahkan tanggal yang dipilih ke dalam array
-        selectedDates.push(dateText);
-
-        // Format ulang array dan tampilkan dalam textarea
-        $("#tanggalDipilih").val(selectedDates.join(", "));
+    },
+    onClose: function (dateText, inst) {
+      if (dateText) {
+        // Add the selected date to the array
+        if (!selectedDates.includes(dateText)) {
+          selectedDates.push(dateText);
+          updateTextarea(); // Sync the textarea
+        }
       }
-    });
-
-    // Mencegah penutupan datepicker saat mengklik elemen close
-    $(document).on('click', '.ui-datepicker-close', function(e) {
-      e.stopPropagation(); // Mencegah penyebaran event
-    });
+    },
   });
+
+  // Prevent datepicker close when clicking outside
+  $(document).on("click", ".ui-datepicker-close", function (e) {
+    e.stopPropagation(); // Prevent default behavior
+  });
+
+  // Set focus back to input element after clicking Done
+  $(".ui-datepicker-close").on("mouseup", function () {
+    $(this).closest(".ui-datepicker").find("input").focus();
+  });
+});
+
+  }); 
 </script>
 
 <script>

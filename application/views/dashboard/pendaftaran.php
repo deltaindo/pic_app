@@ -64,7 +64,7 @@
                           <th>Form</th>
                           <!-- <th>Status Pelatihan</th> -->
                           <th>Tanggal Pelaksanaan</th>
-                         
+                          <th>Tanggal Selesai</th>
                           <th>Program</th>
                           <th>Status</th>
                           <th>Link</th>
@@ -98,6 +98,7 @@
                               </ul>
                         </td> -->
                           <td class="text-center"><?= $p['tanggal_pelaksanaan'] ?></td>
+                          <td class="text-center"><?= $p['tanggal_selesai'] ?></td>
                           
                          <td class="text-center"><?= ($p['program'] == 1) ? 'Inhouse' : 'Reguler' ?></td>
                           <td class="text-center"><span class="badge <?= ($p['status'] == 'Aktif') ? 'bg-success' : 'bg-danger' ?>"><?= $p['status'] ?></span></td>
@@ -138,71 +139,173 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tambah Link Pendaftaran</h5>
+      <h5 class="modal-title" id="exampleModalLabel">Tambah Link Pendaftaran</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="post" action="<?= base_url('dashboard/buatLink'); ?>">
+      <form method="post" action="<?= base_url('dashboard/buatLink'); ?>">
         <label for="" class="text-primary fs-6 mb-1">
             Bidang
           </label>
-          <select class="form-select form-select-sm" id="training" data-url="<?= base_url('dashboard/getKelas'); ?>" aria-label="Default select example" name="form">
-          <option selected>Pilih Training</option> 
-          
-          <?php foreach($bidang as $t) : ?> 
-            <option id-val="<?= $t['id'] ?>" value="<?= $t['bidang'] ?>"><?= $t['bidang'] ?></option>
+          <select class="form-select form-select-sm" id="bidang" data-url="<?= base_url('dashboard/getBidang'); ?>" aria-label="Default select example" name="bidang">
+          <option selected>Pilih Bidang</option> 
+           <?php foreach($bidang as $t) : ?> 
+            <option value="<?= $t['bidang'] ?>"><?= $t['bidang'] ?></option>
             <?php endforeach; ?>
-           
           </select>
-          <br>
-          <label for="" class="text-primary fs-6 mb-1">
-            Personil
+        <br>
+        <label for="" class="text-primary fs-6 mb-1">
+            Training
           </label>
-          <select class="form-select form-select-sm" id="kelas" data-url="<?= base_url('dashboard/jenisKelompok'); ?>"  aria-label="Default select example" name="personil">
-          <option selected>Jenis Personil</option> 
-          </select>
-          <br>
-          <label for="" class="text-primary fs-6 mb-1">
-            Kelompok Pembinaan
-          </label>
-          <select class="form-select form-select-sm" id="pembinaan" data-url="<?= base_url('dashboard/jenisAlat'); ?>"  aria-label="Default select example" name="pembinaan">
-          <option selected>Kelompok Pembinaan</option> 
-          </select>
-          <br>
-          <label for="" class="text-primary fs-6 mb-1">
-            Jenis Alat
-          </label>
-          <select class="form-select form-select-sm" id="alat"  aria-label="Default select example" name="alat">
-          <option selected>Jenis Alat</option> 
+          <select class="form-select form-select-sm" aria-label="Default select example" name="form">
+          <option selected>Pilih Training</option> 
+           <?php foreach($training as $t) : ?> 
+            <option value="<?= $t['Training'] ?>"><?= $t['Training'] ?></option>
+            <?php endforeach; ?>
           </select>
           <br>
           <label for="" class="text-primary fs-6 mb-1">
             Kelas
           </label>
-          <select class="form-select form-select-sm" id="Kelas"  aria-label="Default select example" name="kelas_pembina">
-          <option selected>Kelas</option> 
+          <select class="form-select form-select-sm" aria-label="Default select example" name="kelas">
+          <option selected>Pilih Kelas</option> 
           <?php foreach($kelas as $t) : ?> 
-            <option value="<?= $t['kelas'] ?>"><?= $t['kelas'] ?></option>
+            <option id-val="<?= $t['id'] ?>" value="<?= $t['kelas'] ?>"><?= $t['kelas'] ?></option>
             <?php endforeach; ?>
           </select>
           <br>
           <div class="row">
-              <div class="col-6">
-                  <label for="tanggal">Pilih Tanggal:</label>
-                  <input type="text" id="tanggal" name="tanggal">
+            <div class="col-6">
+              <label for="" class="text-primary fs-6 mb-1">
+              Tanggal Mulai Training
+              </label>
+              <div class="mb-3">
+              <?php
+                $minDate = date('Y-m-d', strtotime('+5 days'));
+                ?>
+                <input type="date" class="form-control" name="tanggal" min="<?= $minDate ?>">
+                
               </div>
-              <div class="col-6">
-                  <textarea class="form-control" placeholder="Tanggal yang Dipilih" id="tanggalDipilih" style="height: 100px;" name="tanggal"></textarea>
-              </div>
-          </div>
-          <label for="" class="text-primary fs-6 mb-1">
+            </div>
+            <div class="col-6">
+                <label for="" class="text-primary fs-6 mb-1">
+                  Tanggal Selesai
+                </label>
+                <div class="mb-3">
+                  <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="tanggal_selesai">
+                </div>
+            </div>
+           </div>
+          
+           <label for="" class="text-primary fs-6 mb-1">
             Program
           </label>
-          <select class="form-select form-select-sm" aria-label="Default select example" name="program">
-            <option selected>Inhouse / Reguler</option>
+          <select
+            class="form-select form-select-sm"
+            aria-label="Default select example"
+            name="program"
+            id="program"
+            >
+            <option selected>Inhouse / Reguler / Mitra PJK3</option>
             <option value="1">Inhouse</option>
             <option value="2">Reguler</option>
+            <option value="3">Mitra PJK3</option>
           </select>
+          <br>
+          <div id="inhouse-form" style="display: none;">
+            <label for="company_name" class="text-primary fs-6 mb-1">Nama Perusahaan</label>
+            <input
+              type="text"
+              class="form-control"
+              id="company_name"
+              name="company_name"
+              placeholder="Enter company name"
+            />
+          </div>
+
+          <div id="reguler-form" style="display: none;">
+            <label for="client_name" class="text-primary fs-6 mb-1">Jika bukan dari Delta, masukkan nama klien</label>
+            <input
+              type="text"
+              class="form-control"
+              id="client_name"
+              name="client_name"
+              placeholder="Enter client name"
+            />
+          </div>
+
+          <div id="pjk3-form" style="display: none;">
+            <label for="client_name" class="text-primary fs-6 mb-1">Nama Klien</label>
+            <input
+              type="text"
+              class="form-control"
+              id="client_name"
+              name="client_name"
+              placeholder="Enter client name"
+            />
+            <br>
+            <label for="pjk3_type" class="text-primary fs-6 mb-1">PJK3 Apa</label>
+            <input
+              type="text"
+              class="form-control"
+              id="pjk3_type"
+              name="pjk3_type"
+              placeholder="Enter PJK3 type"
+            />
+          </div>
+
+          <!-- Additional form that appears when "Klien" is selected -->
+          <div id="klien-form" style="display: none; margin-top: 10px;">
+            <label for="klien_name" class="text-primary fs-6 mb-1">Nama Klien</label>
+            <input
+              type="text"
+              class="form-control"
+              id="klien_name"
+              name="klien_name"
+              placeholder="Masukkan nama klien"
+            />
+          </div>
+
+          <br>
+          
+          <script>
+          
+          const programSelect = document.getElementById('program');
+          const inhouseForm = document.getElementById('inhouse-form');
+          const regulerForm = document.getElementById('reguler-form');
+          const pjk3Form = document.getElementById('pjk3-form');
+          const regulerclient = document.querySelector('regulerclient');
+          const klienForm = document.getElementById('klien-form');
+
+          programSelect.addEventListener('change', function () {
+            // Hide all forms initially
+            inhouseForm.style.display = 'none';
+            regulerForm.style.display = 'none';
+            pjk3Form.style.display = 'none';
+            klienForm.style.display = 'none';
+
+
+            // Show the relevant form based on the selected option
+            if (this.value === '1') {
+              inhouseForm.style.display = 'block';
+            } else if (this.value === '2') {
+              regulerForm.style.display = 'block';
+            } else if (this.value === '3') {
+              pjk3Form.style.display = 'block';
+            }
+            
+          });
+          
+          regulerclient.addEventListener('change', function () {
+            // Show or hide the Klien form based on the selection
+            if (this.value === 'client') {
+              klienForm.style.display = 'block';
+            } else {
+              klienForm.style.display = 'none';
+            }
+          });
+          </script>
+
           <br>
           <label for="" class="text-primary fs-6 mb-1">
             Link Grup Whatsapp
@@ -210,8 +313,13 @@
           <div class="mb-3">
             <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="link">
           </div>
-          
-                
+
+          <label for="" class="text-primary fs-6 mb-1">
+            Tempat Pelaksanaan
+          </label>
+          <div class="mb-3">
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="tempat_pelaksanaan">
+          </div>
       
       
         </div>

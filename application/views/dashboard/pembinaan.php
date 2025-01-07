@@ -138,7 +138,7 @@
           <select class="form-select form-select-sm" aria-label="Default select example" name="bidang">
           <option selected>Pilih Training</option> 
           
-          <?php foreach($bidangg as $t) : ?> 
+          <?php foreach($bidang as $t) : ?> 
             <option value="<?= $t['id'] ?>"><?= $t['bidang'] ?></option>
             <?php endforeach; ?>
            

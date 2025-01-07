@@ -62,13 +62,15 @@
                             </th>
                            
                           <th>Training</th>
+                          <!--
                           <th>Personil</th>
                           <th>Kelas Pembina</th>
                           <th>Jenis Alat</th>
-                       
+                          -->
                           <th>PIC</th>
                           <th>Tanggal Pembuatan</th>
                           <th>Tanggal Pelaksanaan</th>
+                          <th>Tanggal Selesai</th>
                           <th>Program</th>
                           
                           <th>Status</th>
@@ -96,13 +98,16 @@
                             </td>
                      
                           <td><a href="<?= base_url('dashboard/pendaftaran/'.$p['id'].'/'.$p['program']); ?>"  style="text-decoration: none;" class="text-uppercase"><?= $p['form'] ?></a></td>
+                          <!--
                           <td><?= $p['personil'] ?></td>
                           <td><?= $p['pembina'] ?></td>
                           <td><?= $p['jenis_alat'] ?></td>
+                          `-->
                           <td><?= $p['nama'] ?></td>
                           <td><?= $p['tanggal_pembuatan'] ?></td>
                           <td><?= $p['tanggal_pelaksanaan'] ?></td>
-                         <td><?= ($p['program'] == 1) ? 'Inhouse' : 'Reguler' ?></td>
+                          <td><?= $p['tanggal_selesai'] ?></td>
+                          <td><?= ($p['program'] == 1) ? 'Inhouse' : 'Reguler' ?></td>
                           <td><span class="badge <?= ($p['status'] == 'Aktif') ? 'bg-success' : 'bg-danger' ?>"><?= $p['status'] ?></span></td>
                          
                           <td>
@@ -144,11 +149,21 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="post" action="<?= base_url('dashboard/buatLink'); ?>">
+      <form method="post" action="<?= base_url('dashboard/buatLink'); ?>">
+        <label for="" class="text-primary fs-6 mb-1">
+            Bidang
+          </label>
+          <select class="form-select form-select-sm" id="bidang" data-url="<?= base_url('dashboard/getBidang'); ?>" aria-label="Default select example" name="bidang">
+          <option selected>Pilih Bidang</option> 
+           <?php foreach($bidang as $t) : ?> 
+            <option value="<?= $t['bidang'] ?>"><?= $t['bidang'] ?></option>
+            <?php endforeach; ?>
+          </select>
+        <br>
         <label for="" class="text-primary fs-6 mb-1">
             Training
           </label>
-          <select class="form-select form-select-sm" aria-label="Default select example" name="form">
+          <select class="form-select form-select-sm" aria-label="Default select example" name="training">
           <option selected>Pilih Training</option> 
            <?php foreach($training as $t) : ?> 
             <option value="<?= $t['Training'] ?>"><?= $t['Training'] ?></option>
@@ -165,12 +180,25 @@
             <?php endforeach; ?>
           </select>
           <br>
-          <label for="" class="text-primary fs-6 mb-1">
-            Tanggal Training
-          </label>
-          <div class="mb-3">
-            <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="tgl_pelaksanaan">
-          </div>
+          <div class="row">
+            <div class="col-6">
+              <label for="" class="text-primary fs-6 mb-1">
+              Tanggal Mulai Training
+              </label>
+              <div class="mb-3">
+                <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="tanggal">
+              </div>
+            </div>
+            <div class="col-6">
+                <label for="" class="text-primary fs-6 mb-1">
+                  Tanggal Selesai
+                </label>
+                <div class="mb-3">
+                  <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="tanggal_selesai">
+                </div>
+            </div>
+           </div>
+          
           <label for="" class="text-primary fs-6 mb-1">
             Program
           </label>
@@ -180,8 +208,19 @@
             <option value="2">Reguler</option>
           </select>
           <br>
-          
-                
+          <label for="" class="text-primary fs-6 mb-1">
+            Link Grup Whatsapp
+          </label>
+          <div class="mb-3">
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="link">
+          </div>
+
+          <label for="" class="text-primary fs-6 mb-1">
+            Tempat Pelaksanaan
+          </label>
+          <div class="mb-3">
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="tempat_pelaksanaan">
+          </div>
       
       
         </div>

@@ -194,7 +194,7 @@
               <div class="input-text">
                 <div class="input-div">
                   <input type="text" name="sektor" required />
-                  <span>Sektor Usaha Perusahaan</span>
+                  <span>Bidang Usaha Perusahaan</span>
                 </div>
               </div>
               <div class="input-text">

@@ -112,6 +112,7 @@ class Dashboard extends CI_Controller
         redirect('dashboard/jenis_alat');
     }
 
+
     public function kelas_pembina()
     {
         $data['tittle'] = 'Daftar Kelas Pembina | Delta Indonesia';
@@ -556,7 +557,8 @@ class Dashboard extends CI_Controller
         $data['tittle'] = 'Halaman PIC | Delta Indonesia';
         $data['form'] = $this->db->order_by('tanggal_pembuatan', 'desc')->get_where('form', ['id_user' => $this->session->userdata('id')])->result_array();
         $data['bidang'] = $this->db->get('bidang')->result_array();
-        $data['kelas'] = $this->db->get('kelas_pembina')->result_array();
+        $data['training'] = $this->db->get('training')->result_array();
+        $data['kelas'] = $this->db->get('kelas')->result_array();
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/pendaftaran', $data);
@@ -601,6 +603,7 @@ class Dashboard extends CI_Controller
         $data['form'] = $this->database->getForm();
         $data['training'] = $this->db->get('training')->result_array();
         $data['kelas'] = $this->db->get('kelas')->result_array();
+        $data['bidang'] = $this->db->get('bidang')->result_array();
         $this->load->view('template/header', $data);
         $this->load->view('template/sidebar');
         $this->load->view('dashboard/admin', $data);
@@ -793,17 +796,17 @@ class Dashboard extends CI_Controller
         $data = [
             'id_user' => $this->session->userdata('id'),
             'form' => $this->input->post('form'),
-            'personil' => $this->input->post('personil'),
-            'pembina' => $this->input->post('pembinaan'),
-            'jenis_alat' => $this->input->post('alat'),
-            'kelas_pembina' => $this->input->post('kelas_pembina'),
+            'kelas' => $this->input->post('kelas'),
             'program' => $this->input->post('program'),
             'tanggal_pembuatan' => date("Y-m-d H:i:s"),
             'tanggal_pelaksanaan' => $this->input->post('tanggal'),
+            'tanggal_selesai' => $this->input->post('tanggal_selesai'),
+            'training' => $this->input->post('training'),
             'link_grup' => $this->input->post('link'),
             'token' => $generatedToken,
             'status' => 'Aktif',
-            'link' => base_url() . 'pendaftaran/cekForm/' . $this->session->userdata('id') . '/' . $generatedToken
+            'link' => base_url() . 'pendaftaran/cekForm/' . $this->session->userdata('id') . '/' . $generatedToken , 
+            'tempat_pelaksanaan' => $this->input->post('tempat_pelaksanaan'),
         ];
 
         $this->db->insert('form', $data);
@@ -1086,7 +1089,10 @@ class Dashboard extends CI_Controller
     {
         $this->database->getKelas($id);
     }
-
+    public function getBidang($id)
+    {
+        $this->database->getBidang($id);
+    }
     public function jenisKelompok($id, $kelas)
     {
         $this->database->getKelompok($id, $kelas);
@@ -1795,7 +1801,7 @@ class Dashboard extends CI_Controller
         $this->db->select('tb_jenis_alat.id,jenis_alat.jenis_alat, kelompok_pembinaan.kelompok_pembinaan');
         $this->db->from('tb_jenis_alat');
         $this->db->join('jenis_alat', 'jenis_alat.id = tb_jenis_alat.Jenis_alat');
-        $this->db->join('kelompok_pembinaan', 'kelompok_pembinaan.id = tb_jenis_alat.id_kelompol_pembinaan');
+        $this->db->join('kelompok_pembinaan', 'kelompok_pembinaan.id = tb_jenis_alat.id_kelompok_pembinaan');
         $this->db->order_by('tb_jenis_alat.id', 'DESC');
         $data['alat_kelompok'] = $this->db->get()->result_array();
 
@@ -1821,8 +1827,8 @@ class Dashboard extends CI_Controller
     public function simpan_alat_kelompok_pembinaan()
     {
         $data = [
-            'Jenis_alat'            => $this->input->post('jenis_alat'),
-            'id_kelompol_pembinaan' => $this->input->post('kelompok_pembinaan'),
+            'jenis_alat'            => $this->input->post('jenis_alat'),
+            'id_kelompok_pembinaan' => $this->input->post('kelompok_pembinaan'),
         ];
 
         $this->db->insert('tb_jenis_alat', $data);
@@ -1847,8 +1853,8 @@ class Dashboard extends CI_Controller
     public function update_alat_kelompok_pembinaan($id)
     {
         $data = [
-            'Jenis_alat'            => $this->input->post('jenis_alat'),
-            'id_kelompol_pembinaan' => $this->input->post('kelompok_pembinaan'),
+            'jenis_alat'            => $this->input->post('jenis_alat'),
+            'id_kelompok_pembinaan' => $this->input->post('kelompok_pembinaan'),
         ];
 
         $this->db->where('id', $id);

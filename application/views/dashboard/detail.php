@@ -77,14 +77,14 @@
                           <th>Tempat</th>
                           <th>Tanggal Lahir</th>
                           <th>Instansi</th>
-                          <th>Alamat Perusahaan</th>
                           <th>Kontak Perusahaan</th>
+                          <th>Alamat Perusahaan</th>
                           <th>Golongan Darah</th>
                           <th>Pendidikan Terakhir</th>
                           <th>Asal Sekolah</th>
                           <th>No Ijazah</th>
                           <th>Tanggal Ijazah</th>
-                          <th>Alamat</th>
+                          <th>Alamat Domisili</th>
                           <th>Email</th>
                           <th>Sektor</th>
                           <th>Jabatan</th>

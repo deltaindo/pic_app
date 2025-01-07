@@ -21,7 +21,7 @@
                                                 <select class="form-control" name="kelompok_pembinaan">
                                                     <option selected>Pilih Kelompok Pembinaan...</option>
                                                     <?php foreach ($kelompok_pembinaan as $pembinaan) : ?>
-                                                        <option value="<?= $pembinaan['id'] ?>" <?= $pembinaan['id'] == $alat_kelompok[0]['id_kelompol_pembinaan'] ? 'selected' : '' ?>>
+                                                        <option value="<?= $pembinaan['id'] ?>" <?= $pembinaan['id'] == $alat_kelompok[0]['id_kelompok_pembinaan'] ? 'selected' : '' ?>>
                                                             <?= $pembinaan['kelompok_pembinaan'] ?>
                                                         </option>
                                                     <?php endforeach; ?>

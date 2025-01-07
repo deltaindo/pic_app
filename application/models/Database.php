@@ -460,7 +460,16 @@ class Database extends CI_Model
 
     echo json_encode($result);
   }
+  public function getBidang($id)
+  {
+    $query = "SELECT SELECT bidang FROM delta_pic_prod.bidang = $id";
+    $result = $this->db->query($query)->result_array();
 
+    // Atur header response sebagai JSON
+    header('Content-Type: application/json');
+
+    echo json_encode($result);
+  }
   /**
    * Retrieves the specified kelompok based on the provided ID and class.
    *
@@ -497,7 +506,7 @@ class Database extends CI_Model
   public function getAlat($id)
   {
     $query = "SELECT Jenis_alat.jenis_alat, Jenis_alat.id FROM Jenis_alat INNER JOIN tb_jenis_alat ON Jenis_alat.id = tb_jenis_alat.Jenis_alat WHERE 
-    tb_jenis_alat.id_kelompol_pembinaan = $id";
+    tb_jenis_alat.id_kelompok_pembinaan = $id";
     $result = $this->db->query($query)->result_array();
 
     // Atur header response sebagai JSON
@@ -563,7 +572,7 @@ class Database extends CI_Model
   public function get_training()
   {
     $query = "SELECT 
-             f.id as id_form, u.id as id_user, f.form AS form, f.tanggal_pelaksanaan,
+             f.id as id_form, u.id as id_user, f.form AS form, f.tanggal_pelaksanaan, f.tanggal_selesai,
               COUNT(p.nama) AS peserta,
               u.nama AS pic
             FROM 
@@ -573,7 +582,7 @@ class Database extends CI_Model
             JOIN 
                 user u ON f.id_user = u.id
             GROUP BY 
-                f.id, u.id, f.form, f.tanggal_pelaksanaan, u.nama";
+                f.form, u.nama";
 
     $res = $this->db->query($query)->result_array();
     return $res;

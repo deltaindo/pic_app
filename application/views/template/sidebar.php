@@ -10,7 +10,7 @@
       </a>
       <div class="collapse" id="client">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item">
+          <li class="nav-item">     
             <a class="nav-link" href="<?= base_url('dashboard'); ?>">
               Tambah Link
             </a>
@@ -18,6 +18,7 @@
         </ul>
       </div>
     </li>
+    
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#jadwal" aria-expanded="false" aria-controls="jadwal">
         <i class="menu-icon mdi mdi-calendar-check"></i>
@@ -86,6 +87,7 @@
               Data Kelas
             </a>
           </li>
+          <!-- >
           <li class="nav-item">
             <a class="nav-link" href="<?= base_url('dashboard/kelas_pembina'); ?>">
               Data Kelas Pembinaan
@@ -96,11 +98,13 @@
               Data Kelompok Pembinaan
             </a>
           </li>
+          <-->
           <li class="nav-item">
             <a class="nav-link" href="<?= base_url('dashboard/training'); ?>">
               Data Training
             </a>
           </li>
+          <!-- > 
           <li class="nav-item">
             <a class="nav-link" href="<?= base_url('dashboard/jenis_alat'); ?>">
               Data Jenis Alat
@@ -111,6 +115,7 @@
               Data Jenis Personil
             </a>
           </li>
+          <-->
           <li class="nav-item">
             <a class="nav-link" href="<?= base_url('dashboard/pendidikan'); ?>">
               Data Pendidikan
@@ -119,7 +124,7 @@
         </ul>
       </div>
     </li>
-
+<!-- 
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#DataRelasi" aria-expanded="false" aria-controls="DataRelasi">
         <i class="menu-icon mdi mdi-folder-multiple"></i>
@@ -158,7 +163,7 @@
         </ul>
       </div>
     </li>
-
+<-->
     <li class="nav-item nav-category">
       User
     </li>

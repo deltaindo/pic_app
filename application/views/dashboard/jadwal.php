@@ -59,6 +59,7 @@
                            
                           <th>Training</th>
                           <th>Tanggal Pelaksanaan</th>
+                          <th>Tanggal Selesai</th>
                           <th>Jumlah Peserta</th>
                           <th>Pic</th>
                           <th>Status</th>  
@@ -82,6 +83,7 @@
                             </td>
                             <td><a href="<?= base_url('jadwal/pendaftaran/'.$p['id_form'].'/'.$p['id_user']); ?>" style="text-decoration: none;"><?= $p['form'] ?></a></td>
                             <td><?= $p['tanggal_pelaksanaan'] ?></td>
+                            <td><?= $p['tanggal_selesai']?></td>
                             <td><?= $p['peserta'] ?></td>
                             <td><?= $p['pic'] ?></td>
                             <td>

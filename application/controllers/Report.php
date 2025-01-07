@@ -769,7 +769,7 @@ class Report extends CI_Controller
         $this->db->select('tb_jenis_alat.id,jenis_alat.jenis_alat, kelompok_pembinaan.kelompok_pembinaan');
         $this->db->from('tb_jenis_alat');
         $this->db->join('jenis_alat', 'jenis_alat.id = tb_jenis_alat.Jenis_alat');
-        $this->db->join('kelompok_pembinaan', 'kelompok_pembinaan.id = tb_jenis_alat.id_kelompol_pembinaan');
+        $this->db->join('kelompok_pembinaan', 'kelompok_pembinaan.id = tb_jenis_alat.id_kelompok_pembinaan');
         $this->db->order_by('tb_jenis_alat.id', 'DESC');
         $data['alat_kelompok'] = $this->db->get()->result_array();
 
