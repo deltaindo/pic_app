@@ -438,7 +438,7 @@ class Database extends CI_Model
   {
     $query = "SELECT pendidikan.pendidikan FROM `kelas` 
       INNER JOIN pendidikan_terakhir ON kelas.id = pendidikan_terakhir.id_kelas 
-      INNER JOIN pendidikan ON pendidikan_terakhir.id_pendidikan = pendidikan.id WHERE kelas.id = $id";
+      INNER JOIN pendidikan ON pendidikan_terakhir.id_pendidikan = pendidikan.id WHERE kelas.id = ?";
 
     return $this->db->query($query)->result_array();
   }
