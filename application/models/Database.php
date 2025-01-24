@@ -440,7 +440,7 @@ class Database extends CI_Model
       INNER JOIN pendidikan_terakhir ON kelas.id = pendidikan_terakhir.id_kelas 
       INNER JOIN pendidikan ON pendidikan_terakhir.id_pendidikan = pendidikan.id WHERE kelas.id = $id";
 
-    return $this->db->query($query)->result_array();
+    return $this->db->query($query, array($id))->result_array();
   }
 
   /**
