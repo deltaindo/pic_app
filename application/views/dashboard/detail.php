@@ -71,7 +71,6 @@
                                 ></i
                               >
                             </th>
-                          <th>Time</th>
                           <th>KTP</th>
                           <th>Nama</th>
                           <th>Tempat</th>
@@ -116,7 +115,6 @@
                                 ></i
                               >
                             </td>
-                          <td><?= $p['time']; ?></td>
                           <td><?= $p['nik']; ?></td>
                           <td><?= $p['nama']; ?></td>
                           <td><?= $p['ttl']; ?></td>
