@@ -52,10 +52,11 @@
                   <button type="button" class="mdi mdi-certificate btn btn-warning text-white" id="ulasan" data-url="<?= base_url('dashboard/ulasan'); ?>">
                     Kirim Ulasan & Sertifikat
                   </button>
+<!--
                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#link">
                     Launch demo modal
                   </button>
-
+-->
                    <div class="table-responsive">
                    <table id="example" class="table table-hover display nowrap" style="width:100%; overflow-x:auto;">
                       <thead>

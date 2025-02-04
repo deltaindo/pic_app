@@ -853,7 +853,7 @@ class Dashboard extends CI_Controller
     public function download_excel($id)
     {
 
-
+        
         $spreadsheet = new Spreadsheet();
 
         // Add worksheet
@@ -886,6 +886,7 @@ class Dashboard extends CI_Controller
 
 
             $row++;
+            die('Method is working');
         }
 
         // Create file name
