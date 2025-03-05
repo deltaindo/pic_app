@@ -62,7 +62,6 @@ class Form extends CI_Controller {
         $data = array(
             'id_form' => $this->session->userdata('id_form'),
             'id_program' => $this->session->userdata('id_program'),
-            'time' => date("Y-m-d H:i:s"),
             'nama' => $this->input->post('nama'),
             'nik' => $this->input->post('ktp'),
             'provinsi' => $this->input->post('provinsi'),

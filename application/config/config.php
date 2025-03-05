@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-$config['base_url'] = 'http://daftar.deltaindo.co.id/';
+$config['base_url'] = 'https://daftar.deltaindo.co.id/';
 // $config['base_url'] = 'https://online.deltaindo.co.id/';
 
 /*

@@ -40,9 +40,9 @@
                 <h4 class="card-title">Daftar Form Pendaftaran</h4>
                 
                   <form action="<?= base_url('dashboard/editForm'); ?>" method="post">
-                  <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">Buat Link</a>
-                 
-                  <button class="btn btn-outline-primary" type="submit">Edit Data</button>
+		  <!-- <a href="#" class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#exampleModal">Buat Link</a> -->
+                  
+		  <button class="btn btn-outline-primary" type="submit">Edit Data</button>
                   <a href="#" class="btn btn-danger text-white" id="hapus-form" data-url="<?= base_url('dashboard/hapus') ?>"  >Hapus</a>
                  
                    <div class="table-responsive">

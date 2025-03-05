@@ -6,7 +6,7 @@ class Api extends CI_Model {
     public function getProvinsi()
     {
 
-        $api_url = 'https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json';
+        $api_url = 'http://www.emsifa.com/api-wilayah-indonesia/api/provinces.json';
 
         $curl = curl_init();
 
