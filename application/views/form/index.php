@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+     href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
@@ -22,10 +22,8 @@
         display: none;
         position: fixed;
         top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.8);
+       left: 0;
+       background: rgba(255, 255, 255, 0.8);
         z-index: 9999;
         display: flex;
         flex-direction: column; /* Baris baru ditambahkan untuk tata letak vertikal */
@@ -277,8 +275,8 @@
                     id="ktp"
                     aria-describedby="emailHelp"
                     name="ktp"
-                    
-                  />
+                  
+		  />
                   <div id="ktp-error" class="text-danger" style="display: none">
                    
                   </div>
@@ -315,10 +313,14 @@
                     name="cv"
                     
                   />
+ 		    
                   <div id="cv-error" class="text-danger" style="display: none">
                    
                   </div>
-                </div>
+		<div id="cv-error" class="text-danger">
+                  Khusus Untuk Kelas Ahli
+                 </div>
+               </div>
               </div>
               <div class="input-text">
                 <div class="input-div">
@@ -333,11 +335,12 @@
                     name="surat_sehat"
                     required require
                   />
+ 		
                   <div id="cv-error" class="text-danger" style="display: none">
                    
                   </div>
                   <div id="cv-error" class="text-danger">
-                      Untuk AHLI K3 Umum
+                     Khusus Kesehatan Kerja & AK3U
                   </div>
                 </div>
               </div>
@@ -352,16 +355,63 @@
                     name="foto"
                     
                   />
+ 		  <div class="input-text">
+                   <div class="input-div">
+                    <div id="emailHelp" class="form-text">
+                      SKP
+                        </div>
+                        <input type="file" class="form-control form-control-sm" id="skp"
+                            aria-describedby="emailHelp" name="skp" />
+                        <div id="cv-error" class="text-danger" style="display: none">
+                                </div>
+                                <div id="cv-error" class="text-danger">
+                                    Khusus REFRESH AK3U
+                                </div>
+                            </div>
+                        </div>
+		   <div class="input-text">
+                            <div class="input-div">
+                                <div id="emailHelp" class="form-text">
+                                    Lisensi
+                                </div>
+                                <input type="file" class="form-control form-control-sm" id="lisensi"
+                                    aria-describedby="emailHelp" name="lisensi" />
+                                <div id="cv-error" class="text-danger" style="display: none">
+
+                                </div>
+                                <div id="cv-error" class="text-danger">
+                                   Khusus REFRESH AK3U
+                                </div>
+                            </div>
+                        </div>
+		  <div class="input-text">
+                            <div class="input-div">
+                                <div id="emailHelp" class="form-text">
+                                    Sertifikat AK3U
+                                </div>
+                                <input type="file" class="form-control form-control-sm" id="serrtif_ak3u"
+                                    aria-describedby="emailHelp" name="sertif_ak3u" />
+                                <div id="cv-error" class="text-danger" style="display: none">
+
+                                </div>
+                                <div id="cv-error" class="text-danger">
+                                   Khusus REFRESH AK3U
+			      </div>
+                        <div class="buttons button_space">
+                            <button class="back_button" type="button">Back</button>
+                            <button class="submit_button" id="submitForm" type="button">Submit</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
                   <div
                     id="foto-error"
                     class="text-danger"
                     style="display: none"
                     
                   >
-                   
-                  </div>
-                </div>
-              </div>
+
               <?php if($this->session->userdata('id_program') == 2) : ?>
               <div class="input-text">
                 <div class="input-div">
@@ -482,3 +532,4 @@
   </script>
   </body>
 </html>
+
