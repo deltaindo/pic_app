@@ -79,13 +79,10 @@
                           <th>Instansi</th>
                           <th>Kontak Perusahaan</th>
                           <th>Alamat Perusahaan</th>
-                          <th>Golongan Darah</th>
                           <th>Pendidikan Terakhir</th>
                           <th>Asal Sekolah</th>
-                          <th>No Ijazah</th>
-                          <th>Tanggal Ijazah</th>
                           <th>Alamat Domisili</th>
-                          <th>Email</th>
+                          <th>Email Perusahaan</th>
                           <th>Sektor</th>
                           <th>Jabatan</th>
                           <th>Surat <br>Pernyataan Peserta</th>
@@ -94,7 +91,10 @@
                           <th>Surat Keterangan<br class="mt-2">Bekerja dari Perusahaan</th>
                           <th>Pas Foto</th>
                           <th>CV</th>
-                          <th class="<?= ($this->session->userdata('id_program') == 2 ? 'd-none' : '') ?>">Bukti Transfer</th>
+			  <th>Surat Keterangan Sehat</th>
+			  <th>Sertifikat</th>
+			  <th>SKP</th>
+			  <th>Lisensi</th>
                           <th>Action</th>
                           
                           
@@ -123,11 +123,8 @@
                           <td class="text-uppercase"><?= $p['instansi']; ?></td>
                           <td><?= $p['tlp_kantor']; ?></td>
                           <td><?= $p['alamat_perusahaan']; ?></td>
-                          <td class="text-center"><?= $p['golongan_darah']; ?></td>
                           <td class="text-center"><?= $p['pendidikan']; ?></td>
                           <td><?= $p['sekolah']; ?></td>
-                          <td class="text-center"><?= $p['no_ijazah']; ?></td>
-                          <td class="text-center"><?= $p['tgl_ijazah']; ?></td>
                           <td><?= $p['alamat']; ?></td>
                           <td><?= $p['email']; ?></td>
                           
@@ -177,13 +174,35 @@
                                   <a href="<?= base_url('dashboard/hapusDokumen/'.$p['cv'].'/'.$p['id'].'/cv'); ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');"><span class="mdi mdi-trash-can fs-5 text-danger"></span></a>
                               <?php endif; ?>
                           </td>
-                          <td class="<?= ($this->session->userdata('id_program') == 2 ? 'd-none' : '') ?>">
-                              <?php if (!empty($p['bukti'])): ?>
-                                  <a href="<?= base_url('pendaftaran/images/dokumen/'.$p['bukti']); ?>" target="_blank">Lihat Dokumen</a>&nbsp;&nbsp;
-                                  <a href="<?= base_url('pendaftaran/images/dokumen/'.$p['bukti']); ?>" download><span class="mdi mdi-download fs-5 text-danger"></span></a>
-                                  <a href="<?= base_url('dashboard/hapusDokumen/'.$p['bukti'].'/'.$p['id'].'/bukti'); ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');"><span class="mdi mdi-trash-can fs-5 text-danger"></span></a>
+                          <td>
+                              <?php if (!empty($p['surat_sehat'])): ?>
+                                  <a href="<?= base_url('pendaftaran/images/dokumen/'.$p['surat_sehat']); ?>" target="_blank">Lihat Dokumen</a>&nbsp;&nbsp;
+                                  <a href="<?= base_url('pendaftaran/images/dokumen/'.$p['surat_sehat']); ?>" download><span class="mdi mdi-download fs-5 text-danger"></span></a>
+                                  <a href="<?= base_url('dashboard/hapusDokumen/'.$p['surat_sehat'].'/'.$p['id'].'/surat_sehat'); ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');"><span class="mdi mdi-trash-can fs-5 text-danger"></span></a>
                               <?php endif; ?>
                           </td>
+                          <td>
+                              <?php if (!empty($p['sertif_ak3u'])): ?>
+                                  <a href="<?= base_url('pendaftaran/images/dokumen/'.$p['sertif_ak3u']); ?>" target="_blank">Lihat Dokumen</a>&nbsp;&nbsp;
+                                  <a href="<?= base_url('pendaftaran/images/dokumen/'.$p['sertif_ak3u']); ?>" download><span class="mdi mdi-download fs-5 text-danger"></span></a>
+                                  <a href="<?= base_url('dashboard/hapusDokumen/'.$p['sertif_ak3u'].'/'.$p['id'].'/sertif_ak3u'); ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');"><span class="mdi mdi-trash-can fs-5 text-danger"></span></a>
+                              <?php endif; ?>
+                          </td>
+                          <td>
+                              <?php if (!empty($p['skp'])): ?>
+                                  <a href="<?= base_url('pendaftaran/images/dokumen/'.$p['skp']); ?>" target="_blank">Lihat Dokumen</a>&nbsp;&nbsp;
+                                  <a href="<?= base_url('pendaftaran/images/dokumen/'.$p['skp']); ?>" download><span class="mdi mdi-download fs-5 text-danger"></span></a>
+                                  <a href="<?= base_url('dashboard/hapusDokumen/'.$p['skp'].'/'.$p['id'].'/skp'); ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');"><span class="mdi mdi-trash-can fs-5 text-danger"></span></a>
+                              <?php endif; ?>
+                          </td>
+                          <td>
+                              <?php if (!empty($p['lisensi'])): ?>
+                                  <a href="<?= base_url('pendaftaran/images/dokumen/'.$p['lisensi']); ?>" target="_blank">Lihat Dokumen</a>&nbsp;&nbsp;
+                                  <a href="<?= base_url('pendaftaran/images/dokumen/'.$p['lisensi']); ?>" download><span class="mdi mdi-download fs-5 text-danger"></span></a>
+                                  <a href="<?= base_url('dashboard/hapusDokumen/'.$p['lisensi'].'/'.$p['id'].'/lisensi'); ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus dokumen ini?');"><span class="mdi mdi-trash-can fs-5 text-danger"></span></a>
+                              <?php endif; ?>
+                          </td>
+
 
 
                           <td>

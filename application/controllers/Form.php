@@ -43,6 +43,7 @@ class Form extends CI_Controller {
 
     public function insertData()
     {
+	
         $user = $this->db->get_where('pendaftaran',['nik' => $this->input->post('ktp')])->row_array();
         if($user) {
             if($user['id_program'] == $this->session->userdata('id_program')) {
@@ -59,11 +60,13 @@ class Form extends CI_Controller {
 
     public function insert()
     {
+	log_message('debug', 'Received POST data: ' . print_r($this->input->post(), true));
+
         $data = array(
             'id_form' => $this->session->userdata('id_form'),
             'id_program' => $this->session->userdata('id_program'),
             'nama' => $this->input->post('nama'),
-            'nik' => $this->input->post('ktp'),
+            'nik' => $this->input->post('nik'),
             'provinsi' => $this->input->post('provinsi'),
             'kabupaten' => $this->input->post('kabupaten'),
             'kecamatan' => $this->input->post('kecamatan'),
@@ -109,7 +112,7 @@ class Form extends CI_Controller {
     
         $data_to_insert = array(); // Inisialisasi array untuk data yang akan dimasukkan ke dalam database
         $data_to_insert['id_user'] = $insert_id;
-        $document_types = array('surat', 'ijazah', 'ktp', 'sk', 'foto', 'bukti','cv','surat_sehat'); // Nama-nama jenis dokumen
+        $document_types = array('surat', 'ijazah', 'ktp', 'sk', 'foto', 'bukti','cv','surat_sehat', 'skp', 'lisensi', 'sertif_ak3u'); // Nama-nama jenis dokumen
     
         foreach ($document_types as $type) {
             if ($this->upload->do_upload($type)) {
@@ -174,6 +177,18 @@ class Form extends CI_Controller {
         }
         if (empty($queryResult->bukti)) {
             $dokumenKosong[] = "Bukti Transfer (*jika Reguler*)";
+        }
+	
+        if (empty($queryResult->skp)) {
+            $dokumenKosong[] = "SKP";
+        }
+
+        if (empty($queryResult->lisensi)) {
+            $dokumenKosong[] = "Lisensi";
+        }
+
+        if (empty($queryResult->sertif_ak3u)) {
+            $dokumenKosong[] = "Sertifikat AK3U";
         }
     
         // Cek apakah ada dokumen yang kosong
@@ -252,6 +267,18 @@ class Form extends CI_Controller {
         }
         if (empty($queryResult->surat_sehat)) {
             $dokumenKosong[] = "Surat Sehat";
+        }
+
+        if (empty($queryResult->skp)) {
+            $dokumenKosong[] = "SKP";
+        }
+
+        if (empty($queryResult->lisensi)) {
+            $dokumenKosong[] = "Lisensi";
+        }
+
+        if (empty($queryResult->sertif_ak3u)) {
+            $dokumenKosong[] = "Sertifikat AK3U";
         }
     
         // Cek apakah ada dokumen yang kosong

@@ -70,8 +70,9 @@
                   <span>Nama Peserta</span>
                 </div>
                 <div class="input-div">
-                  <input type="text" name="nik"  required require />
+                  <input type="text" name="nik"  required require maxlength="16" minlength="16" />
                   <span>Nomor KTP</span>
+		  <div class="text-danger">Masukkan NIK 16 Digit</div>
                 </div>
               </div>
               <div class="input-text">
@@ -91,6 +92,14 @@
               <div class="input-text">
                 <div class="input-div">
                   <select name="pendidikan">
+ 	           <option>Pendidikan Terakhir</option>
+        	   <option value="SMP">SMP</option>
+          	   <option value="SMA/SMK">SMA/SMK</option>
+           	   <option value="D I">D I</option>
+            	   <option value="D II">DII</option>
+            	   <option value="D III">DIII</option>
+            	   <option value="S1 / D IV">S1 / D IV</option>
+            	   <option value="S2">S2</option>
                     <option>Pendidikan Terakhir</option>
                    <?php foreach($pendidikan as $p) : ?>
                     <option value="<?= $p['pendidikan'] ?>"><?= $p['pendidikan'] ?></option>
@@ -333,14 +342,13 @@
                     id="surat_sehat"
                     aria-describedby="emailHelp"
                     name="surat_sehat"
-                    required require
                   />
  		
                   <div id="cv-error" class="text-danger" style="display: none">
                    
                   </div>
                   <div id="cv-error" class="text-danger">
-                     Khusus Kesehatan Kerja & AK3U
+                     Khusus Lingkungan Kerja & AK3U
                   </div>
                 </div>
               </div>
@@ -422,7 +430,6 @@
                     id="bukti_tf"
                     aria-describedby="emailHelp"
                     name="bukti"
-                    required require
                   />
                   <div
                     id="bukti_tf-error"
@@ -530,6 +537,4 @@
       bindCapitalizeEvents();
     });
   </script>
-  </body>
-</html>
 

@@ -662,7 +662,7 @@ class Dashboard extends CI_Controller
                 foreach ($results as $result) {
 
                     // Jenis file yang terkait dengan pendaftaran
-                    $jenis_file = array('surat', 'ijazah', 'ktp', 'sk', 'foto', 'bukti', 'surat_sehat');
+                    $jenis_file = array('surat', 'ijazah', 'ktp', 'sk', 'foto', 'surat_sehat', 'sertif_ak3u', 'skp', 'lisensi' );
 
                     // Menghapus file dari folder
                     foreach ($jenis_file as $jenis) {
@@ -748,7 +748,7 @@ class Dashboard extends CI_Controller
         $id_user = $this->input->post('id_user'); // ID user yang akan diupdate
 
         // Mendefinisikan jenis-jenis dokumen yang akan diupdate
-        $document_types = array('surat', 'ijazah', 'ktp', 'sk', 'foto', 'bukti', 'cv', 'surat_sehat');
+        $document_types = array('surat', 'ijazah', 'ktp', 'sk', 'foto', 'cv', 'surat_sehat', 'sertif_ak3u', 'skp', 'lisensi');
 
         // Mendapatkan data dokumen lama (dokumen_old)
         $dokumen_old = $this->db->get_where('dokumen_pendaftaran', array('id_user' => $id_user))->row_array();
@@ -1233,6 +1233,12 @@ class Dashboard extends CI_Controller
     {
         $p = $this->db->get_where('dokumen_pendaftaran', ['id_user' => $id])->row_array();
 
+	// Get participant details (including 'nama') from the 'pendaftaran' table
+	$participant_data = $this->db->get_where('pendaftaran', ['id' => $id])->row_array();
+
+        //  Get document filenames from the 'dokumen_pendaftaran' table
+        $document_data = $this->db->get_where('dokumen_pendaftaran', ['id_user' => $id])->row_array();
+
         // Muat library Zip
         $this->load->library('zip');
 
@@ -1258,11 +1264,36 @@ class Dashboard extends CI_Controller
         if (!empty($p['surat_sehat'])) {
             $this->zip->add_data('surat_sehat_' . $p['surat_sehat'], file_get_contents('pendaftaran/images/dokumen/' . $p['surat_sehat']));
         }
+	if (!empty($p['skp'])) {
+            $this->zip->add_data('skp_' . $p['skp'], file_get_contents('pendaftaran/images/dokumen/' . $p['skp']));
+        }
+	if (!empty($p['lisensi'])) {
+            $this->zip->add_data('lisensi_' . $p['lisensi'], file_get_contents('pendaftaran/images/dokumen/' . $p['lisensi']));
+        }
+	if (!empty($p['sertif_ak3u'])) {
+            $this->zip->add_data('sertif_ak3u_' . $p['sertif_ak3u'], file_get_contents('pendaftaran/images/dokumen/' . $p['sertif_ak3u']));
+        }
 
         // Tambahkan file lainnya
 
         // Set header untuk mengarahkan pengguna untuk mengunduh file ZIP
-        $this->zip->download('files.zip');
+        // Construct the filename for the downloaded ZIP using the participant's name
+        $filename = 'files.zip'; // Default fallback filename
+        if ($participant_data && !empty($participant_data['nama'])) {
+            // Sanitize the name to create a safe filename: replace non-alphanumeric/underscore/hyphen with underscore
+            // and replace multiple underscores with one, then trim leading/trailing underscores/hyphens.
+            $safe_name = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $participant_data['nama']);
+            $safe_name = preg_replace('/__+/', '_', $safe_name); // Collapse multiple underscores
+            $safe_name = trim($safe_name, '_-'); // Remove leading/trailing
+            
+            // Ensure the name is not empty after sanitization
+            if (!empty($safe_name)) {
+                $filename = $safe_name . '.zip';
+            }
+        }
+
+        // 5. Trigger the download
+        $this->zip->download($filename);
     }
 
     public function hapusI()

@@ -5,27 +5,27 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-tittle"><?= $tittle; ?></h4>
-                 
+		  <?php if (isset($produk) && $produk) : ?>
                   <form action="<?= base_url('dashboard/updatePeserta'); ?>" method="post" enctype="multipart/form-data">    
-    <ul class="list-group mt-3">
-        <input type="hidden" value="<?= $produk['id_user']; ?>" name="id_user"> 
-        <li class="list-group-item mt-3">
-            <div class="row">
-            <?php if (is_array($field) && !empty($field)) : ?>
-                <?php foreach ($field as $f) : ?>
-                    <div class="col-12">
-                        <label for="<?= $f ?>" class="form-label"><?= custom_label($f) ?></label>
-                        <input type="file" class="form-control form-control-sm" name="<?= $f ?>" id="<?= $f ?>">
-                    </div>
-                <?php endforeach; ?>
-            <?php else : ?>
-                <p>No data available</p>
-            <?php endif; ?>
-            </div> 
-        </li>    
-    </ul>
-    <button type="submit" class="btn btn-primary mt-3">Update</button>
-</form>
+    		    <ul class="list-group mt-3">
+        	      <input type="hidden" value="<?= $produk['id_user']; ?>" name="id_user"> 
+        		<li class="list-group-item mt-3">
+            		  <div class="row">
+            		    <?php if (is_array($field) && !empty($field)) : ?>
+                	      <?php foreach ($field as $f) : ?>
+                      		<div class="col-12">
+                        	  <label for="<?= $f ?>" class="form-label"><?= custom_label($f) ?></label>
+                        	  <input type="file" class="form-control form-control-sm" name="<?= $f ?>" id="<?= $f ?>">
+                    		</div>
+                	      <?php endforeach; ?>
+            	 	    <?php else : ?>
+	                      <p>No data available</p>
+            		    <?php endif; ?>
+            		  </div>
+        		</li>
+    		      </ul>
+    		      <button type="submit" class="btn btn-primary mt-3">Update</button>
+		    </form>
 
                 <a href="<?= base_url('dashboard'); ?>"><button class="btn btn-primary mt-3">Kembali</button></a>
                 
