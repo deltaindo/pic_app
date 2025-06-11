@@ -114,7 +114,30 @@
                                 ></i
                               >
                             </td>
-                          <td><?= $p['submission_time']; ?></td>
+                          <td>
+			  <?php
+			    $raw_timestamp = $p['submission_time'];
+			    if (!empty($raw_timestamp)) {
+			        try {
+			            // 1. Create a DateTime object from the raw timestamp string.
+			            //    Crucially, tell it that this raw string is in 'UTC' timezone.
+			            $datetime_obj = new DateTime($raw_timestamp, new DateTimeZone('UTC'));
+			            
+			            // 2. Now, convert this DateTime object to the desired 'Asia/Jakarta' timezone for display.
+			            $datetime_obj->setTimezone(new DateTimeZone('Asia/Jakarta'));
+			            
+			            // 3. Format and echo the time.
+			            echo $datetime_obj->format('Y-m-d H:i:s');
+			        } catch (Exception $e) {
+			            // Fallback in case of a malformed timestamp string (shouldn't happen if MySQL stores it)
+			            echo "Error formatting time: " . htmlspecialchars($raw_timestamp); 
+			            log_message('error', 'Timezone conversion failed for timestamp ' . $raw_timestamp . ': ' . $e->getMessage());
+			        }
+			    } else {
+			        echo "N/A"; // Display N/A or leave empty if the timestamp is empty
+			    }
+			  ?>
+			  </td>
 			  <td><?= $p['nik']; ?></td>
                           <td class="text-uppercase"><?= $p['nama']; ?></td>
                           <td><?= $p['ttl']; ?></td>
