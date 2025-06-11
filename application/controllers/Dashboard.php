@@ -791,7 +791,9 @@ class Dashboard extends CI_Controller
 
     public function buatLink()
     {
-        $generatedToken = substr(bin2hex(random_bytes(4)), 0, 6);
+        $id_user = $this->session->userdata('id');
+	$generatedToken = substr(bin2hex(random_bytes(4)), 0, 6);
+	$program_type = $this->input->post('program'); // Get selected program type
 
         $data = [
             'id_user' => $this->session->userdata('id'),
@@ -808,6 +810,8 @@ class Dashboard extends CI_Controller
             'link' => base_url() . 'pendaftaran/cekForm/' . $this->session->userdata('id') . '/' . $generatedToken , 
             'tempat_pelaksanaan' => $this->input->post('tempat_pelaksanaan'),
         ];
+
+	
 
         $this->db->insert('form', $data);
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Link Berhasil Di Tambahkan</div>');

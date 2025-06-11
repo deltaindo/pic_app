@@ -26,24 +26,21 @@
     		      </ul>
     		      <button type="submit" class="btn btn-primary mt-3">Update</button>
 		    </form>
-
-                <a href="<?= base_url('dashboard'); ?>"><button class="btn btn-primary mt-3">Kembali</button></a>
-                
-                
+		    <?php else : ?>
+                      <p class="text-danger">Document data for this participant not found.</p>
+                      <p class="text-info">Please ensure the participant's initial registration process completed successfully and document entries were created.</p>
+                    <?php endif; ?>
+                    <a href="<?= base_url('dashboard'); ?>"><button class="btn btn-primary mt-3">Kembali</button></a>
+                  </div>
                 </div>
-                
               </div>
-              
             </div>
-            
-          </div>
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
           <footer class="footer">
             <div
-              class="d-sm-flex justify-content-center justify-content-sm-between"
-            >
+              class="d-sm-flex justify-content-center justify-content-sm-between">
               <span
                 class="text-muted text-center text-sm-left d-block d-sm-inline-block"
                 >Premium

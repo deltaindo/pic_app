@@ -72,18 +72,16 @@
                                 ></i
                               >
                             </th>
-                          <th>KTP</th>
+                          <th>Waktu Submit</th>
+			  <th>KTP</th>
                           <th>Nama</th>
                           <th>Tempat</th>
                           <th>Tanggal Lahir</th>
                           <th>Instansi</th>
-                          <th>Kontak Perusahaan</th>
-                          <th>Alamat Perusahaan</th>
                           <th>Pendidikan Terakhir</th>
                           <th>Asal Sekolah</th>
                           <th>Alamat Domisili</th>
-                          <th>Email Perusahaan</th>
-                          <th>Sektor</th>
+                          <th>Bidang Usaha</th>
                           <th>Jabatan</th>
                           <th>Surat <br>Pernyataan Peserta</th>
                           <th>Ijazah</th>
@@ -116,18 +114,15 @@
                                 ></i
                               >
                             </td>
-                          <td><?= $p['nik']; ?></td>
-                          <td><?= $p['nama']; ?></td>
+                          <td><?= $p['submission_time']; ?></td>
+			  <td><?= $p['nik']; ?></td>
+                          <td class="text-uppercase"><?= $p['nama']; ?></td>
                           <td><?= $p['ttl']; ?></td>
                           <td><?= $p['tgl_lahir'] ?></td>
                           <td class="text-uppercase"><?= $p['instansi']; ?></td>
-                          <td><?= $p['tlp_kantor']; ?></td>
-                          <td><?= $p['alamat_perusahaan']; ?></td>
                           <td class="text-center"><?= $p['pendidikan']; ?></td>
                           <td><?= $p['sekolah']; ?></td>
                           <td><?= $p['alamat']; ?></td>
-                          <td><?= $p['email']; ?></td>
-                          
                           <td><?= $p['sektor']; ?></td>
                           <td><?= $p['jabatan']; ?></td>
                          
