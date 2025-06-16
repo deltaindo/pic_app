@@ -902,20 +902,72 @@ class Dashboard extends CI_Controller
 
 	    $row++;
         }
+        // --- Start Dynamic Filename Generation ---
+        $training_name_for_filename = 'Daftar_Peserta'; // Default fallback name
+        $month_name_for_filename = '';
+        $year_for_filename = ''; // ADDED: Variable for year
+        $count_for_filename = '';
 
-        // Create file name
-        $filename = 'Daftar_Peserta.xlsx';
+        // Get the current form details (training name and tanggal_pelaksanaan) from the 'form' table
+        $current_form_details = $this->db->get_where('form', ['id' => $id])->row_array();
+
+        if ($current_form_details) {
+            $raw_training_name = $current_form_details['form'];
+            $raw_tanggal_pelaksanaan = $current_form_details['tanggal_pelaksanaan'];
+
+            // Sanitize training name for filename
+            $training_name_for_filename = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $raw_training_name);
+            $training_name_for_filename = preg_replace('/__+/', '_', $training_name_for_filename);
+            $training_name_for_filename = trim($training_name_for_filename, '_-');
+
+            // Get month name in Indonesian
+            $month_numeric = date('n', strtotime($raw_tanggal_pelaksanaan));
+            $bulan_indonesia = [
+                1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+                5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+                9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+            ];
+            $month_name_for_filename = $bulan_indonesia[$month_numeric] ?? 'UnknownMonth';
+
+            // Get year for filename
+            $year_for_filename = date('Y', strtotime($raw_tanggal_pelaksanaan)); // ADDED: Extract year
+
+            // Calculate 'X' (rank among similar trainings in the same month)
+            $this->db->select('id');
+            $this->db->from('form');
+            $this->db->where('form', $raw_training_name);
+            $this->db->like('tanggal_pelaksanaan', date('Y-m', strtotime($raw_tanggal_pelaksanaan)), 'after');
+            $this->db->order_by('tanggal_pelaksanaan', 'ASC');
+            $this->db->order_by('id', 'ASC');
+            $matching_forms_ids_for_ranking = $this->db->get()->result_array();
+
+            foreach ($matching_forms_ids_for_ranking as $index => $mf_id_row) {
+                if ($mf_id_row['id'] == $id) {
+                    $count_for_filename = $index + 1;
+                    break;
+                }
+            }
+        }
+
+        // Construct the final filename: [Training Name]_[Month]_[Count]_[Year].xlsx
+        $filename = $training_name_for_filename . '_' . $month_name_for_filename;
+        if (!empty($count_for_filename)) {
+            $filename .= '_' . $count_for_filename;
+        }
+        if (!empty($year_for_filename)) { // ADDED: Append year
+            $filename .= '_' . $year_for_filename;
+        }
+        $filename .= '.xlsx';
 
         // Set headers for download
-        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'); // Correct MIME type for .xlsx
         header('Content-Disposition: attachment;filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
 
-        // Create writer object and save spreadsheet as file
         $writer = new Xlsx($spreadsheet);
         $writer->save('php://output');
 
-        exit();
+        exit(); // Terminate script after file output
     }
 
     public function update()
