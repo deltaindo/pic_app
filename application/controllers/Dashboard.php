@@ -872,6 +872,11 @@ class Dashboard extends CI_Controller
         $sheet->setCellValue('D1', 'Tanggal Lahir');
         $sheet->setCellValue('E1', 'Instansi');
         $sheet->setCellValue('F1', 'Alamat Perusahaan');
+        $sheet->setCellValue('G1', 'Pendidikan Terakhir'); // ADDED HEADER
+        $sheet->setCellValue('H1', 'Asal Sekolah');       // ADDED HEADER
+        $sheet->setCellValue('I1', 'Alamat Domisili');    // ADDED HEADER
+        $sheet->setCellValue('J1', 'Jabatan');            // ADDED HEADER
+        $sheet->setCellValue('K1', 'No WhatsApp');        // ADDED HEADER
 
 
         $data = $this->database->getData($id);
@@ -886,10 +891,13 @@ class Dashboard extends CI_Controller
             $sheet->setCellValue('D' . $row, $item['tgl_lahir']);
             $sheet->setCellValue('E' . $row, $item['instansi']);
             $sheet->setCellValue('F' . $row, $item['alamat_perusahaan']);
+            $sheet->setCellValue('G' . $row, $item['pendidikan']); // ADDED DATA CELL
+            $sheet->setCellValue('H' . $row, $item['sekolah']);    // ADDED DATA CELL
+            $sheet->setCellValue('I' . $row, $item['alamat']);     // ADDED DATA CELL
+            $sheet->setCellValue('J' . $row, $item['jabatan']);    // ADDED DATA CELL
+            $sheet->setCellValue('K' . $row, $item['no_wa']);      // ADDED DATA CELL
 
 	    $row++;
-	    die('Method is working');
-
         }
 
         // Create file name
