@@ -570,13 +570,15 @@ class Dashboard extends CI_Controller
         if ($this->input->post()) {
             $ids = $this->input->post('id');
             $forms = $this->input->post('form');
-            $dates = $this->input->post('tanggal');
+            $tanggal_mulai_inputs       = $this->input->post('tanggal'); // Corrected input name
+            $tanggal_selesai_inputs     = $this->input->post('tanggal_selesai'); // Corrected input name
             $groups = $this->input->post('grup');
 
             for ($i = 0; $i < count($ids); $i++) {
                 $data = array(
                     'form' => $forms[$i],
-                    'tanggal_pelaksanaan' => $dates[$i],
+                    'tanggal_pelaksanaan'   => $tanggal_mulai_inputs[$i], // Matches 'tanggal' input
+                    'tanggal_selesai'       => $tanggal_selesai_inputs[$i], // Matches 'tanggal_selesai' input
                     'link_grup' => $groups[$i],
                     // Add other fields if needed
                 );
@@ -586,6 +588,7 @@ class Dashboard extends CI_Controller
                 $this->db->where('id', $ids[$i]);
                 $this->db->update('form');
             }
+	    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Data berhasil diperbarui.</div>');
 
             redirect('dashboard');
         } else {
