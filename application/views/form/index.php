@@ -221,6 +221,7 @@
                 </div>
               </div>
               <div class="buttons button_space">
+		
                 <button class="back_button" type="button">Back</button>
                 <button class="next_button" type="button">Next Step</button>
               </div>
@@ -405,6 +406,7 @@
                                 <div id="cv-error" class="text-danger">
                                    Khusus REFRESH AK3U
 			      </div>
+			      <br>
                         <div class="buttons button_space">
                             <button class="back_button" type="button">Back</button>
                             <button class="submit_button" id="submitForm" type="button">Submit</button>
@@ -474,7 +476,8 @@
             $("#form_id").hide();
 
             // Tampilkan elemen loading
-            $("#loading").show();
+	    $("#loading").removeClass("d-none").show(); // Ensure it's visible by removing d-none and showing
+            $("#loading p").text("Mohon tunggu sebentar, file sedang diupload..."); // Set loading text
               var formData = new FormData($("#myForm")[0]);
 
               $.ajax({
@@ -491,13 +494,15 @@
                           window.location.href = "<?= base_url('form/success') ?>";
                       } else {
                           // Tampilkan pesan kesalahan jika ada
-                          $("#loading").hide();
-                          alert("Gagal: " + response.message);
-                          location.reload(true);
+                          const errorMessage = encodeURIComponent(response.message || "File tidak terupload. Silakan coba lagi.");
+                          window.location.href = "<?= base_url('form/failure'); ?>?message=" + errorMessage;
                       }
                   },
                   error: function (xhr, status, error) {
-                    console.log(status);
+                    $("#loading").hide(); // Hide loading on error
+		    console.log("AJAX Error: ", status, error, xhr.responseText);
+		    const errorMessage = encodeURIComponent("Mohon maaf, terjadi kesalahan saat mengupload file atau menghubungi server. Silakan coba lagi nanti.");
+                    window.location.href = "<?= base_url('form/failure'); ?>?message=" + errorMessage;
                   },
               });
           });
@@ -537,4 +542,3 @@
       bindCapitalizeEvents();
     });
   </script>
-

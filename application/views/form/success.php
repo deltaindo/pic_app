@@ -40,7 +40,7 @@
             <div class="text congrats">
               <h2>Congratulations!</h2>
               <p class="text-danger">
-                    Pendafatarn anda berhasil di lakukan
+                    Pendafataran anda berhasil dilakukan
               </p>
             </div>
           </div>

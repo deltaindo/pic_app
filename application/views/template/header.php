@@ -56,7 +56,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.11.0/dist/sweetalert2.min.css
     }
 
 
-    #example td:nth-child(3) {
+    #example td:nth-child(4) {
       position: sticky;
       left: 0;
       background-color: #f8f9fa;

@@ -8,26 +8,25 @@
                  
                 <form action="<?= base_url('dashboard/editPendaftaran'); ?>" method="post">    
                 <ul class="list-group mt-3">
-                 <?php foreach($produk as $p) : ?> 
+   		 <?php foreach($produk as $key => $p) : // CRUCIAL: $key is used for unique IDs for each form instance ?>
                     <input type="hidden" value="<?= $p['id'];  ?>" name="id[]"> 
                   <li class="list-group-item mt-3">
-                       
-                        <div class="row">
+			<div class="row">
                             <div class="col-12">
-                            <label for="exampleInputPassword1" class="form-label">Form</label>
-                            <input type="text" class="form-control" name="form[]" id="exampleInputPassword1" value="<?= $p['form'] ?>">
+                            <label for="form_<?= $key ?>" class="form-label">Form</label> <input type="text" class="form-control" name="form[]" id="form_<?= $key ?>" value="<?= htmlspecialchars($p['form']) ?>">
                             </div>
                             <div class="col-6 mt-5">
-                                <label for="tanggal">Pilih Tanggal:</label>
-                                <input type="text" id="tanggal">
+                                <label for="tanggal_<?= $key ?>" class="form-label">Tanggal Mulai Training:</label>
+                                <input type="date" id="tanggal_<?= $key ?>" class="form-control" name="tanggal[]" value="<?= htmlspecialchars($p['tanggal_pelaksanaan']) ?>">
                             </div>
                             <div class="col-6 mt-5">
-                                <textarea class="form-control" placeholder="Tanggal yang Dipilih" id="tanggalDipilih" style="height: 100px;" name="tanggal[]"></textarea>
+                                <label for="tanggal_selesai_<?= $key ?>" class="form-label">Tanggal Selesai:</label>
+                                <input type="date" id="tanggal_selesai_<?= $key ?>" class="form-control" name="tanggal_selesai[]" value="<?= htmlspecialchars($p['tanggal_selesai']) ?>">
                             </div>
                             <div class="col-12">
-                            <label for="exampleInputPassword1" class="form-label">link Grup Whatsapp</label>
-                            <input type="text" class="form-control" name="grup[]" id="exampleInputPassword1" value="<?= $p['link_grup'] ?>">
+                            <label for="grup_<?= $key ?>" class="form-label">link Grup Whatsapp</label> <input type="text" class="form-control" name="grup[]" id="grup_<?= $key ?>" value="<?= htmlspecialchars($p['link_grup']) ?>">
                             </div>
+                      
                             
                            
                         </div> 
